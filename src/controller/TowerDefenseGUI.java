@@ -31,7 +31,7 @@ public class TowerDefenseGUI extends Application{
 		// TODO Auto-generated method stub
 		stage.setTitle("Tower Defense");
 		pane = new BorderPane();
-		Scene scene = new Scene (pane, 500,500);
+		Scene scene = new Scene (pane, 580,500);
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
