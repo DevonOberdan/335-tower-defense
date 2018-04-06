@@ -21,7 +21,7 @@ public class TowerDefenseGUI extends Application{
 	private Observer currentView; // currentView will hold the current view of the observed
 	private BorderPane pane; // pane will represent the scene
 	private Observer gameView; // game view of the map
-	private Map theGame;
+	private Map theGame = new Map();
 	public static void main (String [] args)
 	{
 		launch(args);
@@ -51,6 +51,7 @@ public class TowerDefenseGUI extends Application{
 		grid.add(copyright, 0, 39);
 		ButtonHandler handler = new ButtonHandler();
 		newGame.setOnAction(handler);
+		
 		
 		gameView = new GameView(theGame);
 		

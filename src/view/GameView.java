@@ -9,7 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Path;
+import model.Path;
 import model.Map;
 import model.Enemy;
 
@@ -18,7 +18,7 @@ public class GameView extends BorderPane implements Observer{
   * Default GameUI on some side of the screen,
   * Game view / Map occupying everywhere else.
   */
-	private Map theGame;
+	private Map map;
 	private final Image background = new Image("file:images/map_1.jpg");
 	private final Image enemy = new Image("file:images/enemy.png");
 	private final Image menuBar = new Image("file:images/menu.jpg");
@@ -29,28 +29,35 @@ public class GameView extends BorderPane implements Observer{
 	private Path enemyPath;
 	
 	
-	private final int enemyCount =5;
+	private final int count =5;
 	
 	final int canvasL = 900; // canvasL will be the size of the canvas/gc
 	
 	public GameView (Map map) {
 		
-		theGame = map; // copy the input game from the input to theGame
+		this.map = map; // copy the input game from the input to theGame
 		canvas = new Canvas (canvasL, canvasL); // Initialize the canvas with canvasLxcanvasL
 		gc = canvas.getGraphicsContext2D(); 
 		enemyList = new ArrayList<>();
+		this.enemyPath = this.map.getPath();
+		
+		for (int i=0; i<count; i++) {
+			enemyList.add(i, new Enemy(enemy, 100.0, enemyPath, gc));
+		}
+		
+		
 		drawMenuBar();
 		drawMap();
-		drawEnemy(enemyCount, enemy, 100.0, enemyPath, gc);
 		drawTower();
+		drawEnemy();
 		this.setCenter(canvas); // set the center of this boarderpane to be the canvas
 		
 	}
 
-	private void drawEnemy(int count, Image image, double health, Path path, GraphicsContext gc)
+	private void drawEnemy()
 	{
 		for (int i=0; i<count; i++) {
-			enemyList.add(new Enemy(image, health, path, gc));
+			enemyList.get(i).showEnemy();
 		}
 	}
 	private void drawTower()
