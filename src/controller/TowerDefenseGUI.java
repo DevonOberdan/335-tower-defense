@@ -45,9 +45,9 @@ public class TowerDefenseGUI extends Application{
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
 		
-		grid.add(newGame, 7, 17);
-		grid.add(loadGame, 7, 18);
-		grid.add(instructions, 7, 19);
+		grid.add(newGame, 11, 18);
+		grid.add(loadGame, 11, 19);
+		grid.add(instructions, 11, 20);
 		grid.add(copyright, 0, 39);
 		ButtonHandler handler = new ButtonHandler();
 		newGame.setOnAction(handler);
@@ -59,26 +59,19 @@ public class TowerDefenseGUI extends Application{
 		stage.setScene(scene);
 		stage.show();
 	}
-	
 	private class ButtonHandler implements EventHandler<ActionEvent> {
-
 		@Override
 		public void handle(ActionEvent event) {
 			// TODO Auto-generated method stub
-			
 			Button clicked = (Button) event.getSource();
 			
 			if (clicked.getText().equals("New Game")) {
 				setViewTo(gameView);
 				System.out.println("Game View");
-			}
-			
-		}
-		
+			}	
+		}		
 	}
-	
-	
-	
+
 	/*
 	   * void setViewTo(Observer)
 	   * sets the current view to be the input observer  

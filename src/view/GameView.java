@@ -16,6 +16,9 @@ public class GameView extends BorderPane implements Observer{
   */
 	private Map theGame;
 	private final Image background = new Image("file:images/map_1.jpg");
+	private final Image enemy = new Image("file:images/enemy.png");
+	private final Image menuBar = new Image("file:images/menu.jpg");
+	private final Image tower1 = new Image("file:images/tower.png");
 	private Canvas canvas;
 	private GraphicsContext gc;
 	
@@ -26,13 +29,28 @@ public class GameView extends BorderPane implements Observer{
 		theGame = map; // copy the input game from the input to theGame
 		canvas = new Canvas (canvasL, canvasL); // Initialize the canvas with canvasLxcanvasL
 		gc = canvas.getGraphicsContext2D(); 
-		
+		drawMenuBar();
 		drawMap();
+		drawEnemy();
+		drawTower();
 		this.setCenter(canvas); // set the center of this boarderpane to be the canvas
+		
 	}
 
+	private void drawEnemy()
+	{
+		gc.drawImage(enemy, -8, 38);
+	}
+	private void drawTower()
+	{
+		gc.drawImage(tower1, 80, -270);
+	}
+	private void drawMenuBar() {
+		gc.drawImage(menuBar, 0, 0);
+	}
 	private void drawMap() {
 		gc.drawImage(background, 0, 0);
+		
 	}
 	@Override
 	public void update(Observable o, Object arg) {

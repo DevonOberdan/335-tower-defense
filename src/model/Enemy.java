@@ -9,4 +9,9 @@ public class Enemy {
 	private Image enemyimg; //new Image("file:..", false);
 	private double health;
 	private Point pos;
+	private int bounty;
+	
+	public Enemy(String file, double health, int reward) {
+		
+	}
 }
