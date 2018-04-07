@@ -1,21 +1,30 @@
 package model;
 
 import java.awt.Point;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 public class Enemy{
 
-	private Image image; //new Image("file:..", false);
+	private Image enemy; //new Image("file:..", false);
+	private Image background;
 	private double health;
 	private Point pos;
 	private int bounty;
 	private Path path;
 	private GraphicsContext gc;
 	private int sx, sy, sw, sh, dx, dy, dw, dh;
+	 private Timeline timeline;
 	
-	public Enemy(Image image, double health, Path path, GraphicsContext gc) {
-		this.image = image;
+	public Enemy(Image enemy, Image background, double health, Path path, GraphicsContext gc) {
+		this.enemy = enemy;
+		this.background = background;
 		this.health = health;
 		this.path = path;
 		this.gc = gc;
@@ -27,12 +36,43 @@ public class Enemy{
 		dy = 0;
 		dw = 50; 
 		dh = 50;
+		
+		timeline = new Timeline(new KeyFrame(Duration.millis(100),
+                new AnimateStarter())); 
+		 timeline.setCycleCount(Animation.INDEFINITE);
+		 
+		 
 	}
+	private class AnimateStarter implements EventHandler<ActionEvent> {
+	    private int tic = 0;
+	    private double x = 10;
+	    private double y = 65;
+	  
+	    public AnimateStarter() {
+	      // TODO A3: Draw both images. Which one first, ship or background?
+	    	 gc.drawImage(background, 0, 0);
+	    	gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
+	    }
+	    
+	    @Override
+	    // TODO A4: This handle method is called every 100ms to draw a ship in a new location
+	    public void handle(ActionEvent event) {
+	      tic++;
+	      gc.drawImage(background, 0, 0);
+	      x += 1.5;
+	      y -= 0.08;
+	      gc.drawImage(enemy, x, y);
+	      if (tic > 200)
+	        timeline.stop();
+	    }
+	  }
 	
 
 	
 	public void showEnemy() {
-		 gc.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+		
+		 timeline.play();
+		 System.out.println(path.turns.get(0));
 	}
 	
 	

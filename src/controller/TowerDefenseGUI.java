@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -81,6 +82,16 @@ public class TowerDefenseGUI extends Application{
 		    pane.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer
 		    pane.setCenter((Node) currentView); // set the center of the pane to the current observer
-		  }
+		    pane.setOnMouseClicked(new MouseHandler());
+	  }
+	  private class MouseHandler implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {
+			System.out.printf("x %f     y %f\n", event.getX(), event.getY());
+			
+		}
+		  
+	  }
 
 }

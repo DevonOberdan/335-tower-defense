@@ -42,7 +42,7 @@ public class GameView extends BorderPane implements Observer{
 		this.enemyPath = this.map.getPath();
 		
 		for (int i=0; i<count; i++) {
-			enemyList.add(i, new Enemy(enemy, 100.0, enemyPath, gc));
+			enemyList.add(i, new Enemy(enemy, background, 100.0, enemyPath, gc));
 		}
 		
 		

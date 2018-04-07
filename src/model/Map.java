@@ -5,7 +5,7 @@ import javafx.scene.shape.MoveTo;
 import model.Path;
 
 public class Map {
-	private Path path;
+	private Path path = new Path();
 	
 	
 	
