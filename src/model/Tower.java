@@ -54,9 +54,9 @@ public abstract class Tower {
 	public int    getCost()              { return (int) (cost * (currentLevel * 0.85)); }
 	public ETower getTowerType()		 { return this.towerType; }
 	
-	public Image  getCurrentImage()      { return image;      }
-	public Image  getCurrentProjectile() { return projectile; }
-	public Media  getSoundEffect()       { return soundEffect;               }
+	public Image  getCurrentImage()      { return image;        }
+	public Image  getCurrentProjectile() { return projectile;   }
+	public Media  getSoundEffect()       { return soundEffect;  }
 	
 	public boolean setTowerType(ETower type) {
 		this.towerType = type;

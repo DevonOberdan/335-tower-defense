@@ -10,7 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import model.Path;
+import model.Tower;
 import model.Map;
+import model.ArcherTower;
 import model.Enemy;
 
 public class GameView extends BorderPane implements Observer{
@@ -22,7 +24,9 @@ public class GameView extends BorderPane implements Observer{
 	private final Image background = new Image("file:images/map_1.jpg");
 	private final Image enemy = new Image("file:images/enemy_sprite.png");
 	private final Image menuBar = new Image("file:images/menu.jpg");
-	private final Image tower1 = new Image("file:images/tower.png");
+	//private final Image tower1 = new Image("file:images/enemy.png");
+	
+	public Tower tower1 = new ArcherTower();
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private List <Enemy> enemyList;
@@ -35,11 +39,10 @@ public class GameView extends BorderPane implements Observer{
 	public GameView (Map map) {
 		
 		this.map = map; // copy the input game from the input to theGame
-		canvas = new Canvas (canvasL, canvasL); // Initialize the canvas with canvasLxcanvasL
+		canvas = new Canvas (580,500); // Initialize the canvas with canvasLxcanvasL
 		gc = canvas.getGraphicsContext2D(); 
 		enemyList = new ArrayList<>();
 		this.enemyPath = this.map.getPath();
-		
 		for (int i=0; i<count; i++) {
 			enemyList.add(i, new Enemy(enemy, background, 100.0, enemyPath, gc));
 		}
@@ -61,7 +64,7 @@ public class GameView extends BorderPane implements Observer{
 	}
 	private void drawTower()
 	{
-		gc.drawImage(tower1, 80, -270);
+		gc.drawImage(tower1.getCurrentImage(), 510,15,50,50);
 	}
 	private void drawMenuBar() {
 		gc.drawImage(menuBar, 0, 0);
