@@ -72,16 +72,10 @@ public class TowerDefenseGUI extends Application{
 		    pane.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer
 		    pane.setCenter((Node) currentView); // set the center of the pane to the current observer
-		    pane.setOnMouseClicked(new MouseHandler());
+		    pane.setOnMouseClicked(e -> {
+				System.out.printf("x %f     y %f\n", e.getX(), e.getY());
+		    });
 	  }
-	  private class MouseHandler implements EventHandler<MouseEvent> {
 
-		@Override
-		public void handle(MouseEvent event) {
-			System.out.printf("x %f     y %f\n", event.getX(), event.getY());
-			
-		}
-		  
-	  }
 
 }
