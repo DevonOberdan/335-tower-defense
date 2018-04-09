@@ -20,7 +20,7 @@ public class GameView extends BorderPane implements Observer{
   */
 	private Map map;
 	private final Image background = new Image("file:images/map_1.jpg");
-	private final Image enemy = new Image("file:images/enemy.png");
+	private final Image enemy = new Image("file:images/enemy_sprite.png");
 	private final Image menuBar = new Image("file:images/menu.jpg");
 	private final Image tower1 = new Image("file:images/tower.png");
 	private Canvas canvas;
@@ -29,7 +29,7 @@ public class GameView extends BorderPane implements Observer{
 	private Path enemyPath;
 	
 	
-	private final int count =5;
+	private final int count = 5;
 	
 	final int canvasL = 900; // canvasL will be the size of the canvas/gc
 	

@@ -15,13 +15,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Map;
 import view.GameView;
+import view.InstructionView;
 
 public class TowerDefenseGUI extends Application{
 
 	
 	private Observer currentView; // currentView will hold the current view of the observed
 	private BorderPane pane; // pane will represent the scene
-	private Observer gameView; // game view of the map
+	private Observer gameView, instructionView; // game view of the map
 	private Map theGame = new Map();
 	public static void main (String [] args)
 	{
@@ -46,6 +47,7 @@ public class TowerDefenseGUI extends Application{
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
 		gameView = new GameView(theGame);
+		instructionView = new InstructionView(theGame);
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
@@ -54,7 +56,10 @@ public class TowerDefenseGUI extends Application{
 			setViewTo(gameView);
 			System.out.println("Game View");
 		});
-				
+		instructions.setOnAction(e -> {
+			setViewTo(instructionView);
+			System.out.println("Instruction View");
+		});
 		//pane.set
 		pane.setCenter(grid);
 		stage.setScene(scene);
