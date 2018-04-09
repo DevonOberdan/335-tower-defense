@@ -97,6 +97,12 @@ public class Enemy{
 		 timeline.play();
 		 System.out.println(path.turns.get(0));
 	}
+
+
+
+	public Point getLocation() {
+		return null;
+	}
 	
 	
 }

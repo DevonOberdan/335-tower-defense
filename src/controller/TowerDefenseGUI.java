@@ -17,17 +17,36 @@ import model.Map;
 import view.GameView;
 import view.InstructionView;
 
+/**
+ * TowerDefenseGUI is the heart of the tower defense application.
+ * This class will initialize and create the pane in which we are able
+ * to interact with the various buttons and features. Let's us
+ * swap between views by clicking on the various buttons. Starts up
+ * the program when running this class.
+ * 
+ * MAIN
+ *
+ */
 public class TowerDefenseGUI extends Application{
 
 	
 	private Observer currentView; // currentView will hold the current view of the observed
 	private BorderPane pane; // pane will represent the scene
-	private Observer gameView, instructionView; // game view of the map
+	private Observer gameView, instructionView; // observable views
 	private Map theGame = new Map();
+	
+	
 	public static void main (String [] args)
 	{
 		launch(args);
 	}
+	
+	/**
+	 * Creates the welcome GUI and initializes each button on the welcome
+	 * pane. throws Exception, and overrides Application's start method.
+	 * @param stage the stage in which we dance upon.
+	 * @author The Team
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
@@ -66,10 +85,13 @@ public class TowerDefenseGUI extends Application{
 		stage.show();
 	}
 
-	/*
-	   * void setViewTo(Observer)
-	   * sets the current view to be the input observer  
-	   */
+	/**
+	 * setViewTo sets the current view of the application to newView,
+	 * allowing us to swap between views willy-nilly.
+	 * 
+	 * @param newView the view we want to change to.
+	 * @author The Team
+	 */
 	  private void setViewTo(Observer newView) {
 		    pane.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer

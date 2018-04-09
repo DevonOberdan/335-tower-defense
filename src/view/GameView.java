@@ -28,7 +28,6 @@ public class GameView extends BorderPane implements Observer{
 	private List <Enemy> enemyList;
 	private Path enemyPath;
 	
-	
 	private final int count = 5;
 	
 	final int canvasL = 900; // canvasL will be the size of the canvas/gc
