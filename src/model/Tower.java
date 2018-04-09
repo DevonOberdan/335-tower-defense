@@ -14,12 +14,12 @@ public abstract class Tower {
 	private int      xp;
 	private int      currentLevel;
 	private int		 fireRate;
-	private int 	 cost;
+	private int 	     cost;
 	private ETower   towerType;
 	private Image  	 image;
 	private Image    projectile;
 	private Media    soundEffect;
-	private Point 	 TowerLocation;
+	public Point 	 TowerLocation;
 	
 	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff) {
 		this.towerName = name;
@@ -30,6 +30,7 @@ public abstract class Tower {
 		this.cost = cost;
 		this.currentLevel = 1;
 		this.soundEffect = soundeff;
+		this.TowerLocation = new Point(140,125);
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -72,6 +73,17 @@ public abstract class Tower {
 		this.currentLevel++;
 		return true;
 	}
+	
+	
+	public int damageTaken(Enemy enemy) {
+		Point enLoc = enemy.getLocation();
+		int dist = Math.abs((int) Math.sqrt(Math.pow(enLoc.getX() - this.TowerLocation.getX(), 2) + Math.pow((enLoc.getY() - this.TowerLocation.getY()), 2)));
+		if (dist < this.radius) {
+			return damage;
+		}
+		return 0;
+	}
+	
 	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest

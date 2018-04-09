@@ -23,10 +23,10 @@ public class Enemy{
 	 private Timeline timeline;
 	 private double xOffset = 0;
 	 private double yOffset = 0;
-	 
+	 private Tower testTower;
 	 private double speed = 2;
 	
-	public Enemy(Image enemy, Image background, double health, Path path, GraphicsContext gc) {
+	public Enemy(Image enemy, Image background, Tower tower, double health, Path path, GraphicsContext gc) {
 		this.enemy = enemy;
 		this.background = background;
 		this.health = health;
@@ -41,8 +41,12 @@ public class Enemy{
 		dw = 60; 
 		dh = 60;
 		
+		testTower = tower;
+		
+		pos = new Point(sx,sy);
+		
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
-                new AnimateStarter())); 
+                new AnimateStarter(this))); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 
 		 
@@ -51,11 +55,18 @@ public class Enemy{
 	    private int tic = 0;
 	   // private double x = -100;
 	   // private double y = 17;
-	  
-	    public AnimateStarter() {
+	    private Enemy e;
+	    public AnimateStarter(Enemy e) {
 	      // TODO A3: Draw both images. Which one first, ship or background?
-	    	 gc.drawImage(background, 0, 0);
-	    	gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
+	    	    gc.drawImage(background, 0, 0);
+	     	gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
+	     	
+	     	
+		    /* COMMENT OUT FOR LOSE TESTING */
+//	     	gc.drawImage(testTower.getCurrentImage(),
+//	     				 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
+	     	/////////////////////////////////////////
+	     	this.e = e;
 	    }
 	    
 	    @Override
@@ -82,9 +93,33 @@ public class Enemy{
 	      else 
 	    	  	sx+=60;
 	      gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
+	      pos.x = dx;
+	      pos.y = dy;
+	      
+	      /* COMMENT OUT FOR LOSE TESTING */
+//	      health -= testTower.damageTaken(e);
+//	      gc.drawImage(testTower.getCurrentImage(),
+  //  				 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
+	      //////////////////////////////////////////////////////////
+	      
 	      tic++;
+	      
+	      if(health <=0) {
+	    	  	timeline.stop();
+	    	  	System.out.println("WINNER");
+	    	  	gc.drawImage(background, 0, 0);
+	    	  	
+		    gc.drawImage(testTower.getCurrentImage(),
+	     				 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
+	      }
+	      
 	      if (dx>440) {
 	    	  	timeline.stop();
+	    	  	System.out.println("LOSE");
+	    	  	gc.drawImage(background, 0, 0);
+	    	  	
+		  //  gc.drawImage(testTower.getCurrentImage(),
+	     	//			 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
 	    	  	//theGame.gameOver = true;
 	      }
 	    }
@@ -101,7 +136,7 @@ public class Enemy{
 
 
 	public Point getLocation() {
-		return null;
+		return pos;
 	}
 	
 	
