@@ -19,7 +19,7 @@ public class Enemy{
 	private int bounty;
 	private Path path;
 	private GraphicsContext gc;
-	private int sx, sy, sw, sh, dx, dy, dw, dh;
+	public int sx, sy, sw, sh, dx, dy, dw, dh;
 	 private Timeline timeline;
 	 private double xOffset = 0;
 	 private double yOffset = 0;
@@ -85,6 +85,7 @@ public class Enemy{
 	      tic++;
 	      if (dx>440) {
 	    	  	timeline.stop();
+	    	  	//theGame.gameOver = true;
 	      }
 	    }
 	  }

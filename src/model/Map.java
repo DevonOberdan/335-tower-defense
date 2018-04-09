@@ -6,6 +6,8 @@ import model.Path;
 
 public class Map {
 	private Path path = new Path();
+	public boolean running = false;
+	public boolean gameOver = false;
 	
 	
 	
