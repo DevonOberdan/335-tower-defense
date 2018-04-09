@@ -73,8 +73,6 @@ public abstract class Tower {
 		return true;
 	}
 	
-	
-	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest
 	 * down the path) for this turret and returns that enemy for the 
