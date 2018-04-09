@@ -21,6 +21,10 @@ public class Enemy{
 	private GraphicsContext gc;
 	private int sx, sy, sw, sh, dx, dy, dw, dh;
 	 private Timeline timeline;
+	 private double xOffset = 0;
+	 private double yOffset = 0;
+	 
+	 private double speed = 1.2;
 	
 	public Enemy(Image enemy, Image background, double health, Path path, GraphicsContext gc) {
 		this.enemy = enemy;
@@ -45,7 +49,7 @@ public class Enemy{
 	}
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 	    private int tic = 0;
-	    private double x = -30;
+	    private double x = -100;
 	    private double y = 17;
 	  
 	    public AnimateStarter() {
@@ -59,11 +63,22 @@ public class Enemy{
 	    public void handle(ActionEvent event) {
 	      tic++;
 	      gc.drawImage(background, 0, 0);
-	      x += 1.2;
+	      if (x<200 && y<20) {
+	    	  	xOffset = speed*2.0;
+	    	  	yOffset = 0;
+	      }
+	      else if (x>=200 && y<400){
+	    	  	xOffset = 0;
+	    	  	yOffset = speed*2.00;
+	      }
+	      else {
+	    	  xOffset = speed*2.0;
+	    	  yOffset = 0;
+	      }
+	      x += xOffset;
+	      y += yOffset;
 	      //y += 0.08;
 	      gc.drawImage(enemy, x, y);
-	      if (tic > 190)
-	      y += 1.2;
 	     // timeline.play();
 	     //   timeline.stop();
 	    }
