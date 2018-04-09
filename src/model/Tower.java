@@ -20,7 +20,7 @@ public abstract class Tower {
 	public int    getLevel()             { return currentLevel; }
 	public int    getCost()              { return upgradeCosts[currentLevel]; }
 	
-	public Image  getCurrentImage()      { return images[currentLevel];      }
+	public Image  getCurrentImage()      { System.out.println("currentLevel: "+ currentLevel +", image name: " + images[currentLevel].toString());return images[currentLevel];      }
 	public Image  getCurrentProjectile() { return projectiles[currentLevel]; }
 	public Media  getSoundEffect()       { return soundEffect;               }
 	

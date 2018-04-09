@@ -21,6 +21,7 @@ public class ArcherTower extends Tower {
 		upgradeCosts[3] = 200;
 				
 		this.images      = new Image[4];
+		images[0]        = new Image("file:images/archer.png",false);
 		this.projectiles = new Image[4];
 		this.soundEffect = new Media(new File("sounds/Capture.mp3").toURI().toString());
 	}
