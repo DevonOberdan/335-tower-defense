@@ -50,8 +50,10 @@ public class TowerDefenseGUI extends Application{
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
 		grid.add(copyright, 0, 39);
-		ButtonHandler handler = new ButtonHandler();
-		newGame.setOnAction(handler);
+		newGame.setOnAction(e -> {
+			setViewTo(gameView);
+			System.out.println("Game View");
+		});
 		
 		
 		gameView = new GameView(theGame);
@@ -60,18 +62,6 @@ public class TowerDefenseGUI extends Application{
 		pane.setCenter(grid);
 		stage.setScene(scene);
 		stage.show();
-	}
-	private class ButtonHandler implements EventHandler<ActionEvent> {
-		@Override
-		public void handle(ActionEvent event) {
-			// TODO Auto-generated method stub
-			Button clicked = (Button) event.getSource();
-			
-			if (clicked.getText().equals("New Game")) {
-				setViewTo(gameView);
-				System.out.println("Game View");
-			}	
-		}		
 	}
 
 	/*
