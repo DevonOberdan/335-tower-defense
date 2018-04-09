@@ -24,7 +24,7 @@ public class Enemy{
 	 private double xOffset = 0;
 	 private double yOffset = 0;
 	 
-	 private double speed = 1.2;
+	 private double speed = 2;
 	
 	public Enemy(Image enemy, Image background, double health, Path path, GraphicsContext gc) {
 		this.enemy = enemy;
@@ -34,12 +34,12 @@ public class Enemy{
 		this.gc = gc;
 		sx = 0; 
 		sy = 0;
-		sw = 70;
-		sh = 70;
-		dx = 0;
-		dy = 0;
-		dw = 50; 
-		dh = 50;
+		sw = 60;
+		sh = 60;
+		dx = -100;
+		dy = 17;
+		dw = 60; 
+		dh = 60;
 		
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
@@ -49,8 +49,8 @@ public class Enemy{
 	}
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 	    private int tic = 0;
-	    private double x = -100;
-	    private double y = 17;
+	   // private double x = -100;
+	   // private double y = 17;
 	  
 	    public AnimateStarter() {
 	      // TODO A3: Draw both images. Which one first, ship or background?
@@ -61,26 +61,28 @@ public class Enemy{
 	    @Override
 	    // TODO A4: This handle method is called every 100ms to draw a ship in a new location
 	    public void handle(ActionEvent event) {
-	      tic++;
 	      gc.drawImage(background, 0, 0);
-	      if (x<200 && y<20) {
-	    	  	xOffset = speed*2.0;
+	      if (dx<200 && dy<20) {
+	    	  	xOffset = speed;
 	    	  	yOffset = 0;
 	      }
-	      else if (x>=200 && y<400){
+	      else if (dx>=200 && dy<400){
 	    	  	xOffset = 0;
-	    	  	yOffset = speed*2.00;
+	    	  	yOffset = speed;
 	      }
 	      else {
-	    	  xOffset = speed*2.0;
+	    	  xOffset = speed;
 	    	  yOffset = 0;
 	      }
-	      x += xOffset;
-	      y += yOffset;
+	      dx += xOffset;
+	      dy += yOffset;
 	      //y += 0.08;
-	      gc.drawImage(enemy, x, y);
-	     // timeline.play();
-	     //   timeline.stop();
+	      if (tic%4 == 0)
+	    	  	sx=0;
+	      else 
+	    	  	sx+=60;
+	      gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
+	      tic++;
 	    }
 	  }
 	
