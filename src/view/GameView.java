@@ -20,7 +20,7 @@ public class GameView extends BorderPane implements Observer{
   */
 	private Map map;
 	private final Image background = new Image("file:images/map_1.jpg");
-	private final Image enemy = new Image("file:images/enemy_sprite.png");
+	private final Image enemy = new Image("file:images/enemy.png");
 	private final Image menuBar = new Image("file:images/menu.jpg");
 	private final Image tower1 = new Image("file:images/tower.png");
 	private Canvas canvas;
@@ -45,7 +45,13 @@ public class GameView extends BorderPane implements Observer{
 			enemyList.add(i, new Enemy(enemy, background, 100.0, enemyPath, gc));
 		}
 		
-	
+		
+		drawMenuBar();
+		drawMap();
+		drawTower();
+		drawEnemy();
+		this.setCenter(canvas); // set the center of this boarderpane to be the canvas
+		
 	}
 
 	private void drawEnemy()
@@ -65,19 +71,10 @@ public class GameView extends BorderPane implements Observer{
 		gc.drawImage(background, 0, 0);
 		
 	}
-	public void draw() {
-		
-		drawMenuBar();
-		drawMap();
-		drawTower();
-		drawEnemy();
-		this.setCenter(canvas); // set the center of this boarderpane to be the canvas
-		
-		
-	}
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		
 	}
 	
 	

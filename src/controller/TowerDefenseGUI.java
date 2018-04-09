@@ -45,7 +45,7 @@ public class TowerDefenseGUI extends Application{
 		loadGame.setMinWidth(120);
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
-		
+		gameView = new GameView(theGame);
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
@@ -54,10 +54,7 @@ public class TowerDefenseGUI extends Application{
 			setViewTo(gameView);
 			System.out.println("Game View");
 		});
-		
-		
-		gameView = new GameView(theGame);
-		
+				
 		//pane.set
 		pane.setCenter(grid);
 		stage.setScene(scene);
