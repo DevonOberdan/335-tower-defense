@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.Map;
 import view.GameView;
 import view.InstructionView;
+import view.WelcomeView;
 
 /**
  * TowerDefenseGUI is the heart of the tower defense application.
@@ -66,7 +67,7 @@ public class TowerDefenseGUI extends Application{
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
 		gameView = new GameView(theGame);
-		instructionView = new InstructionView(theGame);
+		instructionView = new InstructionView();
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
@@ -80,7 +81,8 @@ public class TowerDefenseGUI extends Application{
 			System.out.println("Instruction View");
 		});
 		//pane.set
-		pane.setCenter(grid);
+		Observer welcome = new WelcomeView();
+		pane.setCenter((Node) welcome);
 		stage.setScene(scene);
 		stage.show();
 	}
