@@ -11,7 +11,7 @@ import model.Map;
 
 public class InstructionView extends BorderPane implements Observer{
 	private static final String instructions = "Welcome to Tower Defense! This game is brought"
-			+"to you by The Team.\nTo play the game, simply click \"New Game\", or if you'd like to load a previously\n"
+			+" to you by The Team.\nTo play the game, simply click \"New Game\", or if you'd like to load a previously\n"
 			+"saved game, go ahead and click \"Load Game\". If at any time you would like to rage-quit\n and exit the game, just "
 			+"hit the 'x' in the top right corner of your window and it'll close the game tab.\nOnce you've begun your defense, please"
 			+" click and drag a tower to the location\nyou see best fit the map circumstances. Once you are done placing your towers, the round will begin.\n"

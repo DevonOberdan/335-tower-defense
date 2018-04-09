@@ -54,54 +54,12 @@ public class TowerDefenseGUI extends Application{
 		stage.setTitle("Tower Defense");
 		pane = new BorderPane();
 		Scene scene = new Scene (pane, 580,500);
-		GridPane grid = new GridPane();
-		grid.setVgap(10);
-		grid.setHgap(10);
-		//pane.setPadding(new Insets (10,10,10,10));
-		
-		Label copyright = new Label ("  copyright The Team\n");
-		Button newGame = new Button("New Game");
-		newGame.setMinWidth(120);
-		Button loadGame = new Button("Load Game");
-		loadGame.setMinWidth(120);
-		Button instructions = new Button("Instructions");
-		instructions.setMinWidth(120);
-		gameView = new GameView(theGame);
-		instructionView = new InstructionView();
-		grid.add(newGame, 11, 18);
-		grid.add(loadGame, 11, 19);
-		grid.add(instructions, 11, 20);
-		grid.add(copyright, 0, 39);
-		newGame.setOnAction(e -> {
-			setViewTo(gameView);
-			System.out.println("Game View");
-		});
-		instructions.setOnAction(e -> {
-			setViewTo(instructionView);
-			System.out.println("Instruction View");
-		});
-		//pane.set
 		Observer welcome = new WelcomeView();
 		pane.setCenter((Node) welcome);
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	/**
-	 * setViewTo sets the current view of the application to newView,
-	 * allowing us to swap between views willy-nilly.
-	 * 
-	 * @param newView the view we want to change to.
-	 * @author The Team
-	 */
-	  private void setViewTo(Observer newView) {
-		    pane.setCenter(null); // set the center of pane to null
-		    currentView = newView; // update the current view to the input observer
-		    pane.setCenter((Node) currentView); // set the center of the pane to the current observer
-		    pane.setOnMouseClicked(e -> {
-				System.out.printf("x %f     y %f\n", e.getX(), e.getY());
-		    });
-	  }
 
 
 }
