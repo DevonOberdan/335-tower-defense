@@ -45,8 +45,8 @@ public class Enemy{
 	}
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 	    private int tic = 0;
-	    private double x = 10;
-	    private double y = 65;
+	    private double x = -30;
+	    private double y = 17;
 	  
 	    public AnimateStarter() {
 	      // TODO A3: Draw both images. Which one first, ship or background?
@@ -59,11 +59,13 @@ public class Enemy{
 	    public void handle(ActionEvent event) {
 	      tic++;
 	      gc.drawImage(background, 0, 0);
-	      x += 1.5;
-	      y -= 0.08;
+	      x += 1.2;
+	      //y += 0.08;
 	      gc.drawImage(enemy, x, y);
-	      if (tic > 200)
-	        timeline.stop();
+	      if (tic > 190)
+	      y += 1.2;
+	     // timeline.play();
+	     //   timeline.stop();
 	    }
 	  }
 	
