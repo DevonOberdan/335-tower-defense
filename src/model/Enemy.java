@@ -49,7 +49,7 @@ public class Enemy{
 	}
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 	    private int tic = 0;
-	    private double x = -30;
+	    private double x = -100;
 	    private double y = 17;
 	  
 	    public AnimateStarter() {
