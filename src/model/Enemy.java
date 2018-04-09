@@ -36,7 +36,7 @@ public class Enemy{
 		sy = 0;
 		sw = 60;
 		sh = 60;
-		dx = -100;
+		dx = -60;
 		dy = 17;
 		dw = 60; 
 		dh = 60;
@@ -83,6 +83,9 @@ public class Enemy{
 	    	  	sx+=60;
 	      gc.drawImage(enemy, sx, sy, sw, sh, dx, dy, dw, dh);
 	      tic++;
+	      if (dx>440) {
+	    	  	timeline.stop();
+	      }
 	    }
 	  }
 	

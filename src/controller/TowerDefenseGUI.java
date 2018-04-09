@@ -70,6 +70,8 @@ public class TowerDefenseGUI extends Application{
 			if (clicked.getText().equals("New Game")) {
 				setViewTo(gameView);
 				System.out.println("Game View");
+				((GameView) gameView).draw();
+				
 			}	
 		}		
 	}
