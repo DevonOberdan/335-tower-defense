@@ -50,6 +50,7 @@ public class WelcomeView extends BorderPane implements Observer{
 		});
 		testing.setOnAction(e -> {
 			setViewTo(testingView);
+			((TestingView) testingView).show();
 			System.out.println("Tesing View");
 		});
 		this.setCenter(grid);

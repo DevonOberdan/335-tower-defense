@@ -10,10 +10,12 @@ public class NewEnemy {
 	private Point loc;
 	private int hel;
 	private final Image img;
+	private int speed;
 
-	public NewEnemy() {
-		loc = new Point(-60, 17);
+	public NewEnemy(Point offset, int speed) {
+		loc = new Point(-60 -(int) offset.getX(), 17 -(int) offset.getY());
 		hel = 100;
+		this.speed = speed;
 		img = new Image("file:images/enemy_sprite.png");
 	}
 	
@@ -43,6 +45,6 @@ public class NewEnemy {
 	private void move() {
 		double x = loc.getX();
 		double y = loc.getY();
-		loc.setLocation(x+2, y);
+		loc.setLocation(x+speed, y);
 	}
 }

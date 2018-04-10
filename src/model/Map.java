@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class Map {
 	}
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
-			enemyList.add(i, new NewEnemy());
+			enemyList.add(i, new NewEnemy(new Point(i*50, 0), 2));
 		}
 		System.out.printf("%d enemies have been spwaned.\n", enemyCount);
 	}

@@ -23,13 +23,14 @@ public class TestingView extends BorderPane implements Observer{
 		map = new Map(gc);
 		//gc.drawImage(background, 100, 100);
 		
-		map.spawnEnemies(1);
-		map.show();
+		map.spawnEnemies(10);
 		
 		
 		this.setCenter(canvas);
 	}
-	
+	public void show() {
+		map.show();
+	}
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
