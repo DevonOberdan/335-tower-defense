@@ -44,7 +44,7 @@ public class GameView extends BorderPane implements Observer{
 		enemyList = new ArrayList<>();
 		this.enemyPath = this.map.getPath();
 		for (int i=0; i<count; i++) {
-			enemyList.add(i, new Enemy(enemy, background, 100.0, enemyPath, gc));
+			enemyList.add(i, new Enemy(enemy, background, tower1, 100.0, enemyPath, gc));
 		}
 		
 		drawMenuBar();
