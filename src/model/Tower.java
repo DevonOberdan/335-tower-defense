@@ -81,7 +81,7 @@ public abstract class Tower {
 	 */
 	public Enemy getPrioEnemy(ArrayList<Enemy> e) {
 		Enemy priority = null;
-		int closest = 99999999;
+		int closest = Integer.MAX_VALUE;
 		if(e.isEmpty()) {
 			return null;
 		}

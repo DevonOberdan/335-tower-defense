@@ -90,8 +90,6 @@ public class Enemy{
 	    }
 	  }
 	
-
-	
 	public void showEnemy() {
 		
 		 timeline.play();
@@ -101,7 +99,7 @@ public class Enemy{
 
 
 	public Point getLocation() {
-		return null;
+		return pos;
 	}
 	
 	

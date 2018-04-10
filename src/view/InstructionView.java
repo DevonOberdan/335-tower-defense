@@ -16,8 +16,10 @@ public class InstructionView extends BorderPane implements Observer{
 			+"hit the 'x' in the top right corner of your window and it'll close the game tab.\nOnce you've begun your defense, please"
 			+" click and drag a tower to the location\nyou see best fit the map circumstances. Once you are done placing your towers, the round will begin.\n"
 			+ "Once the round begins, fight off the enemies! Once an enemy reaches\nyour base, you will take a certain amount of damage and eventually die, causing you to\nlose the game. If you defeat all of the enemies within each wave, you will win!\n\nHappy defending.\n\n - The Team";
+	
 	public InstructionView() {
 		TextArea text = new TextArea();
+		text.setEditable(false);
 		text.setText(instructions);
 		this.setCenter(text);
 		Button butt = new Button("Back");

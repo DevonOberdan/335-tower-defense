@@ -47,7 +47,6 @@ public class GameView extends BorderPane implements Observer{
 			enemyList.add(i, new Enemy(enemy, background, 100.0, enemyPath, gc));
 		}
 		
-		
 		drawMenuBar();
 		drawMap();
 		drawTower();

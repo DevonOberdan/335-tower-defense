@@ -31,11 +31,7 @@ import view.WelcomeView;
 public class TowerDefenseGUI extends Application{
 
 	
-	private Observer currentView; // currentView will hold the current view of the observed
 	private BorderPane pane; // pane will represent the scene
-	private Observer gameView, instructionView; // observable views
-	private Map theGame = new Map();
-	
 	
 	public static void main (String [] args)
 	{
