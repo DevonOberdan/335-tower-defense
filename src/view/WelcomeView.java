@@ -13,10 +13,10 @@ import model.Map;
 public class WelcomeView extends BorderPane implements Observer{
 	private BorderPane pane;
 	private Map theGame;
-	private Observer gameView, instructionView, currentView;
+	private Observer gameView, instructionView, currentView, testingView;
 	
 	public WelcomeView() {
-		theGame = new Map();
+		theGame = new Map(null);
 		pane = new BorderPane();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -30,11 +30,15 @@ public class WelcomeView extends BorderPane implements Observer{
 		loadGame.setMinWidth(120);
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
+		Button testing = new Button("Testing");
+		testing.setMinWidth(120);
 		gameView = new GameView(theGame);
 		instructionView = new InstructionView();
+		testingView = new TestingView();
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
+		grid.add(testing, 11, 21);
 		grid.add(copyright, 0, 39);
 		newGame.setOnAction(e -> {
 			setViewTo(gameView);
@@ -43,6 +47,10 @@ public class WelcomeView extends BorderPane implements Observer{
 		instructions.setOnAction(e -> {
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
+		});
+		testing.setOnAction(e -> {
+			setViewTo(testingView);
+			System.out.println("Tesing View");
 		});
 		this.setCenter(grid);
 		this.setVisible(true);
@@ -59,9 +67,6 @@ public class WelcomeView extends BorderPane implements Observer{
 		    this.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer
 		    this.setCenter((Node) currentView); // set the center of the pane to the current observer
-		    this.setOnMouseClicked(e -> {
-				System.out.printf("x %f     y %f\n", e.getX(), e.getY());
-		    });
 	  }
 
 	@Override
