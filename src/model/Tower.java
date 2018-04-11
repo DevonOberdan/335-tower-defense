@@ -111,7 +111,7 @@ public abstract class Tower {
 		return priority;
 	}
 	public void show(GraphicsContext gc) {
-		gc.drawImage(image, TowerLocation.getX(), TowerLocation.getY());
+		gc.drawImage(image, 0, 0, 60, 80, TowerLocation.getX()-30, TowerLocation.getY()-40, 60, 80);
 	}
 	
 }
