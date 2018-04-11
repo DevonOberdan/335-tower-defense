@@ -70,13 +70,15 @@ public class NewEnemy {
 	private void checkTurns() {
 		turns = path.checkTurns(loc);
 	}
+	public void setAttacked(Boolean v) {
+		attacked = v;
+	}
 	public Tower checkTower(List<Tower> towers) {
 		for (Tower t : towers) {
 			attacked = false;
 			if (withenRange(t) && t.getCurrentEnemy()==null) {
 				attacked = true;
 				t.setEnemy(this);
-				//System.out.println("Attacked!");
 				return t;
 			}
 			else if(withenRange(t) && t.getCurrentEnemy()!=null && t.getCurrentEnemy().equals(this))
@@ -86,9 +88,9 @@ public class NewEnemy {
 		
 		return null;
 	}
-	private boolean withenRange(Tower t) {
-		int dist = Math.abs((int) Math.sqrt(Math.pow(loc.getX() - t.getLocation().getX(), 2) +
-				Math.pow((loc.getY() - t.getLocation().getY()), 2)));
+	public boolean withenRange(Tower t) {
+		int dist = (int) Math.sqrt(Math.pow(loc.getX() - t.getLocation().getX(), 2) +
+				Math.pow((loc.getY() - t.getLocation().getY()), 2));
 		if (dist <= t.getRange())
 			return true;
 		

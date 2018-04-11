@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.Map;
+import model.TestMap;
 
 public class WelcomeView extends BorderPane implements Observer{
 	private BorderPane pane;
@@ -16,7 +17,7 @@ public class WelcomeView extends BorderPane implements Observer{
 	private Observer gameView, instructionView, currentView, testingView;
 	
 	public WelcomeView() {
-		theGame = new Map(null);
+		theGame = new TestMap(null);
 		pane = new BorderPane();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -32,7 +33,7 @@ public class WelcomeView extends BorderPane implements Observer{
 		instructions.setMinWidth(120);
 		Button testing = new Button("Testing");
 		testing.setMinWidth(120);
-		gameView = new GameView(theGame);
+		//gameView = new GameView(theGame);
 		instructionView = new InstructionView();
 		testingView = new TestingView();
 		grid.add(newGame, 11, 18);

@@ -15,10 +15,11 @@ import javafx.scene.image.Image;
 import javafx.util.Duration;
 import model.Path;
 
-public class Map {
+public abstract class Map {
 	private Path path;
 	private List <NewEnemy> enemyList;
 	private List <Tower> towerList;
+	private List <Tower> availableTowers;
 	public boolean running;
 	public boolean gameOver;
 	
@@ -36,61 +37,16 @@ public class Map {
 	
 	
 	public Map(GraphicsContext gc) {
-		path = new Path();
-		enemyList = new ArrayList<>();
-		towerList = new ArrayList<>();
 		running = true;
 		gameOver = false;
 		canvas = new Canvas (580,500);
 		this.gc = gc;
-		tower = new ArcherTower(null);
-		timeline = new Timeline(new KeyFrame(Duration.millis(100),
-                new AnimateStarter())); 
-		 timeline.setCycleCount(Animation.INDEFINITE);
 	}
-	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
-			enemyList.add(i, new NewEnemy(new Point(i*50, 0), 2, path));
-		}
-		System.out.printf("%d enemies have been spwaned.\n", enemyCount);
-	}
-	
-	private class AnimateStarter implements EventHandler<ActionEvent> {
-		private int tic=0, img=0;
-		@Override
-		public void handle(ActionEvent event) {
-			gc.clearRect(0, 0, 580, 500);
-			gc.drawImage(menuBar, 0, 0);
-			gc.drawImage(background, 0, 0);
-			
-			if (img == 4)
-				img=0;
-			for (Tower t : towerList) {
-				t.show(gc);
-			}
-			for (NewEnemy e : enemyList) {
-				e.checkTower(towerList);
-				e.show(gc, img);
-			}
-			img++;
-			tic++;
-		}
 		
-	}
+	public abstract void addTower(Point p);
 	
-	public void addTower(Point p) {
-		System.out.println("Tower added @"+p);
-		towerList.add(new ArcherTower(p));
-	}
+	public abstract void show();
 	
 	
-	public void show() {
-		timeline.play();
-	}
-	
-	
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
-	}
+	public abstract Path getPath();
 }
