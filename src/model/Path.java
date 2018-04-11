@@ -28,9 +28,9 @@ public class Path {
 	public Point checkTurns(Point p) {
 		int x = 0;
 		int y =0;
-		if (p.getX()<200 && p.getY()<20) 
+		if (p.getX()<230 && p.getY()<50) 
     	  	x = 1;
-      else if (p.getX()>=200 && p.getY()<400)
+      else if (p.getX()>=230 && p.getY()<430)
     	  	y = 1;
       else
     	  x = 1;

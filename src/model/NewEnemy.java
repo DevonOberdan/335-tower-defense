@@ -16,9 +16,11 @@ public class NewEnemy {
 	private Path path;
 	private Point turns;
 	private boolean attacked;
+	
+	private final Image testing = new Image("file:images/testing.png") ;
 
 	public NewEnemy(Point offset, int speed, Path path) {
-		loc = new Point(-60 -(int) offset.getX(), 17 -(int) offset.getY());
+		loc = new Point(-30 -(int) offset.getX(), 47 -(int) offset.getY());
 		hel = 100;
 		this.speed = speed;
 		this.path = path;
@@ -41,20 +43,23 @@ public class NewEnemy {
 			img = img_d;
 		else
 			img = img_n;
+		
 		switch (num) {
+		
 		case 0:
-			gc.drawImage(img, 0, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);
+			gc.drawImage(img, 0, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
 			break;
 		case 1:
-			gc.drawImage(img, 60, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);
+			gc.drawImage(img, 60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
 			break;
 		case 2:
-			gc.drawImage(img, 120, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);
+			gc.drawImage(img, 120, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
 			break;
 		default:
-				gc.drawImage(img, 180, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);
+				gc.drawImage(img, 180, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
 				break;
 		}
+		gc.drawImage(testing, loc.getX(), loc.getY());
 		checkTurns();
 		move();
 	}
@@ -67,18 +72,24 @@ public class NewEnemy {
 	}
 	public Tower checkTower(List<Tower> towers) {
 		for (Tower t : towers) {
-			if (withenRange(t)) {
+			attacked = false;
+			if (withenRange(t) && t.getCurrentEnemy()==null) {
 				attacked = true;
-				System.out.println("Attacked!");
+				t.setEnemy(this);
+				//System.out.println("Attacked!");
 				return t;
-			}		
+			}
+			else if(withenRange(t) && t.getCurrentEnemy()!=null && t.getCurrentEnemy().equals(this))
+				attacked=true;
+			t.attack();
 		}
-		attacked = false;
+		
 		return null;
 	}
 	private boolean withenRange(Tower t) {
-		if (Math.abs(t.getLocation().getX()-loc.getX()) <= t.getRange() &&
-				t.getLocation().getY()-loc.getY() <= t.getRange())
+		int dist = Math.abs((int) Math.sqrt(Math.pow(loc.getX() - t.getLocation().getX(), 2) +
+				Math.pow((loc.getY() - t.getLocation().getY()), 2)));
+		if (dist <= t.getRange())
 			return true;
 		
 		return false;
