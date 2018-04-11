@@ -109,10 +109,10 @@ public class Enemy{
 	    	  	System.out.println("WINNER");
 	    	  	gc.drawImage(background, 0, 0);
 	    	  	
-		    gc.drawImage(testTower.getCurrentImage(),
+		   /* gc.drawImage(testTower.getCurrentImage(),
 	     				 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
+		    */
 	      }
-	       
 	      if (dx>440) {
 	    	  	timeline.stop();
 	    	  	System.out.println("LOSE");

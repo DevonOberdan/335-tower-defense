@@ -22,7 +22,7 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 25, 100, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 3, 100, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 	}
 
 	@Override

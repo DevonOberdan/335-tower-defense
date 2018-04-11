@@ -20,7 +20,10 @@ public abstract class Tower {
 	private Image  	 image;
 	private Image    projectile;
 	private Media    soundEffect;
-	public Point 	 TowerLocation;
+	private Point 	 TowerLocation;
+	private NewEnemy enemy;
+	
+	private final Image testing = new Image("file:images/testing.png") ;
 	
 	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff, Point location) {
 		this.towerName = name;
@@ -32,6 +35,7 @@ public abstract class Tower {
 		this.currentLevel = 1;
 		this.soundEffect = soundeff;
 		this.TowerLocation = location;
+		this.enemy = null;
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -59,8 +63,8 @@ public abstract class Tower {
 	public Image  getCurrentImage()      { return image;        }
 	public Image  getCurrentProjectile() { return projectile;   }
 	public Media  getSoundEffect()       { return soundEffect;  }
-	public Point  getLocation()          { return TowerLocation; }
-	
+	public Point  getLocation()          { return TowerLocation;}
+	public NewEnemy getCurrentEnemy()    { return enemy;   }
 	public boolean setTowerType(ETower type) {
 		this.towerType = type;
 		return true;
@@ -113,6 +117,21 @@ public abstract class Tower {
 	}
 	public void show(GraphicsContext gc) {
 		gc.drawImage(image, 0, 0, 60, 80, TowerLocation.getX()-30, TowerLocation.getY()-40, 60, 80);
+		
+		gc.drawImage(testing, TowerLocation.getX(), TowerLocation.getY());
+		
+	}
+	public NewEnemy setEnemy (NewEnemy e) {
+		if (enemy!=null)
+			return null;
+		enemy = e;
+		return enemy;
+	}
+	public void attack() {
+		if (enemy == null)
+			return;
+		enemy.setHel(enemy.getHel()-damage);
+		enemy = null;
 	}
 	
 }
