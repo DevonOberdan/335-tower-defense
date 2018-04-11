@@ -65,11 +65,12 @@ public class Map {
 			
 			if (img == 4)
 				img=0;
-			for (NewEnemy e : enemyList) {
-				e.show(gc, img);
-			}
 			for (Tower t : towerList) {
 				t.show(gc);
+			}
+			for (NewEnemy e : enemyList) {
+				e.checkTower(towerList);
+				e.show(gc, img);
 			}
 			img++;
 			tic++;

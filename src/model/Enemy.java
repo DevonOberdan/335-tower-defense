@@ -97,7 +97,7 @@ public class Enemy{
 	      pos.y = dy;
 	      
 	      /* COMMENT OUT FOR LOSE TESTING */
-	      health -= testTower.damageTaken(e);
+	     // health -= testTower.damageTaken(e);
 //	      gc.drawImage(testTower.getCurrentImage(),
   //  				 testTower.TowerLocation.getX(),testTower.TowerLocation.getY(),50,50);
 	      //////////////////////////////////////////////////////////
@@ -130,7 +130,7 @@ public class Enemy{
 	public void showEnemy() {
 		
 		 timeline.play();
-		 System.out.println(path.turns.get(0));
+		 //System.out.println(path.turns.get(0));
 	}
 
 

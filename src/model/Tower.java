@@ -59,6 +59,7 @@ public abstract class Tower {
 	public Image  getCurrentImage()      { return image;        }
 	public Image  getCurrentProjectile() { return projectile;   }
 	public Media  getSoundEffect()       { return soundEffect;  }
+	public Point  getLocation()          { return TowerLocation; }
 	
 	public boolean setTowerType(ETower type) {
 		this.towerType = type;
@@ -76,7 +77,7 @@ public abstract class Tower {
 	}
 	
 	
-	public int damageTaken(Enemy enemy) {
+/*	public int damageTaken(Enemy enemy) {
 		Point enLoc = enemy.getLocation();
 		int dist = Math.abs((int) Math.sqrt(Math.pow(enLoc.getX() - this.TowerLocation.getX(), 2) + Math.pow((enLoc.getY() - this.TowerLocation.getY()), 2)));
 		if (dist < this.radius) {
@@ -84,7 +85,7 @@ public abstract class Tower {
 		}
 		return 0;
 	}
-	
+	*/
 	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest
