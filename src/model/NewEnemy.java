@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -11,11 +12,15 @@ public class NewEnemy {
 	private int hel;
 	private final Image img;
 	private int speed;
+	private Path path;
+	private Point turns;
 
-	public NewEnemy(Point offset, int speed) {
+	public NewEnemy(Point offset, int speed, Path path) {
 		loc = new Point(-60 -(int) offset.getX(), 17 -(int) offset.getY());
 		hel = 100;
 		this.speed = speed;
+		this.path = path;
+		turns = new Point(1,1);
 		img = new Image("file:images/enemy_sprite.png");
 	}
 	
@@ -40,11 +45,14 @@ public class NewEnemy {
 				gc.drawImage(img, 180, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);
 				break;
 		}
+		checkTurns();
 		move();
 	}
 	private void move() {
-		double x = loc.getX();
-		double y = loc.getY();
-		loc.setLocation(x+speed, y);
+		loc.setLocation(loc.getX() + speed*turns.getX(),
+				loc.getY() + speed*turns.getY());
+	}
+	private void checkTurns() {
+		turns = path.checkTurns(loc);
 	}
 }

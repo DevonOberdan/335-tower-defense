@@ -48,7 +48,7 @@ public class Map {
 	}
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
-			enemyList.add(i, new NewEnemy(new Point(i*50, 0), 2));
+			enemyList.add(i, new NewEnemy(new Point(i*50, 0), 2, path));
 		}
 		System.out.printf("%d enemies have been spwaned.\n", enemyCount);
 	}

@@ -128,7 +128,7 @@ public class Enemy{
 	public void showEnemy() {
 		
 		 timeline.play();
-		 System.out.println(path.turns.get(0));
+		 //System.out.println(path.turns.get(0));
 	}
 
 
