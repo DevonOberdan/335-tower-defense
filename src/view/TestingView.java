@@ -26,7 +26,7 @@ public class TestingView extends BorderPane implements Observer{
 		map = new Map(gc);
 		//gc.drawImage(background, 100, 100);
 		
-		map.spawnEnemies(10);
+		map.spawnEnemies(1);
 		
 		
 		this.setCenter(canvas);

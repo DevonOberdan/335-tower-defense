@@ -71,14 +71,14 @@ public class NewEnemy {
 				attacked = true;
 				System.out.println("Attacked!");
 				return t;
-			}
-				
+			}		
 		}
+		attacked = false;
 		return null;
 	}
 	private boolean withenRange(Tower t) {
-		if (Math.abs(t.getLocation().getX()-loc.getX()) == t.getRange() &&
-				t.getLocation().getY()-loc.getY() == t.getRange())
+		if (Math.abs(t.getLocation().getX()-loc.getX()) <= t.getRange() &&
+				t.getLocation().getY()-loc.getY() <= t.getRange())
 			return true;
 		
 		return false;
