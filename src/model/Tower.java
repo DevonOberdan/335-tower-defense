@@ -3,6 +3,7 @@
 import java.awt.Point;
 import java.util.ArrayList;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -21,7 +22,7 @@ public abstract class Tower {
 	private Media    soundEffect;
 	public Point 	 TowerLocation;
 	
-	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff) {
+	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff, Point location) {
 		this.towerName = name;
 		this.radius = radius;
 		this.damage = damage;
@@ -30,7 +31,7 @@ public abstract class Tower {
 		this.cost = cost;
 		this.currentLevel = 1;
 		this.soundEffect = soundeff;
-		this.TowerLocation = new Point(140,125);
+		this.TowerLocation = location;
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -108,6 +109,9 @@ public abstract class Tower {
 		}
 		
 		return priority;
+	}
+	public void show(GraphicsContext gc) {
+		gc.drawImage(image, TowerLocation.getX(), TowerLocation.getY());
 	}
 	
 }

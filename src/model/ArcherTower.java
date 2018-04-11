@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.io.File;
 
 import javafx.scene.image.Image;
@@ -20,8 +21,8 @@ public class ArcherTower extends Tower {
 	 * Health: it needs health.
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
-	public ArcherTower() {
-		super("Archer", 25, 100, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()));
+	public ArcherTower(Point location) {
+		super("Archer", 25, 100, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 	}
 
 	@Override

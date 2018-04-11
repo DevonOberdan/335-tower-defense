@@ -26,7 +26,7 @@ public class GameView extends BorderPane implements Observer{
 	private final Image menuBar = new Image("file:images/menu.jpg");
 	//private final Image tower1 = new Image("file:images/enemy.png");
 	
-	public Tower tower1 = new ArcherTower();
+	public Tower tower1 = new ArcherTower(null);
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private List <Enemy> enemyList;

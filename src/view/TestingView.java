@@ -1,11 +1,14 @@
 package view;
 
+import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import model.Map;
 
@@ -27,6 +30,7 @@ public class TestingView extends BorderPane implements Observer{
 		
 		
 		this.setCenter(canvas);
+		this.setOnMouseClicked(new MouseHandler());
 	}
 	public void show() {
 		map.show();
@@ -34,6 +38,16 @@ public class TestingView extends BorderPane implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		
+	}
+	private class MouseHandler implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {
+			System.out.println(event.getX()+"  "+event.getY());
+			map.addTower(new Point((int)event.getX(), (int)event.getY()));
+			
+		}
 		
 	}
 

@@ -18,6 +18,7 @@ import model.Path;
 public class Map {
 	private Path path;
 	private List <NewEnemy> enemyList;
+	private List <Tower> towerList;
 	public boolean running;
 	public boolean gameOver;
 	
@@ -37,11 +38,12 @@ public class Map {
 	public Map(GraphicsContext gc) {
 		path = new Path();
 		enemyList = new ArrayList<>();
+		towerList = new ArrayList<>();
 		running = true;
 		gameOver = false;
 		canvas = new Canvas (580,500);
 		this.gc = gc;
-		tower = new ArcherTower();
+		tower = new ArcherTower(null);
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
@@ -66,12 +68,19 @@ public class Map {
 			for (NewEnemy e : enemyList) {
 				e.show(gc, img);
 			}
+			for (Tower t : towerList) {
+				t.show(gc);
+			}
 			img++;
 			tic++;
 		}
 		
 	}
 	
+	public void addTower(Point p) {
+		System.out.println("Tower added @"+p);
+		towerList.add(new ArcherTower(p));
+	}
 	
 	
 	public void show() {

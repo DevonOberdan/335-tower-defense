@@ -31,6 +31,8 @@ public class NewEnemy {
 	public int   getHel()   { return hel; }
 	
 	public void show(GraphicsContext gc, int num) {
+		if (hel<1)
+			return;
 		switch (num) {
 		case 0:
 			gc.drawImage(img, 0, 0, 60, 60, loc.getX(), loc.getY(), 60, 60);

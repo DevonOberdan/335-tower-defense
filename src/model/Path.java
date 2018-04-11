@@ -28,19 +28,12 @@ public class Path {
 	public Point checkTurns(Point p) {
 		int x = 0;
 		int y =0;
-		if (p.getX()<200 && p.getY()<20) {
+		if (p.getX()<200 && p.getY()<20) 
     	  	x = 1;
-      }
-      else if (p.getX()>=200 && p.getY()<400){
-    	  	x = 0;
+      else if (p.getX()>=200 && p.getY()<400)
     	  	y = 1;
-      }
-      else {
+      else
     	  x = 1;
-    	  y = 0;
-      }
-		
-		
 		return new Point(x , y);
 	}
 }
