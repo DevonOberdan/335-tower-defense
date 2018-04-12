@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.io.File;
+import java.util.List;
 
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -25,6 +26,27 @@ public class ArcherTower extends Tower {
 		super("Archer", 3, 50, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 	}
 
+	@Override
+	public Enemy getPrioEnemy(List<Enemy> enemyList)
+	{
+		Enemy priority = null;
+		if(enemyList.isEmpty()) {
+			return null;
+		}
+		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.getLocation().getX(), 2) + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.getLocation().getY()), 2));
+		if(closest < this.getRange())
+			priority = enemyList.get(enemyList.size()-1);
+		for (Enemy en : enemyList) {
+			Point enLoc = en.getLoc();
+			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
+			if (dist < this.getRange() && dist < closest) {
+				priority = en;
+				closest = dist;
+			}
+		}
+
+		return priority;
+	}
 	@Override
 	public boolean AttackEnemy() {
 		// TODO Auto-generated method stub

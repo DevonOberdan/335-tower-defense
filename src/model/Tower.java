@@ -9,6 +9,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
+/**
+ * 
+ * @author Taite Nazifi
+ *
+ */
 public abstract class Tower {
 	
 	private String   towerName;
@@ -72,11 +77,20 @@ public abstract class Tower {
 		return true;
 	}
 	
+	/**
+	 * Sets this tower's image to image.
+	 * @param image
+	 * @return
+	 */
 	public boolean setImage(Image image) {
 		this.image = image;
 		return true;
 	}
 	
+	/**
+	 * Levels up this tower!
+	 * @return
+	 */
 	public boolean increaseLevel() {
 		this.currentLevel++;
 		return true;
@@ -99,25 +113,12 @@ public abstract class Tower {
 	 * turret to shoot.
 	 * @return priority enemy
 	 */
-	public Enemy getPrioEnemy(List<Enemy> enemyList) {
-		Enemy priority = null;
-		if(enemyList.isEmpty()) {
-			return null;
-		}
-		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.TowerLocation.getX(), 2) + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.TowerLocation.getY()), 2));
-		if(closest < this.radius)
-			priority = enemyList.get(enemyList.size()-1);
-		for (Enemy en : enemyList) {
-			Point enLoc = en.getLoc();
-			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.TowerLocation.getX(), 2) + Math.pow((enLoc.getY() - this.TowerLocation.getY()), 2));
-			if (dist < this.radius && dist < closest) {
-				priority = en;
-				closest = dist;
-			}
-		}
-
-		return priority;
-	}
+	public abstract Enemy getPrioEnemy(List<Enemy> enemyList);
+	
+	/**
+	 * Draws this tower on the board at this position.
+	 * @param gc
+	 */
 	public void show(GraphicsContext gc) {
 		//actual tower image
 		gc.drawImage(image, 0, 0, 60, 80, TowerLocation.getX()-30, TowerLocation.getY()-40, 60, 80);
@@ -125,9 +126,16 @@ public abstract class Tower {
 		gc.drawImage(testing, TowerLocation.getX(), TowerLocation.getY());
 		
 	}
+	/**
+	 * Sets this tower's enemy target to e.
+	 * @param e
+	 */
 	public void setEnemy (Enemy e) {
 		enemy = e;
 	}
+	/**
+	 * Attacks the current enemy target.
+	 */
 	public void attack() {
 		if (enemy == null)
 			return;

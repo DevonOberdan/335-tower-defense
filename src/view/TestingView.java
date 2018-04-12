@@ -18,7 +18,6 @@ public class TestingView extends BorderPane implements Observer{
 	private TestMap map;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private final Image background = new Image("file:images/map_1.jpg");
 	public TestingView() {
 		BorderPane pane = new BorderPane();
 		
@@ -45,7 +44,6 @@ public class TestingView extends BorderPane implements Observer{
 		public void handle(MouseEvent event) {
 			System.out.println(event.getX()+"  "+event.getY());
 			map.addTower(new Point((int)event.getX(), (int)event.getY()));
-			
 		}
 		
 	}

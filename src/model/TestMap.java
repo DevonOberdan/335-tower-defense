@@ -34,8 +34,8 @@ public class TestMap extends Map {
 	private final Image background = new Image("file:images/map_1.jpg");
 	private final Image menuBar = new Image("file:images/menu.jpg");
 	
-	private GraphicsContext gc;
-	private Timeline timeline;
+	private GraphicsContext gc; //Where we draw!
+	private Timeline timeline; //The animator-2000.
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -82,7 +82,15 @@ public class TestMap extends Map {
 		}
 		System.out.printf("%d enemies have been spawned.\n", enemyCount);
 	}
-	
+	/**
+	 * Private handler for timeline that will target an enemy for each tower, and
+	 * animate each object that we have placed on the map. THis is where
+	 * all of the animating, targeting, and logic of object interactions takes place.
+	 * 
+	 * Will likely need some sort of refactoring and thought to make it more
+	 * OOP-y, but this works.
+	 *
+	 */
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 		private int tic=0;
 		@Override
@@ -125,18 +133,24 @@ public class TestMap extends Map {
 		}
 		
 	}
-	
+	/**
+	 * Adds a new archerTower onto the screen at position p.
+	 */
 	public void addTower(Point p) {
 		System.out.println("Tower added @"+p);
 		towerList.add(new ArcherTower(p));
 	}
 	
-	
+	/**
+	 * PLays the timeline, and ultimately plays the game!
+	 */
 	public void show() {
 		timeline.play();
 	}
 	
-	
+	/**
+	 * Gets the current path for this map for the enemies to follow.
+	 */
 	public Path getPath() {
 		System.out.println("Map: returned path");
 		return this.path;
