@@ -3,6 +3,7 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -22,7 +23,7 @@ public abstract class Tower {
 	private Image    projectile;
 	private Media    soundEffect;
 	private Point 	 TowerLocation;
-	private NewEnemy enemy;
+	private Enemy enemy;
 	
 	private final Image testing = new Image("file:images/testing.png") ;
 	
@@ -65,7 +66,7 @@ public abstract class Tower {
 	public Image  getCurrentProjectile() { return projectile;   }
 	public Media  getSoundEffect()       { return soundEffect;  }
 	public Point  getLocation()          { return TowerLocation;}
-	public NewEnemy getCurrentEnemy()    { return enemy;   }
+	public Enemy getCurrentEnemy()    { return enemy;   }
 	public boolean setTowerType(ETower type) {
 		this.towerType = type;
 		return true;
@@ -98,14 +99,15 @@ public abstract class Tower {
 	 * turret to shoot.
 	 * @return priority enemy
 	 */
-	public NewEnemy getPrioEnemy(List<NewEnemy> enemyList) {
-		NewEnemy priority = null;
-		int closest = Integer.MAX_VALUE;
+	public Enemy getPrioEnemy(List<Enemy> enemyList) {
+		Enemy priority = null;
 		if(enemyList.isEmpty()) {
 			return null;
 		}
-		
-		for (NewEnemy en : enemyList) {
+		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.TowerLocation.getX(), 2) + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.TowerLocation.getY()), 2));
+		if(closest < this.radius)
+			priority = enemyList.get(enemyList.size()-1);
+		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.TowerLocation.getX(), 2) + Math.pow((enLoc.getY() - this.TowerLocation.getY()), 2));
 			if (dist < this.radius && dist < closest) {
@@ -113,9 +115,7 @@ public abstract class Tower {
 				closest = dist;
 			}
 		}
-		if(priority != null) {
-			priority.setAttacked(true);
-		}
+
 		return priority;
 	}
 	public void show(GraphicsContext gc) {
@@ -125,21 +125,13 @@ public abstract class Tower {
 		gc.drawImage(testing, TowerLocation.getX(), TowerLocation.getY());
 		
 	}
-	public void setEnemy (NewEnemy e) {
+	public void setEnemy (Enemy e) {
 		enemy = e;
 	}
 	public void attack() {
 		if (enemy == null)
 			return;
-		if (enemy.getHel() < 1) {
-			enemy = null;
-			return;
-		}
-		if(!enemy.withenRange(this)) {
-			enemy.setAttacked(false);
-			enemy = null;
-			return;
-		}
+		
 		enemy.setAttacked(true);
 		enemy.setHel(enemy.getHel()-damage);
 		enemy = null;

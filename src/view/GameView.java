@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import model.Path;
 import model.Tower;
+import model.WolfEnemy;
 import model.Map;
 import model.ArcherTower;
 import model.Enemy;
@@ -44,7 +45,7 @@ public class GameView extends BorderPane implements Observer{
 		enemyList = new ArrayList<>();
 		this.enemyPath = this.map.getPath();
 		for (int i=0; i<count; i++) {
-			enemyList.add(i, new Enemy(enemy, background, tower1, 100.0, enemyPath, gc));
+	//		enemyList.add(i, new WolfEnemy( ));
 		}
 		
 		drawMenuBar();
