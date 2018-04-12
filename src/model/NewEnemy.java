@@ -77,7 +77,7 @@ public class NewEnemy {
 		for (Tower t : towers) {
 			attacked = false;
 			if (withenRange(t) && t.getCurrentEnemy()==null) {
-				attacked = true;
+			 	attacked = true;
 				t.setEnemy(this);
 				return t;
 			}

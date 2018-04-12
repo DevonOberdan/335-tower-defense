@@ -11,25 +11,40 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-
+/**
+ * TestMap exhibits the nature of an actual game that we might
+ * end up playing. Contains several tests including the drawing
+ * of animations, spawning of enemies and towers, and the targeting 
+ * of each tower for a new enemy.
+ * 
+ * The basis of this class is to test the functionality of whether or not
+ * a tower can target an enemy, shoot and kill them, and then target
+ * the next enemy that is furthest along the path.
+ * 
+ */
 public class TestMap extends Map {
-	private Path path;
-	private List <NewEnemy> enemyList;
-	private List <Tower> towerList;
-	private List <Tower> availableTowers;
-	
+	private Path path; //Path that each enemy travels.
+	private List <NewEnemy> enemyList; //List of enemies to be drawn and targetted.
+	private List <Tower> towerList; //List of towers that are placed on the map.
+	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
+	// ^^^^^^^ Needs to be implemented somehow. use brain u idiot aka taite
 	private final Image background = new Image("file:images/map_1.jpg");
 	private final Image menuBar = new Image("file:images/menu.jpg");
 	
-	private Canvas canvas;
 	private GraphicsContext gc;
 	private Timeline timeline;
-	private Tower tower;
 	
+	/**
+	 * Creates a testmap. This constructor will initialize each of our
+	 * lists; enemies, towers, and creates the timeline for animating the
+	 * background, and the enemies on it.
+	 * 
+	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
+	 * ALL OF MY CREATIVITY AND FRUITINESS
+	 */
 	public TestMap(GraphicsContext gc) {
 		super(gc);
 		this.gc = super.getGC();
@@ -39,8 +54,12 @@ public class TestMap extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
-		 tower = new ArcherTower(null);
 	}
+	
+	/**
+	 * Adds
+	 * @param enemyCount
+	 */
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
 			enemyList.add(i, new NewEnemy(new Point(i*50, 0), 2, path));
