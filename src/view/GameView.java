@@ -15,16 +15,21 @@ import model.TestMap;
 
 public class GameView extends BorderPane implements Observer{
 
-	private TestMap map;
+	private Map map;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	public GameView() {
+	public GameView(String mapName) {
 		BorderPane pane = new BorderPane();
 		
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D(); 
-		map = new TestMap(gc);		
-		map.spawnEnemies(10);
+		switch (mapName) {
+		case "Testing Map":
+			this.map = new TestMap(gc);
+			default:
+				this.map = new TestMap(gc);
+		}
+		this.map.spawnEnemies(10);
 		
 		pane.setCenter(canvas);
 		this.setCenter(pane);

@@ -14,7 +14,7 @@ import model.TestMap;
 public class WelcomeView extends BorderPane implements Observer{
 	private BorderPane pane;
 	private Map theGame;
-	private Observer gameView, instructionView, currentView, testingView;
+	private Observer gameView, instructionView, currentView, mapSelector;
 	
 	public WelcomeView() {
 		theGame = new TestMap(null);
@@ -33,15 +33,16 @@ public class WelcomeView extends BorderPane implements Observer{
 		instructions.setMinWidth(120);
 		//gameView = new GameView(theGame);
 		instructionView = new InstructionView();
-		gameView = new GameView();
+		mapSelector = new MapSelector();
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
 		grid.add(copyright, 0, 39);
 		newGame.setOnAction(e -> {
-			setViewTo(gameView);
+			/*setViewTo(gameView);
 			((GameView) gameView).show();
-			System.out.println("Game View");
+			System.out.println("Game View"); */
+			setViewTo (mapSelector);
 		});
 		instructions.setOnAction(e -> {
 			setViewTo(instructionView);
