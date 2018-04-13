@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import model.Path;
 
 public abstract class Map {
@@ -38,8 +39,7 @@ public abstract class Map {
 	
 	public List<Tower> getTowerList() { return towerList; }
 	
-	public Path getPath() { return path; };
-	
+	public Path getPath() { return path; }
 	
 	public abstract void addTower(Point p);
 	

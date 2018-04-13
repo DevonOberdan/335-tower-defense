@@ -70,8 +70,14 @@ public class MapSelector extends BorderPane implements Observer {
 				((GameView) gameView).show();
 				break;
 			case "medium":
+				gameView = new GameView("Ice Map");
+				setViewTo(gameView);
+				((GameView) gameView).show();
 				break;
 			case "hard":
+				gameView = new GameView("Testing Map");
+				setViewTo(gameView);
+				((GameView) gameView).show();
 				break;
 				
 				default:
