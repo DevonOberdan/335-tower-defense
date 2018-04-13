@@ -31,28 +31,21 @@ public class WelcomeView extends BorderPane implements Observer{
 		loadGame.setMinWidth(120);
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
-		Button testing = new Button("Testing");
-		testing.setMinWidth(120);
 		//gameView = new GameView(theGame);
 		instructionView = new InstructionView();
-		testingView = new TestingView();
+		gameView = new GameView();
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
-		grid.add(testing, 11, 21);
 		grid.add(copyright, 0, 39);
 		newGame.setOnAction(e -> {
 			setViewTo(gameView);
+			((GameView) gameView).show();
 			System.out.println("Game View");
 		});
 		instructions.setOnAction(e -> {
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
-		});
-		testing.setOnAction(e -> {
-			setViewTo(testingView);
-			((TestingView) testingView).show();
-			System.out.println("Tesing View");
 		});
 		this.setCenter(grid);
 		this.setVisible(true);
