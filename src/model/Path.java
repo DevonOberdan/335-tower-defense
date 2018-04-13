@@ -9,8 +9,10 @@ public class Path {
 	private Point start;
 	private Point end;
 	private List<Point> turns;
+	private String currentMap;
 	
-	public Path() {
+	public Path(String mapName) {
+		currentMap = mapName;
 		start = new Point(0, 0);
 		end = new Point(500, 500);
 		turns = new ArrayList<>();
@@ -26,6 +28,27 @@ public class Path {
 		return turns;
 	}
 	public Point checkTurns(Point p) {
+		switch(currentMap) {
+		case "Testing Map":
+			return checkTurns_TestingMap(p);
+		case "Ice Map":
+			return checkTurns_IceMap(p);
+			default:
+				return p;
+		}
+	}
+	private Point checkTurns_TestingMap(Point p) {
+		int x = 0;
+		int y =0;
+		if (p.getX()<230 && p.getY()<50) 
+    	  	x = 1;
+      else if (p.getX()>=230 && p.getY()<430)
+    	  	y = 1;
+      else
+    	  x = 1;
+		return new Point(x , y);
+	}
+	private Point checkTurns_IceMap(Point p) {
 		int x = 0;
 		int y =0;
 		if (p.getX()<230 && p.getY()<50) 

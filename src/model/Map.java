@@ -16,12 +16,16 @@ public abstract class Map {
 	private GraphicsContext gc;	
 	private List<Enemy> enemyList;
 	private List<Tower> towerList;
+	public Path path;
+	private String mapName;
 	
-	public Map(GraphicsContext gc) {
+	public Map(GraphicsContext gc, String name) {
 		running = true;
 		gameOver = false;
 		canvas = new Canvas (580,500);
 		this.gc = gc;
+		mapName = name;
+		path = new Path(mapName);
 	}
 	
 	public abstract void spawnEnemies(int count);
@@ -34,10 +38,11 @@ public abstract class Map {
 	
 	public List<Tower> getTowerList() { return towerList; }
 	
+	public Path getPath() { return path; };
+	
 	
 	public abstract void addTower(Point p);
 	
 	public abstract void show();
 	
-	public abstract Path getPath();
 }

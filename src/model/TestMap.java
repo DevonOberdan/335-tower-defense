@@ -26,7 +26,6 @@ import javafx.util.Duration;
  * 
  */
 public class TestMap extends Map {
-	private Path path; //Path that each enemy travels.
 	private List <Enemy> enemyList; //List of enemies to be drawn and targetted.
 	private List <Tower> towerList; //List of towers that are placed on the map.
 //	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
@@ -46,9 +45,8 @@ public class TestMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public TestMap(GraphicsContext gc) {
-		super(gc);
+		super(gc, "Testing Map");
 		this.gc = gc;
-		path = new Path();
 		enemyList = new LinkedList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
@@ -148,11 +146,4 @@ public class TestMap extends Map {
 		timeline.play();
 	}
 	
-	/**
-	 * Gets the current path for this map for the enemies to follow.
-	 */
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
-	}
 }
