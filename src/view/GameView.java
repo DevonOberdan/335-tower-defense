@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import model.IceMap;
 import model.Map;
 import model.TestMap;
 
@@ -26,6 +27,10 @@ public class GameView extends BorderPane implements Observer{
 		switch (mapName) {
 		case "Testing Map":
 			this.map = new TestMap(gc);
+			break;
+		case "Ice Map":
+			this.map = new IceMap(gc);
+			break;
 			default:
 				this.map = new TestMap(gc);
 		}

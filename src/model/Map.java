@@ -12,19 +12,21 @@ public abstract class Map {
 	public boolean running;
 	public boolean gameOver;
 	
+	protected Image background;
+	protected Image enemy;
+	protected Image menuBar;
 	
-	private Canvas canvas;
-	private GraphicsContext gc;	
-	private List<Enemy> enemyList;
-	private List<Tower> towerList;
-	public Path path;
+	protected Canvas canvas;
+	protected GraphicsContext gc;	
+	protected List<Enemy> enemyList;
+	protected List<Tower> towerList;
+	protected Path path;
 	private String mapName;
 	
-	public Map(GraphicsContext gc, String name) {
+	public Map(String name) {
 		running = true;
 		gameOver = false;
 		canvas = new Canvas (580,500);
-		this.gc = gc;
 		mapName = name;
 		path = new Path(mapName);
 	}

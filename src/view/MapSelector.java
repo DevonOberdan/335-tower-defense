@@ -31,7 +31,7 @@ public class MapSelector extends BorderPane implements Observer {
 		Label copyright = new Label ("  copyright The Team\n");
 		Button easy = new Button("Easy");
 		easy.setMinWidth(120);
-		Button meduim = new Button("Meduim");
+		Button meduim = new Button("Medium");
 		meduim.setMinWidth(120);
 		Button hard = new Button("Hard");
 		hard.setMinWidth(120);
@@ -64,11 +64,6 @@ public class MapSelector extends BorderPane implements Observer {
 			// TODO Auto-generated method stub
 			Button selected = (Button) event.getSource();
 			switch (selected.getText().toLowerCase()) {
-			case "easy":
-				gameView = new GameView("Testing Map");
-				setViewTo(gameView);
-				((GameView) gameView).show();
-				break;
 			case "medium":
 				gameView = new GameView("Ice Map");
 				setViewTo(gameView);
@@ -80,7 +75,10 @@ public class MapSelector extends BorderPane implements Observer {
 				((GameView) gameView).show();
 				break;
 				
-				default:
+				default: // easy mode
+					gameView = new GameView("Testing Map");
+					setViewTo(gameView);
+					((GameView) gameView).show();
 					break;
 			}
 			

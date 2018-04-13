@@ -26,14 +26,9 @@ import javafx.util.Duration;
  * 
  */
 public class TestMap extends Map {
-	private List <Enemy> enemyList; //List of enemies to be drawn and targetted.
-	private List <Tower> towerList; //List of towers that are placed on the map.
 //	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
 	// ^^^^^^^ Needs to be implemented somehow. 
-	private final Image background = new Image("file:images/maps/map_1.jpg");
-	private final Image menuBar = new Image("file:images/menu.jpg");
 	
-	private GraphicsContext gc; //Where we draw!
 	private Timeline timeline; //The animator-2000.
 	
 	/**
@@ -45,7 +40,9 @@ public class TestMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public TestMap(GraphicsContext gc) {
-		super(gc, "Testing Map");
+		super("Testing Map");
+		background = new Image("file:images/maps/map_1.jpg");
+		menuBar = new Image("file:images/menu.jpg");
 		this.gc = gc;
 		enemyList = new LinkedList<>();
 		towerList = new ArrayList<>();
