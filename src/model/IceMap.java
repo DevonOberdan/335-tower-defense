@@ -3,8 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

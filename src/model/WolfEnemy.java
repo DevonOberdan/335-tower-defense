@@ -23,8 +23,8 @@ public class WolfEnemy extends Enemy {
 		super(offset, speed, path);
 		loc = getLoc();
 		this.path = super.getPath();
-		img_n = new Image("file:images/enemies/wolf/wolf.png");
-		img_d = new Image("file:images/enemy_sprite_damge.png");
+		img_n = new Image("file:images/enemies/wolf/wolf_n.png");
+		img_d = new Image("file:images/enemies/wolf/wolf_d.png");
 		this.hel = super.getHel();
 		this.attacked = false;
 		this.speed = super.getSpeed();
