@@ -1,12 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.List;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class WolfEnemy extends Enemy {
+public class TestEnemy extends Enemy {
 
 	private Point loc;
 	private int hel;
@@ -19,13 +17,13 @@ public class WolfEnemy extends Enemy {
 	
 	private final Image testing = new Image("file:images/testing.png") ;
 
-	public WolfEnemy(int speed, Path path, Point start) {
+	public TestEnemy(int speed, Path path, Point start) {
 		super(speed, path);
 		loc =  start;
 		
 		this.path = super.getPath();
-		img_n = new Image("file:images/enemies/wolf/wolf_n.png");
-		img_d = new Image("file:images/enemies/wolf/angry_wolf_n.png");
+		img_n = new Image("file:images/enemy_sprite.png");
+		img_d = new Image("file:images/enemy_sprite_damge.png");
 		this.hel = super.getHel();
 		this.attacked = false;
 		this.speed = super.getSpeed();
