@@ -24,7 +24,7 @@ public class WolfEnemy extends Enemy {
 		loc = getLoc();
 		this.path = super.getPath();
 		img_n = new Image("file:images/enemies/wolf/wolf_n.png");
-		img_d = new Image("file:images/enemies/wolf/wolf_d.png");
+		img_d = new Image("file:images/enemies/wolf/angry_wolf_n.png");
 		this.hel = super.getHel();
 		this.attacked = false;
 		this.speed = super.getSpeed();
@@ -53,9 +53,9 @@ public class WolfEnemy extends Enemy {
 		}
 		gc.drawImage(testing, loc.getX(), loc.getY());
 		checkTurns();
-		System.out.println("Old location: " + loc.toString());
+		//System.out.println("Old location: " + loc.toString());
 		move();
-		System.out.println("New locations: " + loc.toString());
+		//System.out.println("New locations: " + loc.toString());
 	}
 	
 	@Override

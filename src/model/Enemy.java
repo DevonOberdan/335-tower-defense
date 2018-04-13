@@ -48,7 +48,6 @@ public abstract class Enemy{
 	public void showEnemy() {
 		
 		 timeline.play();
-		 System.out.println(path.getTurn().get(0));
 	}
 	
 	public abstract void setAttacked(boolean v);
