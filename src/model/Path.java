@@ -7,10 +7,12 @@ import java.util.List;
 
 public class Path {
 	private String currentMap;
+	private boolean L, R;
 	
 	public Path(String mapName) {
 		currentMap = mapName;
-
+		L = false;
+		R = false;
 		
 	}
 	public Point checkTurns(Point p) {
@@ -36,13 +38,25 @@ public class Path {
 	}
 	private Point checkTurns_IceMap(Point p) {
 		int x = 0;
-		int y =0;
-		if (p.getX()<230 && p.getY()<50) 
-    	  	x = 1;
-      else if (p.getX()>=230 && p.getY()<430)
-    	  	y = 1;
-      else
-    	  x = 1;
+		int y = 0;
+		
+		if (p.getX()==375 && p.getY()==400)
+			L=true;
+		
+		
+		
+		if (L) {
+			x=-1;
+			y=-1;
+		}
+		else if (R){
+			x=1;
+			y=-1;
+		}
+		else
+		y = -1;
+		
+		
 		return new Point(x , y);
 	}
 }

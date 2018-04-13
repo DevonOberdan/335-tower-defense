@@ -30,6 +30,7 @@ public class TestMap extends Map {
 	// ^^^^^^^ Needs to be implemented somehow. 
 	
 	private Timeline timeline; //The animator-2000.
+	private Point start;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -49,6 +50,7 @@ public class TestMap extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
+		 start = new Point(-30, 47);
 	}
 	
 	/**
@@ -67,10 +69,12 @@ public class TestMap extends Map {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
-				enemy = new WolfEnemy(new Point(((i*75 + 1000)), 0), 2, path);
+				Point offset = new Point(((i*75 + 1000)), 0);
+				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			} else {
-				enemy = new WolfEnemy(new Point(((i*75)), 0), 2, path);
+				Point offset = new Point(((i*75)), 0);
+				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 			enemy.setHel(100);

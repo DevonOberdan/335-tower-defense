@@ -29,6 +29,7 @@ public class IceMap extends Map {
 	// ^^^^^^^ Needs to be implemented somehow. 
 	
 	private Timeline timeline; //The animator-2000.
+	private Point start;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -48,6 +49,7 @@ public class IceMap extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
+		 start = new Point (375, 500);
 	}
 	
 	/**
@@ -66,10 +68,12 @@ public class IceMap extends Map {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
-				enemy = new WolfEnemy(new Point(((i*75 + 1000)), 0), 2, path);
+				Point offset = new Point(0, -((i*75 + 1000)));
+				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			} else {
-				enemy = new WolfEnemy(new Point(((i*75)), 0), 2, path);
+				Point offset = new Point(0, -((i*75)));
+				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 			enemy.setHel(100);
@@ -96,7 +100,7 @@ public class IceMap extends Map {
 			if (tic == 4)
 				tic=0;
 			for (Tower t : towerList) { 
-				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
+				/* TestEnemy e = (TestEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
 					enemyList.remove(e);
 				}
@@ -105,10 +109,10 @@ public class IceMap extends Map {
 				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
-					WolfEnemy e = (WolfEnemy) enemyList.get(0);
+					TestEnemy e = (TestEnemy) enemyList.get(0);
 					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
 						enemyList.remove(0);
-						e = (WolfEnemy) enemyList.get(0);
+						e = (TestEnemy) enemyList.get(0);
 					}
 					t.setEnemy(e);
 					if(e != null) {
@@ -120,7 +124,7 @@ public class IceMap extends Map {
 				t.show(gc);
 			}
 			for (Enemy e : enemyList) {
-				((WolfEnemy) e).show(gc, tic);
+				((TestEnemy) e).show(gc, tic);
 				e.setAttacked(false);
 			}
 			tic++;

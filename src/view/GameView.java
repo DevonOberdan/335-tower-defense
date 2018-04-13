@@ -27,14 +27,16 @@ public class GameView extends BorderPane implements Observer{
 		switch (mapName) {
 		case "Testing Map":
 			this.map = new TestMap(gc);
+			this.map.spawnEnemies(10);
 			break;
 		case "Ice Map":
 			this.map = new IceMap(gc);
+			this.map.spawnEnemies(1);
 			break;
 			default:
 				this.map = new TestMap(gc);
 		}
-		this.map.spawnEnemies(10);
+		
 		
 		pane.setCenter(canvas);
 		this.setCenter(pane);
