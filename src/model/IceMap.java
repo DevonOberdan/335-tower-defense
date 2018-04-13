@@ -7,10 +7,11 @@ import javafx.scene.image.Image;
 
 public class IceMap extends Map {
 
-	Image iceMap = new Image ("file:images/map_5.png");
+	Image iceMap = new Image ("file:images/maps/map_5.png");
+	
 	public IceMap(GraphicsContext gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
+		super(gc, "Ice Map");
+		gc.drawImage(iceMap, 0, 0);// TODO Auto-generated constructor stub
 	}
 
 	@Override
