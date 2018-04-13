@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Point;
+import java.util.List;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import model.Path;
@@ -12,6 +14,8 @@ public abstract class Map {
 	
 	private Canvas canvas;
 	private GraphicsContext gc;	
+	private List<Enemy> enemyList;
+	private List<Tower> towerList;
 	
 	public Map(GraphicsContext gc) {
 		running = true;
@@ -25,6 +29,11 @@ public abstract class Map {
 	public Canvas getCanvas() { return canvas; }
 	
 	public GraphicsContext getGC() { return gc; }
+	
+	public List<Enemy> getEnemyList() { return enemyList; }
+	
+	public List<Tower> getTowerList() { return towerList; }
+	
 	
 	public abstract void addTower(Point p);
 	
