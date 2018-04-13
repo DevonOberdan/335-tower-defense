@@ -50,6 +50,7 @@ public class IceMap extends Map {
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point (375, 500);
+		// start = new Point (459, 102);
 	}
 	
 	/**
