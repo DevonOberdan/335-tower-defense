@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -142,7 +141,7 @@ public class TestMap extends Map {
 	}
 	
 	/**
-	 * PLays the timeline, and ultimately plays the game!
+	 * Plays the timeline, and ultimately plays the game!
 	 */
 	public void show() {
 		timeline.play();
@@ -154,5 +153,22 @@ public class TestMap extends Map {
 	public Path getPath() {
 		System.out.println("Map: returned path");
 		return this.path;
+	}
+	/**
+	 * Gets the number of enemies left to be killed.
+	 */
+	@Override
+	public int getEnemyCount() {
+		return enemyList.size();
+	}
+	
+	/**
+	 * Returns true if there exists an enemy count
+	 * in our enemy list; being that there are still enemies
+	 * to be killed!
+	 */
+	@Override
+	public boolean isRunning() {
+		return getEnemyCount() > 0;
 	}
 }
