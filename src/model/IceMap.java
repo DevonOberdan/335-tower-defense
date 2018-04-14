@@ -3,7 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -24,7 +24,7 @@ import javafx.util.Duration;
  * the next enemy that is farthest along the path.
  * 
  */
-public class TestMap extends Map {
+public class IceMap extends Map {
 //	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
 	// ^^^^^^^ Needs to be implemented somehow. 
 	
@@ -39,9 +39,9 @@ public class TestMap extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public TestMap(GraphicsContext gc) {
-		super("Testing Map");
-		background = new Image("file:images/maps/map_1.jpg");
+	public IceMap(GraphicsContext gc) {
+		super("Ice Map");
+		background = new Image("file:images/maps/map_5.png");
 		menuBar = new Image("file:images/menu.jpg");
 		this.gc = gc;
 		enemyList = new LinkedList<>();
@@ -49,7 +49,8 @@ public class TestMap extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
-		 start = new Point(-30, 47);
+		 start = new Point (375, 500);
+		// start = new Point (459, 102);
 	}
 	
 	/**
@@ -68,12 +69,12 @@ public class TestMap extends Map {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
-				Point offset = new Point(((i*75 + 1000)), 0);
-				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				Point offset = new Point(0, -((i*75 + 1000)));
+				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			} else {
-				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				Point offset = new Point(0, -((i*75)));
+				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 			enemy.setHel(100);
@@ -100,7 +101,7 @@ public class TestMap extends Map {
 			if (tic == 4)
 				tic=0;
 			for (Tower t : towerList) { 
-				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
+				/* TestEnemy e = (TestEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
 					enemyList.remove(e);
 				}
@@ -109,10 +110,10 @@ public class TestMap extends Map {
 				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
-					WolfEnemy e = (WolfEnemy) enemyList.get(0);
+					TestEnemy e = (TestEnemy) enemyList.get(0);
 					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
 						enemyList.remove(0);
-						e = (WolfEnemy) enemyList.get(0);
+						e = (TestEnemy) enemyList.get(0);
 					}
 					t.setEnemy(e);
 					if(e != null) {
@@ -124,7 +125,7 @@ public class TestMap extends Map {
 				t.show(gc);
 			}
 			for (Enemy e : enemyList) {
-				((WolfEnemy) e).show(gc, tic);
+				((TestEnemy) e).show(gc, tic);
 				e.setAttacked(false);
 			}
 			tic++;
@@ -140,35 +141,10 @@ public class TestMap extends Map {
 	}
 	
 	/**
-	 * Plays the timeline, and ultimately plays the game!
+	 * PLays the timeline, and ultimately plays the game!
 	 */
 	public void show() {
 		timeline.play();
 	}
 	
-	/**
-	 * Gets the current path for this map for the enemies to follow.
-	 */
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
-	}
-	/**
-	 * Gets the number of enemies left to be killed.
-	 */
-	@Override
-	public int getEnemyCount() {
-		return enemyList.size();
-	}
-	
-	/**
-	 * Returns true if there exists an enemy count
-	 * in our enemy list; being that there are still enemies
-	 * to be killed!
-	 */
-	@Override
-	public boolean isRunning() {
-		return getEnemyCount() > 0;
-	}
-
 }

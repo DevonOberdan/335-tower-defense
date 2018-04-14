@@ -28,8 +28,8 @@ public abstract class Enemy{
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	
-	public Enemy(Point offset, int speed, Path path) {
-		pos = new Point(-30 -(int) offset.getX(), 47 -(int) offset.getY());
+	public Enemy(int speed, Path path) {
+		pos = new Point();
 		this.speed = speed;
 		this.path = path;
 		this.health = 100;
@@ -48,7 +48,6 @@ public abstract class Enemy{
 	public void showEnemy() {
 		
 		 timeline.play();
-		 System.out.println(path.getTurn().get(0));
 	}
 	
 	public abstract void setAttacked(boolean v);
