@@ -2,10 +2,12 @@ package model;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Observer;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import model.Path;
 
 
@@ -19,31 +21,8 @@ import model.Path;
  * @author Taite Nazifi
  *
  */
-public abstract class Map {
-	public boolean gameOver; //game is done
-	public int enemyCount; //number of enemies still alive
-	
-	protected Image background; //background of the map
-	protected Image menuBar; //Menu bar; where we select different enemies.
-	
-	protected Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
-	protected GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
-	protected List<Enemy> enemyList; //List of enemies
-	protected List<Tower> towerList; //List of towers
-	protected Path path; //Path that the enemies must travel in.	
-	
-	/**
-	 * Constructor for this Map class that doesn't do anything fancy,
-	 * just initializes our variables.
-	 * 
-	 * What is mapName and why is it here
-	 * @param name
-	 */
-	public Map() {
-		gameOver = false;
-		canvas = new Canvas (580,500);
-	}
-	
+public abstract class Map extends BorderPane implements Observer{
+
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
@@ -86,7 +65,7 @@ public abstract class Map {
 	
 	/**
 	 * REturns the path of this map that the enemies have to travel in order
-	 * to reach teh goal.
+	 * to reach the goal.
 	 * @return
 	 */
 	public abstract Path getPath();

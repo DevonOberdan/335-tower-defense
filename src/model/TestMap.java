@@ -4,14 +4,20 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 /**
@@ -31,6 +37,16 @@ public class TestMap extends Map {
 	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
+	private Alert alert;
+	
+	private Image background; //background of the map
+	private Image menuBar; //Menu bar; where we select different enemies.
+	
+	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
+	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
+	private List<Enemy> enemyList; //List of enemies
+	private List<Tower> towerList; //List of towers
+	private Path path; //Path that the enemies must travel in.
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -41,7 +57,6 @@ public class TestMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public TestMap(GraphicsContext gc) {
-		super();
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
@@ -52,6 +67,10 @@ public class TestMap extends Map {
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 47);
 		 this.path = new TestPath();
+		 alert = new Alert(AlertType.INFORMATION);
+		 alert.setOnCloseRequest(e -> {
+		//	 clickAnywhereToContinue();
+		 });
 	}
 	
 	/**
@@ -108,11 +127,19 @@ public class TestMap extends Map {
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
 					WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
-					System.out.println(e);
 					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-						System.out.println("REMOVED");
-						enemyList.remove(e);
-						//if(enemyList.size() !=0) e = (WolfEnemy) enemyList.get(0);
+						enemyList.remove(0);
+						if(isRunning()) {
+							e = (WolfEnemy) enemyList.get(0);
+						}
+						else {
+							timeline.stop();
+							alert.setHeaderText(null);
+							alert.setTitle("GAME OVER");
+							alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+							alert.show();
+							
+						}
 					}
 					if(e != null) {
 						t.setEnemy(e);
@@ -176,26 +203,32 @@ public class TestMap extends Map {
 
 	@Override
 	public Canvas getCanvas() {
-		// TODO Auto-generated method stub
-		return null;
+		return canvas;
 	}
 
 	@Override
 	public GraphicsContext getGC() {
-		// TODO Auto-generated method stub
-		return null;
+		return gc;
 	}
 
 	@Override
 	public List<Enemy> getEnemyList() {
-		// TODO Auto-generated method stub
-		return null;
+		return enemyList;
 	}
 
 	@Override
 	public List<Tower> getTowerList() {
-		// TODO Auto-generated method stub
-		return null;
+		return towerList;
+	}
+	
+	public void clickAnywhereToContinue() {
+		TextArea text = new TextArea("Click anywhere to continue");
+		this.setTop(text);
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
 }

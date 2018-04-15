@@ -16,13 +16,9 @@ import model.TestMap;
 
 public class MapSelector extends BorderPane implements Observer {
 	
-	private BorderPane pane;
-	private Map theGame;
 	private Observer gameView, currentView;
 	
 	public MapSelector() {
-		theGame = null;
-		pane = new BorderPane();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -42,10 +38,21 @@ public class MapSelector extends BorderPane implements Observer {
 		grid.add(hard, 11, 20);
 		grid.add(copyright, 0, 39);
 		
-		MapHandler handler = new MapHandler();
-		easy.setOnAction(handler);
-		meduim.setOnAction(handler);
-		hard.setOnAction(handler);
+		easy.setOnAction(e -> {
+			gameView = new GameView("Testing Map");
+			setViewTo(gameView);
+			((GameView) gameView).show();
+		});
+		meduim.setOnAction(e -> {
+			gameView = new GameView("Ice Map");
+			setViewTo(gameView);
+			((GameView) gameView).show();
+		});
+		hard.setOnAction(e -> {
+			gameView = new GameView("Testing Map");
+			setViewTo(gameView);
+			((GameView) gameView).show();
+		});
 
 		
 		
@@ -57,39 +64,10 @@ public class MapSelector extends BorderPane implements Observer {
 		currentView = newView;
 		this.setCenter((Node) currentView); 
 	}
-	private class MapHandler implements EventHandler<ActionEvent> {
-
-		@Override
-		public void handle(ActionEvent event) {
-			// TODO Auto-generated method stub
-			Button selected = (Button) event.getSource();
-			switch (selected.getText().toLowerCase()) {
-			case "medium":
-				gameView = new GameView("Ice Map");
-				setViewTo(gameView);
-				((GameView) gameView).show();
-				break;
-			case "hard":
-				gameView = new GameView("Testing Map");
-				setViewTo(gameView);
-				((GameView) gameView).show();
-				break;
-				
-				default: // easy mode
-					gameView = new GameView("Testing Map");
-					setViewTo(gameView);
-					((GameView) gameView).show();
-					break;
-			}
-			
-		}
-		
-	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
