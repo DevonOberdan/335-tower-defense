@@ -146,5 +146,15 @@ public class IceMap extends Map {
 	public void show() {
 		timeline.play();
 	}
+
+	@Override
+	public int getEnemyCount() {
+		return enemyList.size();
+	}
+
+	@Override
+	public boolean isRunning() {
+		return getEnemyCount() > 0;
+	}
 	
 }

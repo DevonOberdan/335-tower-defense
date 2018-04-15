@@ -40,7 +40,7 @@ public class TestMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public TestMap(GraphicsContext gc) {
-		super("Testing Map");
+		super();
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
 		this.gc = gc;
