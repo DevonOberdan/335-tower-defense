@@ -40,7 +40,6 @@ public class ArcherTower extends Tower {
 		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
-			System.out.println(en.canBeHit());
 			if (dist < this.getRange() && dist < closest && en.canBeHit()) {
 				priority = en;
 				closest = dist;

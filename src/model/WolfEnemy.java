@@ -89,19 +89,21 @@ public class WolfEnemy extends Enemy {
 		this.turns = this.path.checkTurns(this.loc);
 	}
 
-	//@Override
+	@Override
 	public void advanceWalk() {
 		walkTick++;
 		if(walkTick == 4) //4 is the length of the sprite sheet
 			walkTick = 0;
 	}
+	@Override
 	public void advanceDeath() {
 		deadTick++;
-	//	System.out.println(deadTick);
 	}
+	@Override
 	public int getDeathTicker() {
 		return deadTick;
 	}
+	@Override
 	public int deathFrameCount() {
 		return 8;
 	}
@@ -115,11 +117,10 @@ public class WolfEnemy extends Enemy {
 	//	System.out.println(maxHealth);
 
 		healthPerc = ((double)health / (double)maxHealth );
-		System.out.println(healthPerc);
+	//	System.out.println(healthPerc);
 		
 		// stops and becomes crazy
 		if(healthPerc <= 0.25 && !stalled && !enraged && !dead) {
-			 System.out.println("CRAZY");
 		     this.speed=0;
 		     this.stalled = true;
 		     stallTick = 0;
@@ -127,7 +128,7 @@ public class WolfEnemy extends Enemy {
 		// in the middle of being stopped
 		else if(stalled) {
 			stallTick++;
-			System.out.println("STALLTICK: "+ stallTick);
+			//System.out.println("STALLTICK: "+ stallTick);
 			if(stallTick >= stallTime) {
 				this.speed = 6;
 				stalled = false;

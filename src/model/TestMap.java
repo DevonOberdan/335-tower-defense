@@ -86,7 +86,7 @@ public class TestMap extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<1; i++) {
+		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
 				Point offset = new Point(((i*75 + 1000)), 0);
