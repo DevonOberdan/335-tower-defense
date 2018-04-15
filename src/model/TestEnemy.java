@@ -54,9 +54,7 @@ public class TestEnemy extends Enemy {
 		}
 		gc.drawImage(testing, loc.getX(), loc.getY());
 		checkTurns();
-		//System.out.println("Old location: " + loc.toString());
 		move();
-		//System.out.println("New locations: " + loc.toString());
 		advanceTick();
 	}
 	
