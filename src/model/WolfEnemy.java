@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -28,16 +29,28 @@ public class WolfEnemy extends Enemy {
 		
 		img = wolf;
 		
+		this.timeline = new Timeline();
+		
 		this.attacked = false;
 		this.enraged = false;
 		this.healthPerc = 1.0;
 	}
  
-	public void show(GraphicsContext gc, int num) {
-		if (enraged)
+	public void show(GraphicsContext gc, int frame) {
+		if (enraged) {
 			super.setImage(angry_wolf);
-		else if(stalled)
+			
+		}
+		
+		else if(stalled) {
 			super.setImage(crazy_wolf);
+		}
+		else {
+			gc.drawImage(img, frame*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
+			
+		}
+			
+			
 		
 		switch (num) {
 		
