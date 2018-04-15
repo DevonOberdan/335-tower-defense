@@ -34,12 +34,12 @@ public class WelcomeView extends BorderPane implements Observer{
 		//gameView = new GameView(theGame);
 		instructionView = new InstructionView();
 		//mapSelector = new MapSelector();
-		gameView = new GameView();
 		grid.add(newGame, 11, 18);
 		grid.add(loadGame, 11, 19);
 		grid.add(instructions, 11, 20);
 		grid.add(copyright, 0, 39);
 		newGame.setOnAction(e -> {
+			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
