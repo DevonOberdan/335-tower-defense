@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -45,7 +46,15 @@ public class IceMap extends Map {
 	private Timeline timeline; //The animator-2000.
 	private Point start;
 	private Alert alert;
+		
+	private Image background; //background of the map
+	private Image menuBar; //Menu bar; where we select different enemies.
 	
+	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
+	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
+	private List<Enemy> enemyList; //List of enemies
+	private List<Tower> towerList; //List of towers
+	private Path path; //Path that the enemies must travel in.
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -68,7 +77,7 @@ public class IceMap extends Map {
 		 path = new IcePath();
 		 alert = new Alert(AlertType.INFORMATION);
 		 alert.setOnCloseRequest(e -> {
-			 this.gameOver = true;
+			 clickAnywhereToContinue();
 		 });
 	}
 	
@@ -110,7 +119,6 @@ public class IceMap extends Map {
 	 *
 	 */
 	private class AnimateStarter implements EventHandler<ActionEvent> {
-		private int tic=0;
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
@@ -165,13 +173,13 @@ public class IceMap extends Map {
 		towerList.add(new ArcherTower(p));
 	}
 	
+
 	/**
-	 * PLays the timeline, and ultimately plays the game!
+	 * Plays the timeline, and ultimately plays the game!
 	 */
 	public void show() {
 		timeline.play();
 	}
-
 	@Override
 	public int getEnemyCount() {
 		return enemyList.size();
@@ -207,6 +215,11 @@ public class IceMap extends Map {
 		return path;
 	}
 
+	public void clickAnywhereToContinue() {
+		TextArea text = new TextArea("Click anywhere to continue");
+		this.setTop(text);
+	}
+	
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		// TODO Auto-generated method stub

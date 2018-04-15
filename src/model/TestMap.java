@@ -37,8 +37,16 @@ public class TestMap extends Map {
 	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
-	private Observer currentView;
 	private Alert alert;
+	
+	private Image background; //background of the map
+	private Image menuBar; //Menu bar; where we select different enemies.
+	
+	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
+	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
+	private List<Enemy> enemyList; //List of enemies
+	private List<Tower> towerList; //List of towers
+	private Path path; //Path that the enemies must travel in.
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -49,7 +57,6 @@ public class TestMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public TestMap(GraphicsContext gc) {
-		super();
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
@@ -62,8 +69,7 @@ public class TestMap extends Map {
 		 this.path = new TestPath();
 		 alert = new Alert(AlertType.INFORMATION);
 		 alert.setOnCloseRequest(e -> {
-			 this.gameOver = true;
-			 clickAnywhereToContinue();
+		//	 clickAnywhereToContinue();
 		 });
 	}
 	
@@ -124,7 +130,7 @@ public class TestMap extends Map {
 					WolfEnemy e = (WolfEnemy) enemyList.get(0);
 					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
 						enemyList.remove(0);
-						if(!enemyList.isEmpty()) {
+						if(isRunning()) {
 							e = (WolfEnemy) enemyList.get(0);
 						}
 						else {
@@ -222,5 +228,4 @@ public class TestMap extends Map {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

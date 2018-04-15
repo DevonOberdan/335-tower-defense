@@ -31,14 +31,14 @@ public class GameView extends BorderPane implements Observer{
 		pane.setCenter(canvas);
 		this.setCenter(pane);
 		this.setOnMouseClicked(e ->{
+
 			switch(ptr) {
-			
 				case 0:
 					if(this.map != null) {
-						if(this.map.gameOver) {
+						if(!this.map.isRunning()) {
 							//showFirstCutscene();
 							this.map = new IceMap(gc);
-							this.map.spawnEnemies(1);
+							this.map.spawnEnemies(3);
 							this.map.show();
 							ptr++;
 						}
@@ -48,7 +48,7 @@ public class GameView extends BorderPane implements Observer{
 					
 				case 1:
 					if(this.map != null) {
-						if(this.map.gameOver) {
+						if(!this.map.isRunning()) {
 							//showSecondCutscene();
 							this.map = new TestMap(gc);
 							this.map.spawnEnemies(5);
@@ -61,9 +61,8 @@ public class GameView extends BorderPane implements Observer{
 					
 				case 2:
 					if(this.map != null) {
-						if(this.map.gameOver) {
+						if(!this.map.isRunning()) {
 							//showOutroCutscene();
-							this.map.gameOver = false;
 							ptr++;
 						}
 					}
@@ -71,13 +70,11 @@ public class GameView extends BorderPane implements Observer{
 					break;
 					
 				default:
-					if(this.map.gameOver) {
+					if(this.map.isRunning()) {
 						this.setCenter((Node)(Observer) new WelcomeView());
-						this.map.gameOver = false;
 					}
 					break;
 			}
-
 			if(map != null) {
 				System.out.println(e.getX()+"  "+e.getY());
 				map.addTower(new Point((int)e.getX(), (int)e.getY()));
