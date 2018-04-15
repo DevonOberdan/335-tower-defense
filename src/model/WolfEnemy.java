@@ -39,12 +39,15 @@ public class WolfEnemy extends Enemy {
 		this.healthPerc = 1.0;
 	}
  
-	public void show(GraphicsContext gc, int frame) {
+	public void show(GraphicsContext gc) {
 		if (enraged) {
 			super.setImage(angry_wolf);
 			
 		}
-		
+		else if (stalled) {
+			super.setImage(crazy_wolf);
+		}
+		else
 		switch (tick) {
 		
 		case 0:
