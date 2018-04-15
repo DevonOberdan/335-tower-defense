@@ -12,13 +12,9 @@ import model.Map;
 import model.TestMap;
 
 public class WelcomeView extends BorderPane implements Observer{
-	private BorderPane pane;
-	private Map theGame;
 	private Observer gameView, instructionView, currentView, mapSelector;
 	
 	public WelcomeView() {
-		theGame = new TestMap(null);
-		pane = new BorderPane();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
