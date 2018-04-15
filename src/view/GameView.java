@@ -26,27 +26,27 @@ public class GameView extends BorderPane implements Observer{
 		switch (mapName) {
 		case "Testing Map":
 			this.map = new TestMap(gc);
-			this.map.spawnEnemies(10);
+			this.map.spawnEnemies(1);
 			break;
 		case "Ice Map":
 			this.map = new IceMap(gc);
 			this.map.spawnEnemies(1);
 			break;
-			default:
-				this.map = new TestMap(gc);
+		default:
+			this.map = new TestMap(gc);
+			break;
 		}
 		
 		pane.setCenter(canvas);
 		this.setCenter(pane);
 		this.setOnMouseClicked(e ->{
-			System.out.println(e.getX()+"  "+e.getY());
-			map.addTower(new Point((int)e.getX(), (int)e.getY()));
-		});
-		this.setOnMouseMoved(e -> {
 			if(this.map.gameOver) {
 				this.setCenter((Node)(Observer) new WelcomeView());
 				this.map.gameOver = false;
-				this.setOnMouseMoved(null);
+			}
+			if(map != null) {
+				System.out.println(e.getX()+"  "+e.getY());
+				map.addTower(new Point((int)e.getX(), (int)e.getY()));
 			}
 		});
 	}
