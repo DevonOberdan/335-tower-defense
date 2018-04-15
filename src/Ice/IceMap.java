@@ -61,7 +61,7 @@ public class IceMap extends Map {
 	 * background, and the enemies on it.
 	 * 
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
-	 * ALL OF MY CREATIVITY AND FRUITINESS
+	 * ALL OF MY FRUITY CREATIVENESS
 	 */
 	public IceMap(GraphicsContext gc) {
 		super();
