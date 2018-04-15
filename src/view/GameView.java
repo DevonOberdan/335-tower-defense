@@ -70,7 +70,7 @@ public class GameView extends BorderPane implements Observer{
 					break;
 					
 				default:
-					if(this.map.isRunning()) {
+					if(!this.map.isRunning()) {
 						this.setCenter((Node)(Observer) new WelcomeView());
 					}
 					break;
