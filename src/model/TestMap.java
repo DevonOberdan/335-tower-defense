@@ -133,12 +133,8 @@ public class TestMap extends Map {
 							e = (WolfEnemy) enemyList.get(0);
 						}
 						else {
-							timeline.stop();
-							alert.setHeaderText(null);
-							alert.setTitle("GAME OVER");
-							alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
-							alert.show();
-							
+							endRound();
+							return;
 						}
 					}
 					if(e != null) {
@@ -153,14 +149,33 @@ public class TestMap extends Map {
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					enemyList.remove(e);
-					return;
+					if(isRunning()) {
+						e = (WolfEnemy) enemyList.get(0);
+					}
+					else {
+						endRound();
+						return;
+					}
 				}
-				((WolfEnemy) e).show(gc);
-				e.setAttacked(false);
+				if(e != null) {
+					((WolfEnemy) e).show(gc);
+					e.setAttacked(false);
+				}
 			}
 		}
 		
 	}
+	
+	public void endRound() {
+		timeline.stop();
+		alert.setHeaderText(null);
+		alert.setTitle("GAME OVER");
+		alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+		alert.show();
+	}
+	
+	
+	
 	/**
 	 * Adds a new archerTower onto the screen at position p.
 	 */
