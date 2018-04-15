@@ -137,7 +137,7 @@ public class IceMap extends Map {
 							timeline.stop();
 							alert.setTitle("GAME OVER");
 							alert.setHeaderText(null);
-							alert.setContentText("You won! :-)");
+							alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 							alert.show();
 						}
 					}
@@ -212,17 +212,4 @@ public class IceMap extends Map {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	/**
-	 * setViewTo sets the current view of the application to newView,
-	 * allowing us to swap between views willy-nilly.
-	 * 
-	 * @param newView the view we want to change to.
-	 * @author The Team
-	 */
-	  public void setViewTo(Observer newView) {
-		    this.setCenter(null); // set the center of pane to null
-		    this.setCenter((Node) newView); // set the center of the pane to the current observer
-	  }
-	
 }

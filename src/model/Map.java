@@ -32,7 +32,7 @@ public abstract class Map extends BorderPane implements Observer{
 	protected GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
 	protected List<Enemy> enemyList; //List of enemies
 	protected List<Tower> towerList; //List of towers
-	protected Path path; //Path that the enemies must travel in.	
+	protected Path path; //Path that the enemies must travel in.
 	
 	/**
 	 * Constructor for this Map class that doesn't do anything fancy,
@@ -88,7 +88,7 @@ public abstract class Map extends BorderPane implements Observer{
 	
 	/**
 	 * REturns the path of this map that the enemies have to travel in order
-	 * to reach teh goal.
+	 * to reach the goal.
 	 * @return
 	 */
 	public abstract Path getPath();

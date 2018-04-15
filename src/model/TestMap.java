@@ -17,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 /**
@@ -62,6 +63,7 @@ public class TestMap extends Map {
 		 alert = new Alert(AlertType.INFORMATION);
 		 alert.setOnCloseRequest(e -> {
 			 this.gameOver = true;
+			 clickAnywhereToContinue();
 		 });
 	}
 	
@@ -129,8 +131,9 @@ public class TestMap extends Map {
 							timeline.stop();
 							alert.setTitle("GAME OVER");
 							alert.setHeaderText(null);
-							alert.setContentText("You won! :-)");
+							alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 							alert.show();
+							
 						}
 					}
 					t.setEnemy(e);
@@ -191,45 +194,33 @@ public class TestMap extends Map {
 
 	@Override
 	public Canvas getCanvas() {
-		// TODO Auto-generated method stub
-		return null;
+		return canvas;
 	}
 
 	@Override
 	public GraphicsContext getGC() {
-		// TODO Auto-generated method stub
-		return null;
+		return gc;
 	}
 
 	@Override
 	public List<Enemy> getEnemyList() {
-		// TODO Auto-generated method stub
-		return null;
+		return enemyList;
 	}
 
 	@Override
 	public List<Tower> getTowerList() {
-		// TODO Auto-generated method stub
-		return null;
+		return towerList;
+	}
+	
+	public void clickAnywhereToContinue() {
+		TextArea text = new TextArea("Click anywhere to continue");
+		this.setTop(text);
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	/**
-	 * setViewTo sets the current view of the application to newView,
-	 * allowing us to swap between views willy-nilly.
-	 * 
-	 * @param newView the view we want to change to.
-	 * @author The Team
-	 */
-	  public void setViewTo(Observer newView) {
-		    this.setCenter(null); // set the center of pane to null
-		    currentView = newView; // update the current view to the input observer
-		    this.setCenter((Node) currentView); // set the center of the pane to the current observer
-	  }
 
 }

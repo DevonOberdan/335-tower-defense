@@ -17,33 +17,67 @@ public class GameView extends BorderPane implements Observer{
 	private Map map;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	
-	public GameView(String mapName) {
+	private int ptr;
+	public GameView() {
 		BorderPane pane = new BorderPane();
-		
 		canvas = new Canvas (580,500);
-		gc = canvas.getGraphicsContext2D(); 
-		switch (mapName) {
-		case "Testing Map":
-			this.map = new TestMap(gc);
-			this.map.spawnEnemies(1);
-			break;
-		case "Ice Map":
-			this.map = new IceMap(gc);
-			this.map.spawnEnemies(1);
-			break;
-		default:
-			this.map = new TestMap(gc);
-			break;
-		}
+		gc = canvas.getGraphicsContext2D();
+		this.map = new TestMap(gc);
+		this.map.spawnEnemies(3);
+		this.ptr = 0;
+
+		//showIntroCutscene();
 		
 		pane.setCenter(canvas);
 		this.setCenter(pane);
 		this.setOnMouseClicked(e ->{
-			if(this.map.gameOver) {
-				this.setCenter((Node)(Observer) new WelcomeView());
-				this.map.gameOver = false;
+			switch(ptr) {
+			
+				case 0:
+					if(this.map != null) {
+						if(this.map.gameOver) {
+							//showFirstCutscene();
+							this.map = new IceMap(gc);
+							this.map.spawnEnemies(1);
+							this.map.show();
+							ptr++;
+						}
+					}
+					
+					break;
+					
+				case 1:
+					if(this.map != null) {
+						if(this.map.gameOver) {
+							//showSecondCutscene();
+							this.map = new TestMap(gc);
+							this.map.spawnEnemies(5);
+							this.map.show();
+							ptr++;
+						}
+					}
+					
+					break;
+					
+				case 2:
+					if(this.map != null) {
+						if(this.map.gameOver) {
+							//showOutroCutscene();
+							this.map.gameOver = false;
+							ptr++;
+						}
+					}
+					
+					break;
+					
+				default:
+					if(this.map.gameOver) {
+						this.setCenter((Node)(Observer) new WelcomeView());
+						this.map.gameOver = false;
+					}
+					break;
 			}
+
 			if(map != null) {
 				System.out.println(e.getX()+"  "+e.getY());
 				map.addTower(new Point((int)e.getX(), (int)e.getY()));
