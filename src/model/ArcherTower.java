@@ -23,7 +23,7 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 3, 50, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 3, 200, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 	}
 
 	@Override
@@ -33,13 +33,15 @@ public class ArcherTower extends Tower {
 		if(enemyList.isEmpty()) {
 			return null;
 		}
-		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.getLocation().getX(), 2) + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.getLocation().getY()), 2));
-		if(closest < this.getRange())
+		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.getLocation().getX(), 2)
+				            + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.getLocation().getY()), 2));
+		if(closest < this.getRange() && enemyList.get(enemyList.size()-1).canBeHit())
 			priority = enemyList.get(enemyList.size()-1);
 		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
-			if (dist < this.getRange() && dist < closest) {
+			System.out.println(en.canBeHit());
+			if (dist < this.getRange() && dist < closest && en.canBeHit()) {
 				priority = en;
 				closest = dist;
 			}

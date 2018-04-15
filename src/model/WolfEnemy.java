@@ -12,12 +12,17 @@ import javafx.util.Duration;
 
 public class WolfEnemy extends Enemy {
 	private final static int maxHealth = 160;
-	private final Image wolf, crazy_wolf, angry_wolf;
+	private final Image wolf, crazy_wolf, angry_wolf, dead_wolf;
 	private boolean attacked;
 	private boolean enraged;
 	private boolean stalled;
-		
-	private int tick;
+	private boolean dead;
+	
+	private final int stallTime = 20;
+	
+	private int walkTick;
+	private int stallTick;
+	private int deadTick;	
 	
 	private final Image testing = new Image("file:images/testing.png") ;
 
@@ -25,49 +30,50 @@ public class WolfEnemy extends Enemy {
 		super(2, 160, path, start);
 		
 		//this.path = super.getPath();
-		wolf = new Image("file:images/enemies/wolf/wolf.png");
-		crazy_wolf = new Image("file:images/enemies/wolf/crazy_wolf.png");
-		angry_wolf = new Image("file:images/enemies/wolf/angry_wolf.png");
-		
+		wolf = new Image("file:images/enemies/wolf/wolf_right.png");
+		crazy_wolf = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
+		angry_wolf = new Image("file:images/enemies/wolf/angry_wolf_right.png");
+		dead_wolf  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
 		img = wolf;
 		
 		this.timeline = new Timeline();
 		
+		this.walkTick  = 0;
+		this.stallTick = 0;
+		this.deadTick  = 0;
+		
 		this.attacked = false;
-		this.tick = 0;
-		this.enraged = false;
+		this.enraged  = false;
+		this.dead     = false;
 		this.healthPerc = 1.0;
 	}
  
 	public void show(GraphicsContext gc) {
 		if (enraged) {
 			super.setImage(angry_wolf);
-			
+			gc.drawImage(img, walkTick*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
+			advanceWalk();
 		}
 		else if (stalled) {
 			super.setImage(crazy_wolf);
+			gc.drawImage(crazy_wolf, loc.getX()-30, loc.getY()-30, 60, 60);
 		}
-		else
-		switch (tick) {
-		
-		case 0:
-			gc.drawImage(img, 0, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
-			break;
-		case 1:
-			gc.drawImage(img, 60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
-			break;
-		case 2:
-			gc.drawImage(img, 120, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
-			break;
-		default:
-			gc.drawImage(img, 180, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
-			break;
+		else if(!dead){
+			img = wolf;
+			gc.drawImage(img, walkTick*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
+			advanceWalk();
+		}
+		else if(dead) {
+			img = dead_wolf;
+
+			gc.drawImage(img, deadTick*200, 0, 200, 157, loc.getX()-30, loc.getY()-30, 60, 60);
+			
+			advanceDeath();
 		}
 		gc.drawImage(testing, loc.getX(), loc.getY());
 		this.turns = this.path.checkTurns(this.loc);
 		checkStatus();
 		move();
-		advanceTick();
 	}
 	
 	@Override
@@ -83,31 +89,58 @@ public class WolfEnemy extends Enemy {
 		this.turns = this.path.checkTurns(this.loc);
 	}
 
-	@Override
-	public void advanceTick() {
-		tick++;
-		if(tick == 4) //4 is the length of the sprite sheet
-			tick = 0;
+	//@Override
+	public void advanceWalk() {
+		walkTick++;
+		if(walkTick == 4) //4 is the length of the sprite sheet
+			walkTick = 0;
 	}
-
+	public void advanceDeath() {
+		deadTick++;
+	//	System.out.println(deadTick);
+	}
+	public int getDeathTicker() {
+		return deadTick;
+	}
+	public int deathFrameCount() {
+		return 8;
+	}
+	@Override
+	public boolean canBeHit() {
+		return !stalled && !dead;
+	}
 	
 	public void checkStatus() {
-		System.out.println(health);
-		System.out.println(maxHealth);
+	//	System.out.println(health);
+	//	System.out.println(maxHealth);
 
 		healthPerc = ((double)health / (double)maxHealth );
 		System.out.println(healthPerc);
-		if(healthPerc <= 0.25 && !stalled && !enraged) {
+		
+		// stops and becomes crazy
+		if(healthPerc <= 0.25 && !stalled && !enraged && !dead) {
+			 System.out.println("CRAZY");
 		     this.speed=0;
 		     this.stalled = true;
+		     stallTick = 0;
 		}
-		else if(healthPerc >= 0.5 && stalled && !enraged) {
-			this.speed = 4;
-			stalled = false;
-			enraged = true;
+		// in the middle of being stopped
+		else if(stalled) {
+			stallTick++;
+			System.out.println("STALLTICK: "+ stallTick);
+			if(stallTick >= stallTime) {
+				this.speed = 6;
+				stalled = false;
+				enraged = true;
+				stallTick=0;
+				health *= 2;
+			}
 		}
-		else if(stalled && !enraged) {
-			health++;
+		// is Dead
+		else if(health<1){
+			enraged = false;
+			dead=true;
+			speed = 0;
 		}
 	}
 	

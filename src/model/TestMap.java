@@ -67,7 +67,7 @@ public class TestMap extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
+		for (int i=0; i<1; i++) {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
 				Point offset = new Point(((i*75 + 1000)), 0);
@@ -107,13 +107,15 @@ public class TestMap extends Map {
 				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
-					WolfEnemy e = (WolfEnemy) enemyList.get(0);
-					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
-						enemyList.remove(0);
-						e = (WolfEnemy) enemyList.get(0);
+					WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
+					System.out.println(e);
+					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+						System.out.println("REMOVED");
+						enemyList.remove(e);
+						//if(enemyList.size() !=0) e = (WolfEnemy) enemyList.get(0);
 					}
-					t.setEnemy(e);
 					if(e != null) {
+						t.setEnemy(e);
 						t.attack();
 						e.setAttacked(true);
 					}
@@ -122,6 +124,10 @@ public class TestMap extends Map {
 				t.show(gc);
 			}
 			for (Enemy e : enemyList) {
+				if(e.getDeathTicker() >= e.deathFrameCount()) {
+					enemyList.remove(e);
+					return;
+				}
 				((WolfEnemy) e).show(gc);
 				e.setAttacked(false);
 			}

@@ -71,6 +71,9 @@ public abstract class Enemy{
 		return false;
 	}
 	
-	public abstract void advanceTick();
+	//public abstract void advanceTick();
+	public abstract boolean canBeHit();
+	public abstract int getDeathTicker();
+	public abstract int deathFrameCount();
 	
 }
