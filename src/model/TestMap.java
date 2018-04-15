@@ -92,15 +92,12 @@ public class TestMap extends Map {
 	 *
 	 */
 	private class AnimateStarter implements EventHandler<ActionEvent> {
-		private int tic=0;
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			
-			if (tic == 4)
-				tic=0;
+			//if()
 			for (Tower t : towerList) { 
 				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
@@ -126,10 +123,9 @@ public class TestMap extends Map {
 				t.show(gc);
 			}
 			for (Enemy e : enemyList) {
-				((WolfEnemy) e).show(gc, tic);
+				((WolfEnemy) e).show(gc);
 				e.setAttacked(false);
 			}
-			tic++;
 		}
 		
 	}

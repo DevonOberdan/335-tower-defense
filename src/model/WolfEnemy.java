@@ -16,6 +16,7 @@ public class WolfEnemy extends Enemy {
 	private TestPath path;
 	private Point turns;
 	private boolean attacked;
+	private int tick;
 	
 	private final Image testing = new Image("file:images/testing.png") ;
 
@@ -29,15 +30,16 @@ public class WolfEnemy extends Enemy {
 		this.hel = super.getHel();
 		this.attacked = false;
 		this.speed = super.getSpeed();
+		this.tick = 0;
 	}
  
-	public void show(GraphicsContext gc, int num) {
+	public void show(GraphicsContext gc) {
 		if (attacked)
 			img = img_d;
 		else
 			img = img_n;
 		
-		switch (num) {
+		switch (tick) {
 		
 		case 0:
 			gc.drawImage(img, 0, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
@@ -55,6 +57,7 @@ public class WolfEnemy extends Enemy {
 		gc.drawImage(testing, loc.getX(), loc.getY());
 		this.turns = this.path.checkTurns(this.loc);
 		move();
+		advanceTick();
 	}
 	
 	@Override
@@ -69,5 +72,13 @@ public class WolfEnemy extends Enemy {
 	public void checkTurns() {
 		this.turns = this.path.checkTurns(this.loc);
 	}
+
+	@Override
+	public void advanceTick() {
+		tick++;
+		if(tick == 4) //4 is the length of the sprite sheet
+			tick = 0;
+	}
+
 	
 }

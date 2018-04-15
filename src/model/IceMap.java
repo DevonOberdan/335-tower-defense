@@ -99,8 +99,6 @@ public class IceMap extends Map {
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
 			
-			if (tic == 4)
-				tic=0;
 			for (Tower t : towerList) { 
 				/* TestEnemy e = (TestEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
@@ -126,10 +124,9 @@ public class IceMap extends Map {
 				t.show(gc);
 			}
 			for (Enemy e : enemyList) {
-				((TestEnemy) e).show(gc, tic);
+				((TestEnemy) e).show(gc);
 				e.setAttacked(false);
 			}
-			tic++;
 		}
 		
 	}

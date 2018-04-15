@@ -65,6 +65,8 @@ public abstract class Enemy{
 			return true;
 		
 		return false;
-	}	
+	}
+	
+	public abstract void advanceTick();
 	
 }

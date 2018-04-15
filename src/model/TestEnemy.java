@@ -14,6 +14,7 @@ public class TestEnemy extends Enemy {
 	private Path path;
 	private Point turns;
 	private boolean attacked;
+	private int tick;
 	
 	private final Image testing = new Image("file:images/testing.png") ;
 
@@ -27,15 +28,16 @@ public class TestEnemy extends Enemy {
 		this.hel = super.getHel();
 		this.attacked = false;
 		this.speed = super.getSpeed();
+		this.tick = 0;
 	}
  
-	public void show(GraphicsContext gc, int num) {
+	public void show(GraphicsContext gc) {
 		if (attacked)
 			img = img_d;
 		else
 			img = img_n;
 		
-		switch (num) {
+		switch (tick) {
 		
 		case 0:
 			gc.drawImage(img, 0, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
@@ -55,6 +57,7 @@ public class TestEnemy extends Enemy {
 		//System.out.println("Old location: " + loc.toString());
 		move();
 		//System.out.println("New locations: " + loc.toString());
+		advanceTick();
 	}
 	
 	@Override
@@ -68,6 +71,13 @@ public class TestEnemy extends Enemy {
 	}
 	public void checkTurns() {
 		turns = path.checkTurns(loc);
+	}
+
+	@Override
+	public void advanceTick() {
+		tick++;
+		if (tick == 4)
+			tick=0;
 	}
 	
 }
