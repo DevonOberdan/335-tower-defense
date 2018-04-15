@@ -23,7 +23,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		this.map = new TestMap(gc);
-		this.map.spawnEnemies(3);
+		this.map.spawnEnemies(1);
 		this.ptr = 0;
 
 		//showIntroCutscene();
@@ -72,6 +72,11 @@ public class GameView extends BorderPane implements Observer{
 					
 				default:
 					if(!this.map.isRunning()) {
+						this.setCenter(null);
+						this.setOnMouseClicked(null);
+						this.map = null;
+						this.canvas = null;
+						this.gc = null;
 						this.setCenter((Node)(Observer) new WelcomeView());
 					}
 					break;
