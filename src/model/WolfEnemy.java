@@ -13,7 +13,7 @@ public class WolfEnemy extends Enemy {
 	private final Image img_n, img_d;
 	private Image img;
 	private int speed;
-	private Path path;
+	private TestPath path;
 	private Point turns;
 	private boolean attacked;
 	
@@ -22,8 +22,8 @@ public class WolfEnemy extends Enemy {
 	public WolfEnemy(int speed, Path path, Point start) {
 		super(speed, path);
 		loc =  start;
-		
-		this.path = super.getPath();
+		this.turns = super.getTurns();
+		this.path = (TestPath) super.getPath();
 		img_n = new Image("file:images/enemies/wolf/wolf_n.png");
 		img_d = new Image("file:images/enemies/wolf/angry_wolf_n.png");
 		this.hel = super.getHel();
@@ -53,10 +53,8 @@ public class WolfEnemy extends Enemy {
 			break;
 		}
 		gc.drawImage(testing, loc.getX(), loc.getY());
-		checkTurns();
-		//System.out.println("Old location: " + loc.toString());
+		this.turns = this.path.checkTurns(this.loc);
 		move();
-		//System.out.println("New locations: " + loc.toString());
 	}
 	
 	@Override
@@ -69,7 +67,7 @@ public class WolfEnemy extends Enemy {
 				(int)(loc.getY() + speed*turns.getY())));
 	}
 	public void checkTurns() {
-		turns = path.checkTurns(loc);
+		this.turns = this.path.checkTurns(this.loc);
 	}
 	
 }

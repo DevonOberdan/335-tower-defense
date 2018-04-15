@@ -4,6 +4,9 @@ import java.awt.Point;
 
 public class TestPath extends Path{
 
+	public TestPath() {
+		super();
+	}
 	@Override
 	public Point checkTurns(Point p) {
 		int x = 0;

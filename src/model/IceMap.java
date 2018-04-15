@@ -3,13 +3,14 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+import java.util.List;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -40,7 +41,7 @@ public class IceMap extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public IceMap(GraphicsContext gc) {
-		super("Ice Map");
+		super();
 		background = new Image("file:images/maps/map_5.png");
 		menuBar = new Image("file:images/menu.jpg");
 		this.gc = gc;
@@ -155,6 +156,36 @@ public class IceMap extends Map {
 	@Override
 	public boolean isRunning() {
 		return getEnemyCount() > 0;
+	}
+
+	@Override
+	public Canvas getCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GraphicsContext getGC() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Enemy> getEnemyList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tower> getTowerList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Path getPath() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

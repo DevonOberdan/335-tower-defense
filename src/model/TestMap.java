@@ -10,6 +10,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -43,13 +44,14 @@ public class TestMap extends Map {
 		super();
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
-		this.gc = gc;
+ 		this.gc = gc;
 		enemyList = new LinkedList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 47);
+		 this.path = new TestPath();
 	}
 	
 	/**
@@ -169,6 +171,30 @@ public class TestMap extends Map {
 	@Override
 	public boolean isRunning() {
 		return getEnemyCount() > 0;
+	}
+
+	@Override
+	public Canvas getCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GraphicsContext getGC() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Enemy> getEnemyList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tower> getTowerList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
