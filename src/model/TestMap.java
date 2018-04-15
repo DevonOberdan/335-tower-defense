@@ -4,14 +4,19 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 /**
@@ -31,6 +36,8 @@ public class TestMap extends Map {
 	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
+	private Observer currentView;
+	private Alert alert;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -52,6 +59,10 @@ public class TestMap extends Map {
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 47);
 		 this.path = new TestPath();
+		 alert = new Alert(AlertType.INFORMATION);
+		 alert.setOnCloseRequest(e -> {
+			 this.gameOver = true;
+		 });
 	}
 	
 	/**
@@ -111,7 +122,16 @@ public class TestMap extends Map {
 					WolfEnemy e = (WolfEnemy) enemyList.get(0);
 					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
 						enemyList.remove(0);
-						e = (WolfEnemy) enemyList.get(0);
+						if(!enemyList.isEmpty()) {
+							e = (WolfEnemy) enemyList.get(0);
+						}
+						else {
+							timeline.stop();
+							alert.setTitle("GAME OVER");
+							alert.setHeaderText(null);
+							alert.setContentText("You won! :-)");
+							alert.show();
+						}
 					}
 					t.setEnemy(e);
 					if(e != null) {
@@ -192,5 +212,24 @@ public class TestMap extends Map {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * setViewTo sets the current view of the application to newView,
+	 * allowing us to swap between views willy-nilly.
+	 * 
+	 * @param newView the view we want to change to.
+	 * @author The Team
+	 */
+	  public void setViewTo(Observer newView) {
+		    this.setCenter(null); // set the center of pane to null
+		    currentView = newView; // update the current view to the input observer
+		    this.setCenter((Node) currentView); // set the center of the pane to the current observer
+	  }
 
 }

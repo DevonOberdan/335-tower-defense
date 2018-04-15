@@ -2,10 +2,12 @@ package model;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Observer;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import model.Path;
 
 
@@ -19,7 +21,7 @@ import model.Path;
  * @author Taite Nazifi
  *
  */
-public abstract class Map {
+public abstract class Map extends BorderPane implements Observer{
 	public boolean gameOver; //game is done
 	public int enemyCount; //number of enemies still alive
 	

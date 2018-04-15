@@ -1,19 +1,32 @@
-package model;
+package Ice;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import model.ArcherTower;
+import model.Enemy;
+import model.Map;
+import model.Path;
+import model.TestEnemy;
+import model.Tower;
+import view.WelcomeView;
 /**
  * TestMap exhibits the nature of an actual game that we might
  * end up playing. Contains several tests including the drawing
@@ -31,6 +44,7 @@ public class IceMap extends Map {
 	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
+	private Alert alert;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -52,6 +66,10 @@ public class IceMap extends Map {
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point (375, 500);
 		 path = new IcePath();
+		 alert = new Alert(AlertType.INFORMATION);
+		 alert.setOnCloseRequest(e -> {
+			 this.gameOver = true;
+		 });
 	}
 	
 	/**
@@ -98,7 +116,7 @@ public class IceMap extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			
+
 			for (Tower t : towerList) { 
 				/* TestEnemy e = (TestEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
@@ -112,7 +130,16 @@ public class IceMap extends Map {
 					TestEnemy e = (TestEnemy) enemyList.get(0);
 					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
 						enemyList.remove(0);
-						e = (TestEnemy) enemyList.get(0);
+						if(!enemyList.isEmpty()) {
+							e = (TestEnemy) enemyList.get(0);
+						}
+						else {
+							timeline.stop();
+							alert.setTitle("GAME OVER");
+							alert.setHeaderText(null);
+							alert.setContentText("You won! :-)");
+							alert.show();
+						}
 					}
 					t.setEnemy(e);
 					if(e != null) {
@@ -157,32 +184,45 @@ public class IceMap extends Map {
 
 	@Override
 	public Canvas getCanvas() {
-		// TODO Auto-generated method stub
-		return null;
+		return canvas;
 	}
 
 	@Override
 	public GraphicsContext getGC() {
-		// TODO Auto-generated method stub
-		return null;
+		return gc;
 	}
 
 	@Override
 	public List<Enemy> getEnemyList() {
-		// TODO Auto-generated method stub
-		return null;
+		return enemyList;
 	}
 
 	@Override
 	public List<Tower> getTowerList() {
-		// TODO Auto-generated method stub
-		return null;
+		return towerList;
 	}
 
 	@Override
 	public Path getPath() {
-		// TODO Auto-generated method stub
-		return null;
+		return path;
 	}
+
+	@Override
+	public void update(java.util.Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * setViewTo sets the current view of the application to newView,
+	 * allowing us to swap between views willy-nilly.
+	 * 
+	 * @param newView the view we want to change to.
+	 * @author The Team
+	 */
+	  public void setViewTo(Observer newView) {
+		    this.setCenter(null); // set the center of pane to null
+		    this.setCenter((Node) newView); // set the center of the pane to the current observer
+	  }
 	
 }

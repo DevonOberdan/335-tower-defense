@@ -4,13 +4,11 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.event.EventHandler;
+import Ice.IceMap;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import model.IceMap;
 import model.Map;
 import model.TestMap;
 
@@ -19,6 +17,7 @@ public class GameView extends BorderPane implements Observer{
 	private Map map;
 	private Canvas canvas;
 	private GraphicsContext gc;
+	
 	public GameView(String mapName) {
 		BorderPane pane = new BorderPane();
 		
@@ -37,27 +36,27 @@ public class GameView extends BorderPane implements Observer{
 				this.map = new TestMap(gc);
 		}
 		
-		
 		pane.setCenter(canvas);
 		this.setCenter(pane);
-		this.setOnMouseClicked(new MouseHandler());
+		this.setOnMouseClicked(e ->{
+			System.out.println(e.getX()+"  "+e.getY());
+			map.addTower(new Point((int)e.getX(), (int)e.getY()));
+		});
+		this.setOnMouseMoved(e -> {
+			if(this.map.gameOver) {
+				this.setCenter((Node)(Observer) new WelcomeView());
+				this.map.gameOver = false;
+				this.setOnMouseMoved(null);
+			}
+		});
 	}
 	public void show() {
 		map.show();
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		
 	}
-	private class MouseHandler implements EventHandler<MouseEvent> {
 
-		@Override
-		public void handle(MouseEvent event) {
-			System.out.println(event.getX()+"  "+event.getY());
-			map.addTower(new Point((int)event.getX(), (int)event.getY()));
-		}
-		
-	}
 
 }
