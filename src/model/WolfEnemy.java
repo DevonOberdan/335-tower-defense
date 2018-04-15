@@ -17,6 +17,8 @@ public class WolfEnemy extends Enemy {
 	private boolean enraged;
 	private boolean stalled;
 		
+	private int tick;
+	
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public WolfEnemy(Path path, Point start) {
@@ -32,6 +34,7 @@ public class WolfEnemy extends Enemy {
 		this.timeline = new Timeline();
 		
 		this.attacked = false;
+		this.tick = 0;
 		this.enraged = false;
 		this.healthPerc = 1.0;
 	}
@@ -42,17 +45,7 @@ public class WolfEnemy extends Enemy {
 			
 		}
 		
-		else if(stalled) {
-			super.setImage(crazy_wolf);
-		}
-		else {
-			gc.drawImage(img, frame*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
-			
-		}
-			
-			
-		
-		switch (num) {
+		switch (tick) {
 		
 		case 0:
 			gc.drawImage(img, 0, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
@@ -68,11 +61,10 @@ public class WolfEnemy extends Enemy {
 			break;
 		}
 		gc.drawImage(testing, loc.getX(), loc.getY());
-		checkTurns();
+		this.turns = this.path.checkTurns(this.loc);
 		checkStatus();
-		//System.out.println("Old location: " + loc.toString());
 		move();
-		//System.out.println("New locations: " + loc.toString());
+		advanceTick();
 	}
 	
 	@Override
@@ -85,8 +77,16 @@ public class WolfEnemy extends Enemy {
 				(int)(loc.getY() + speed*turns.getY())));
 	}
 	public void checkTurns() {
-		turns = path.checkTurns(loc);
+		this.turns = this.path.checkTurns(this.loc);
 	}
+
+	@Override
+	public void advanceTick() {
+		tick++;
+		if(tick == 4) //4 is the length of the sprite sheet
+			tick = 0;
+	}
+
 	
 	public void checkStatus() {
 		System.out.println(health);

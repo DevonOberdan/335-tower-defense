@@ -12,6 +12,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+/**
+ * abstract enemy provides us with a skeleton to use for other types
+ * of enemies and the various methods that we will need to be using
+ * for each one. 
+ *
+ */
 public abstract class Enemy{
 
 	protected int health;
@@ -63,6 +69,8 @@ public abstract class Enemy{
 			return true;
 		
 		return false;
-	}	
+	}
+	
+	public abstract void advanceTick();
 	
 }
