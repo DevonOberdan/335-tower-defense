@@ -38,7 +38,7 @@ public class GameView extends BorderPane implements Observer{
 						if(!this.map.isRunning()) {
 							//showFirstCutscene();
 							this.map = new IceMap(gc);
-							this.map.spawnEnemies(3);
+							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
 						}
@@ -51,7 +51,7 @@ public class GameView extends BorderPane implements Observer{
 						if(!this.map.isRunning()) {
 							//showSecondCutscene();
 							this.map = new TestMap(gc);
-							this.map.spawnEnemies(5);
+							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
 						}
@@ -63,6 +63,7 @@ public class GameView extends BorderPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							//showOutroCutscene();
+							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;
 						}
 					}
