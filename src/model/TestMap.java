@@ -69,14 +69,13 @@ public class TestMap extends Map {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
 				Point offset = new Point(((i*75 + 1000)), 0);
-				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			} else {
 				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
-			enemy.setHel(100);
 		}
 		System.out.printf("%d enemies have been spawned.\n", enemyCount);
 	}
