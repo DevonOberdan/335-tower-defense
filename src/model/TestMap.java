@@ -128,7 +128,7 @@ public class TestMap extends Map {
 					t.setEnemy(null);
 					WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
 					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-						enemyList.remove(0);
+						enemyList.remove(e);
 						if(isRunning()) {
 							e = (WolfEnemy) enemyList.get(0);
 						}
