@@ -39,7 +39,6 @@ public abstract class Enemy{
 	protected Image img;
 	protected int imgWidth;
 	protected int imgHeight;
-
 	
 	public Enemy(int speed, int health, Path path, Point start) {
 		this.loc = start;

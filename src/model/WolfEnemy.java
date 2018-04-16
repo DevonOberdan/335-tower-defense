@@ -63,12 +63,12 @@ public class WolfEnemy extends Enemy {
  
 	public void show(GraphicsContext gc) {
 		if (enraged) {
-			super.setImage(angry_wolf[0]);
+			img = angry_wolf;
 			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if (stalled) {
-			super.setImage(crazy_wolf[0]);
+			img = crazy_wolf;
 			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
 		else if(!dead){
