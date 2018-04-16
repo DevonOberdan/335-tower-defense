@@ -92,11 +92,11 @@ public class IceMap extends Map {
 			Enemy enemy; 
 			if( i >= 5 ) { //Trying to introduce 'waves'
 				Point offset = new Point(0, -((i*75 + 1000)));
-				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			} else {
 				Point offset = new Point(0, -((i*75)));
-				enemy = new TestEnemy(2, path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
+				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 			enemy.setHel(100);
@@ -111,16 +111,16 @@ public class IceMap extends Map {
 	 * Will likely need some sort of refactoring and thought to make it more
 	 * OOP-y, but this works.
 	 *
-	 */
+	 */	
 	private class AnimateStarter implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-
+			//if()
 			for (Tower t : towerList) { 
-				/* TestEnemy e = (TestEnemy) t.getPrioEnemy(enemyList);
+				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
 				if(e != null && e.getHel() < 1) {
 					enemyList.remove(e);
 				}
@@ -129,35 +129,51 @@ public class IceMap extends Map {
 				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
-					TestEnemy e = (TestEnemy) enemyList.get(0);
-					if(e != null && e.getHel() < 1 && !enemyList.isEmpty()) {
-						enemyList.remove(0);
-						if(!enemyList.isEmpty()) {
-							e = (TestEnemy) enemyList.get(0);
+					Enemy e = t.getPrioEnemy(enemyList);
+					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+						enemyList.remove(e);
+						if(isRunning()) {
+							e = enemyList.get(0);
 						}
 						else {
-							timeline.stop();
-							alert.setTitle("GAME OVER");
-							alert.setHeaderText(null);
-							alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
-							alert.show();
+							endRound();
+							return;
 						}
 					}
-					t.setEnemy(e);
 					if(e != null) {
+						t.setEnemy(e);
 						t.attack();
 						e.setAttacked(true);
 					}
-				}
-				
+				} 
 				t.show(gc);
 			}
+			
 			for (Enemy e : enemyList) {
-				((TestEnemy) e).show(gc);
-				e.setAttacked(false);
+				if(e.getDeathTicker() >= e.deathFrameCount()) {
+					e = enemyList.get(0);
+				}
+				if(e != null) {
+					e.show(gc);
+					e.setAttacked(false);
+				}
+			}
+			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
+			if(!isRunning()) {
+				
+				endRound();
 			}
 		}
 		
+	}
+	
+	
+	public void endRound() {
+		timeline.stop();
+		alert.setTitle("GAME OVER");
+		alert.setHeaderText(null);
+		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+		alert.show();
 	}
 	/**
 	 * Adds a new archerTower onto the screen at position p.
