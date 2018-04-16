@@ -148,7 +148,6 @@ public class TestMap extends Map {
 			}
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
-					enemyList.remove(e);
 					if(isRunning()) {
 						e = (WolfEnemy) enemyList.get(0);
 					}
@@ -161,6 +160,10 @@ public class TestMap extends Map {
 					((WolfEnemy) e).show(gc);
 					e.setAttacked(false);
 				}
+			}
+			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
+			if(!isRunning()) {
+				endRound();
 			}
 		}
 		

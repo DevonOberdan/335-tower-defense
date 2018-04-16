@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class TestEnemy extends Enemy {
 
@@ -55,7 +56,7 @@ public class TestEnemy extends Enemy {
 		gc.drawImage(testing, loc.getX(), loc.getY());
 		checkTurns();
 		move();
-		advanceTick();
+		advanceWalk();
 	}
 	
 	@Override
@@ -72,10 +73,42 @@ public class TestEnemy extends Enemy {
 	}
 
 	@Override
-	public void advanceTick() {
+	public void advanceWalk() {
 		tick++;
 		if (tick == 4)
-			tick=0;
+			tick=0;	
+	}
+
+	@Override
+	public void advanceDeath() {
+		return;
+	}
+
+	@Override
+	public boolean canBeHit() {
+		return false;
+	}
+
+	@Override
+	public int getDeathTicker() {
+		return 0;
+	}
+
+	@Override
+	public int deathFrameCount() {
+		return 0;
+	}
+
+	@Override
+	public void drawHealthBar(GraphicsContext gc) {
+		double currentHealth = (imgWidth*0.6)*healthPerc;
+		
+		gc.setFill(Color.LIME);
+		gc.fillRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), currentHealth, 4);
+
+		gc.setStroke(Color.BLACK);		
+		gc.strokeRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), imgWidth*0.6, 4);
+		
 	}
 	
 }
