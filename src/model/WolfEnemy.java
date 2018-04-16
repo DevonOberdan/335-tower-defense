@@ -25,24 +25,26 @@ public class WolfEnemy extends Enemy {
 	private int stallTick;
 	private int deadTick;	
 	
+	private int previousDir;
+	
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public WolfEnemy(Path path, Point start) {
 		super(2, 160, path, start);
 		
-		wolf       = new Image[2];
-		wolf[0] = new Image("file:images/enemies/wolf/wolf_right.png");
-		wolf[1] = new Image("file:images/enemies/wolf/wolf_left.png");
+		wolf          = new Image[2];
+		wolf[0]       = new Image("file:images/enemies/wolf/wolf_right.png");
+		wolf[1]       = new Image("file:images/enemies/wolf/wolf_left.png");
 		
-		crazy_wolf = new Image[2];
+		crazy_wolf    = new Image[2];
 		crazy_wolf[0] = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
 		crazy_wolf[1] = new Image("file:images/enemies/wolf/crazy_wolf_left.png");
 		
-		angry_wolf = new Image[2];
+		angry_wolf    = new Image[2];
 		angry_wolf[0] = new Image("file:images/enemies/wolf/angry_wolf_right.png");
 		angry_wolf[1] = new Image("file:images/enemies/wolf/angry_wolf_left.png");
 		
-		dead_wolf  = new Image[2];
+		dead_wolf     = new Image[2];
 		dead_wolf[0]  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
 		dead_wolf[1]  = new Image("file:images/enemies/wolf/dead_wolf_left.png");
 
@@ -59,25 +61,40 @@ public class WolfEnemy extends Enemy {
 		this.enraged  = false;
 		this.dead     = false;
 		this.healthPerc = 1.0;
+		
+		this.previousDir = 0;
 	}
  
 	public void show(GraphicsContext gc) {
+		int dir = 0;
+		
+		if((path.getD() || path.getU()) && !path.getL() && !path.getR()) {
+			dir = previousDir;
+		}
+		
+		if(path.getR()) {
+			dir = 0; previousDir = 0;
+		}
+		if(path.getL()) {
+			dir = 1; previousDir = 1;
+		}
+		
 		if (enraged) {
-			img = angry_wolf;
+			img = angry_wolf[dir];
 			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if (stalled) {
-			img = crazy_wolf;
+			img = crazy_wolf[dir];
 			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
 		else if(!dead){
-			img = wolf[0];
+			img = wolf[dir];
 			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if(dead) {
-			img = dead_wolf[0];
+			img = dead_wolf[dir];
 
 			gc.drawImage(img, deadTick*200, 0, 200, 157, loc.getX()-30, loc.getY()-30, 60, 60);
 			
