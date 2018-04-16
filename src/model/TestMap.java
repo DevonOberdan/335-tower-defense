@@ -60,7 +60,7 @@ public class TestMap extends Map {
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
-		enemyList = new LinkedList<>();
+		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 

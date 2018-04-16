@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -22,11 +23,13 @@ public abstract class Enemy{
 
 	protected int health;
 	protected double healthPerc;
+	
+	
 	protected Point loc;
 //	protected int bounty;
 	protected Path path;
 	public int sx, sy, sw, sh, dx, dy, dw, dh;
-	protected Timeline timeline;
+//	protected Timeline timeline;
 	protected double xOffset = 0;
 	protected double yOffset = 0;
 	protected Point turns;
@@ -34,6 +37,8 @@ public abstract class Enemy{
 	protected int speed;
 	protected final Image testing = new Image("file:images/testing.png") ;
 	protected Image img;
+	protected int imgWidth;
+	protected int imgHeight;
 
 	
 	public Enemy(int speed, int health, Path path, Point start) {
@@ -44,21 +49,22 @@ public abstract class Enemy{
 		this.turns = new Point(1,1);		
 	}
 	
-	public void setLoc(Point p)   { loc = p;       }
-	public void setHel(int h)     { health = h;    }
+	public void setLoc(Point p)     { loc = p;       }
+	public void setHel(int h)       { health = h;    }
 	public void setImage(Image img) { this.img = img;}
 	
-	public int getSpeed() {return speed;}
-	public Path getPath() {return path;}
-	public Point getTurns() {return turns;}
-	public Point getLoc()   { return loc; }
-	public int   getHel()   { return health; }
-	public Image getImage() { return img;    }
+	public int   getSpeed()     { return speed;     }
+	public Path  getPath()      { return path;      }
+	public Point getTurns()     { return turns;     }
+	public Point getLoc()       { return loc;       }
+	public int   getHel()       { return health;    }
+	public Image getImage()     { return img;       }
+	public int   getImgWidth()  { return imgWidth;  }
+	public int   getImgHeight() { return imgHeight; }
 	
-	public void showEnemy() {
-		
+	/*public void showEnemy() {
 		 timeline.play();
-	}
+	}*/
 	
 	public abstract void setAttacked(boolean v);
 	
@@ -77,4 +83,5 @@ public abstract class Enemy{
 	public abstract int getDeathTicker();
 	public abstract int deathFrameCount();
 	
+	public abstract void drawHealthBar(GraphicsContext gc);
 }

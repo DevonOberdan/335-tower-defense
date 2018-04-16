@@ -8,6 +8,7 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class WolfEnemy extends Enemy {
@@ -29,14 +30,14 @@ public class WolfEnemy extends Enemy {
 	public WolfEnemy(Path path, Point start) {
 		super(2, 160, path, start);
 		
-		//this.path = super.getPath();
 		wolf = new Image("file:images/enemies/wolf/wolf_right.png");
 		crazy_wolf = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
 		angry_wolf = new Image("file:images/enemies/wolf/angry_wolf_right.png");
 		dead_wolf  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
 		img = wolf;
 		
-		this.timeline = new Timeline();
+		this.imgWidth = 60;
+		this.imgHeight = 60;		
 		
 		this.walkTick  = 0;
 		this.stallTick = 0;
@@ -51,16 +52,16 @@ public class WolfEnemy extends Enemy {
 	public void show(GraphicsContext gc) {
 		if (enraged) {
 			super.setImage(angry_wolf);
-			gc.drawImage(img, walkTick*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
+			gc.drawImage(img, walkTick*imgWidth, 0, imgWidth, 60, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if (stalled) {
 			super.setImage(crazy_wolf);
-			gc.drawImage(crazy_wolf, loc.getX()-30, loc.getY()-30, 60, 60);
+			gc.drawImage(crazy_wolf, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
 		else if(!dead){
 			img = wolf;
-			gc.drawImage(img, walkTick*60, 0, 60, 60, loc.getX()-30, loc.getY()-30, 60, 60);
+			gc.drawImage(img, walkTick*imgWidth, 0, imgWidth, imgHeight, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if(dead) {
@@ -69,11 +70,26 @@ public class WolfEnemy extends Enemy {
 			gc.drawImage(img, deadTick*200, 0, 200, 157, loc.getX()-30, loc.getY()-30, 60, 60);
 			
 			advanceDeath();
+			return;
 		}
-		gc.drawImage(testing, loc.getX(), loc.getY());
-		this.turns = this.path.checkTurns(this.loc);
+		
 		checkStatus();
+		
+		drawHealthBar(gc);
+		this.turns = this.path.checkTurns(this.loc);
 		move();
+	}
+	
+	
+	@Override
+	public void drawHealthBar(GraphicsContext gc) {
+		double currentHealth = (imgWidth*0.6)*healthPerc;
+		
+		gc.setFill(Color.LIME);
+		gc.fillRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), currentHealth, 4);
+
+		gc.setStroke(Color.BLACK);		
+		gc.strokeRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), imgWidth*0.6, 4);
 	}
 	
 	@Override
@@ -113,12 +129,9 @@ public class WolfEnemy extends Enemy {
 	}
 	
 	public void checkStatus() {
-	//	System.out.println(health);
-	//	System.out.println(maxHealth);
 
 		healthPerc = ((double)health / (double)maxHealth );
-	//	System.out.println(healthPerc);
-		
+
 		// stops and becomes crazy
 		if(healthPerc <= 0.25 && !stalled && !enraged && !dead) {
 		     this.speed=0;
@@ -128,13 +141,12 @@ public class WolfEnemy extends Enemy {
 		// in the middle of being stopped
 		else if(stalled) {
 			stallTick++;
-			//System.out.println("STALLTICK: "+ stallTick);
 			if(stallTick >= stallTime) {
 				this.speed = 6;
 				stalled = false;
 				enraged = true;
 				stallTick=0;
-				health *= 2;
+				health = (int) (maxHealth*0.75);
 			}
 		}
 		// is Dead
