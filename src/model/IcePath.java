@@ -1,8 +1,6 @@
-package Ice;
+package model;
 
 import java.awt.Point;
-
-import model.Path;
 
 public class IcePath extends Path {
 

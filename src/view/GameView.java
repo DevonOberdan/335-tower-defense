@@ -4,11 +4,11 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
-import Ice.IceMap;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
+import model.IceMap;
 import model.Map;
 import model.TestMap;
 

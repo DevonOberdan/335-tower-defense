@@ -76,6 +76,7 @@ public abstract class Enemy{
 		return false;
 	}
 	
+	public abstract void show(GraphicsContext gc);
 	public abstract void advanceWalk();
 	public abstract void advanceDeath();
 	public abstract boolean canBeHit();
