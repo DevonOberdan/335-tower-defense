@@ -126,11 +126,11 @@ public class TestMap extends Map {
 				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
-					WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
+					Enemy e = t.getPrioEnemy(enemyList);
 					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
 						enemyList.remove(e);
 						if(isRunning()) {
-							e = (WolfEnemy) enemyList.get(0);
+							e = enemyList.get(0);
 						}
 						else {
 							endRound();
@@ -142,28 +142,22 @@ public class TestMap extends Map {
 						t.attack();
 						e.setAttacked(true);
 					}
-				}
-				
+				} 
 				t.show(gc);
 			}
 			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
-					if(isRunning()) {
-						e = (WolfEnemy) enemyList.get(0);
-					}
-					else {
-						endRound();
-						return;
-					}
+					e = enemyList.get(0);
 				}
 				if(e != null) {
-					((WolfEnemy) e).show(gc);
+					e.show(gc);
 					e.setAttacked(false);
 				}
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
 			if(!isRunning()) {
+				
 				endRound();
 			}
 		}

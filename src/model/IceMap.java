@@ -1,4 +1,4 @@
-package Ice;
+package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -21,12 +21,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-import model.ArcherTower;
-import model.Enemy;
-import model.Map;
-import model.Path;
-import model.TestEnemy;
-import model.Tower;
 import view.WelcomeView;
 /**
  * TestMap exhibits the nature of an actual game that we might
