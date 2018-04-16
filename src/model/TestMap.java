@@ -146,6 +146,7 @@ public class TestMap extends Map {
 				
 				t.show(gc);
 			}
+			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					enemyList.remove(e);

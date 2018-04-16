@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 public class WolfEnemy extends Enemy {
 	private final static int maxHealth = 160;
-	private final Image wolf, crazy_wolf, angry_wolf, dead_wolf;
+	private final Image[] wolf, crazy_wolf, angry_wolf, dead_wolf;
 	private boolean attacked;
 	private boolean enraged;
 	private boolean stalled;
@@ -30,11 +30,23 @@ public class WolfEnemy extends Enemy {
 	public WolfEnemy(Path path, Point start) {
 		super(2, 160, path, start);
 		
-		wolf = new Image("file:images/enemies/wolf/wolf_right.png");
-		crazy_wolf = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
-		angry_wolf = new Image("file:images/enemies/wolf/angry_wolf_right.png");
-		dead_wolf  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
-		img = wolf;
+		wolf       = new Image[2];
+		wolf[0] = new Image("file:images/enemies/wolf/wolf_right.png");
+		wolf[1] = new Image("file:images/enemies/wolf/wolf_left.png");
+		
+		crazy_wolf = new Image[2];
+		crazy_wolf[0] = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
+		crazy_wolf[1] = new Image("file:images/enemies/wolf/crazy_wolf_left.png");
+		
+		angry_wolf = new Image[2];
+		angry_wolf[0] = new Image("file:images/enemies/wolf/angry_wolf_right.png");
+		angry_wolf[1] = new Image("file:images/enemies/wolf/angry_wolf_left.png");
+		
+		dead_wolf  = new Image[2];
+		dead_wolf[0]  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
+		dead_wolf[1]  = new Image("file:images/enemies/wolf/dead_wolf_left.png");
+
+		img = wolf[0];
 		
 		this.imgWidth = 60;
 		this.imgHeight = 60;		
@@ -51,21 +63,21 @@ public class WolfEnemy extends Enemy {
  
 	public void show(GraphicsContext gc) {
 		if (enraged) {
-			super.setImage(angry_wolf);
-			gc.drawImage(img, walkTick*imgWidth, 0, imgWidth, 60, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			super.setImage(angry_wolf[0]);
+			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if (stalled) {
-			super.setImage(crazy_wolf);
-			gc.drawImage(crazy_wolf, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			super.setImage(crazy_wolf[0]);
+			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
 		else if(!dead){
-			img = wolf;
-			gc.drawImage(img, walkTick*imgWidth, 0, imgWidth, imgHeight, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			img = wolf[0];
+			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if(dead) {
-			img = dead_wolf;
+			img = dead_wolf[0];
 
 			gc.drawImage(img, deadTick*200, 0, 200, 157, loc.getX()-30, loc.getY()-30, 60, 60);
 			
