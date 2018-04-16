@@ -23,7 +23,8 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 3, 200, 1, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 3, 200, 5, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super.setTowerType(ETower.archer);
 	}
 
 	@Override
@@ -48,15 +49,27 @@ public class ArcherTower extends Tower {
 
 		return priority;
 	}
+	
 	@Override
-	public boolean AttackEnemy() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean attack() {
+		if (this.getCurrentEnemy() == null)
+			return false;
+		
+		this.getCurrentEnemy().setAttacked(true);
+		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
+		this.setEnemy(null);
+		return true;
 	}
 
 	@Override
 	public boolean levelUp() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Enemy> getPrioEnemies(List<Enemy> enemyList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

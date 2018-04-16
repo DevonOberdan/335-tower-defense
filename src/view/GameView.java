@@ -7,6 +7,7 @@ import java.util.Observer;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import model.IceMap;
 import model.Map;
@@ -23,7 +24,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		this.map = new TestMap(gc);
-		this.map.spawnEnemies(5);
+		this.map.spawnEnemies(50);
 		this.ptr = 0;
 
 		//showIntroCutscene();
@@ -82,8 +83,13 @@ public class GameView extends BorderPane implements Observer{
 					break;
 			}
 			if(map != null) {
+				if(e.getButton() == MouseButton.SECONDARY) {
+					System.out.println(e.getX()+"  "+e.getY());
+					((TestMap) map).addMultiTower(new Point((int)e.getX(), (int)e.getY()));
+				} else {
 				System.out.println(e.getX()+"  "+e.getY());
 				map.addTower(new Point((int)e.getX(), (int)e.getY()));
+				}
 			}
 		});
 	}

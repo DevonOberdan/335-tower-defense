@@ -22,12 +22,13 @@ public abstract class Tower {
 	private int      xp;
 	private int      currentLevel;
 	private int		 fireRate;
-	private int 	     cost;
+	private int 	 cost;
 	private ETower   towerType;
 	private Image  	 image;
 	private Image    projectile;
 	private Media    soundEffect;
 	private Point 	 TowerLocation;
+	private List<Enemy> ens;
 	private Enemy enemy;
 	
 	private final Image testing = new Image("file:images/testing.png") ;
@@ -43,12 +44,13 @@ public abstract class Tower {
 		this.soundEffect = soundeff;
 		this.TowerLocation = location;
 		this.enemy = null;
+		ens = new ArrayList<>();
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
 	 * @return
 	 */
-	public abstract boolean AttackEnemy();
+	public abstract boolean attack();
 	
 	/**
 	 * Levels up this specific tower. Different for other tower types.
@@ -72,10 +74,16 @@ public abstract class Tower {
 	public Media  getSoundEffect()       { return soundEffect;  }
 	public Point  getLocation()          { return TowerLocation;}
 	public Enemy getCurrentEnemy()    { return enemy;   }
+	public List<Enemy> getEnemyList() { return ens; }
+	public void setDamage(int num)		 { this.damage = num; 	}
+	public void setRange(int num)		 { this.radius = num;	}
+	public void setSoundEffect(Media sound) { this.soundEffect = sound; }
+	
 	public boolean setTowerType(ETower type) {
 		this.towerType = type;
 		return true;
 	}
+	
 	
 	/**
 	 * Sets this tower's image to image.
@@ -96,17 +104,6 @@ public abstract class Tower {
 		return true;
 	}
 	
-	
-/*	public int damageTaken(Enemy enemy) {
-		Point enLoc = enemy.getLocation();
-		int dist = Math.abs((int) Math.sqrt(Math.pow(enLoc.getX() - this.TowerLocation.getX(), 2) + Math.pow((enLoc.getY() - this.TowerLocation.getY()), 2)));
-		if (dist < this.radius) {
-			return damage;
-		}
-		return 0;
-	}
-	*/
-	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest
 	 * down the path) for this turret and returns that enemy for the 
@@ -114,6 +111,7 @@ public abstract class Tower {
 	 * @return priority enemy
 	 */
 	public abstract Enemy getPrioEnemy(List<Enemy> enemyList);
+	public abstract List<Enemy> getPrioEnemies(List<Enemy> enemyList);
 	
 	/**
 	 * Draws this tower on the board at this position.
@@ -132,17 +130,6 @@ public abstract class Tower {
 	 */
 	public void setEnemy (Enemy e) {
 		enemy = e;
-	}
-	/**
-	 * Attacks the current enemy target.
-	 */
-	public void attack() {
-		if (enemy == null)
-			return;
-		
-		enemy.setAttacked(true);
-		enemy.setHel(enemy.getHel()-damage);
-		enemy = null;
 	}
 	
 }

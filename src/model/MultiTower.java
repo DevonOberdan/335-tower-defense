@@ -1,6 +1,7 @@
 package model;
 import java.awt.Point;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.image.Image;
@@ -13,45 +14,68 @@ public class MultiTower extends Tower{
 	 * 
 	 * Has 4 different upgrades.
 	 * Damage: 50
-	 * Health: it needs health.
+	 * Range: 200
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 1, 200, 2, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 1, 100, 2, new Image("file:images/archer.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super.setTowerType(ETower.area);
 	}
 
 	@Override
-	public Enemy getPrioEnemy(List<Enemy> enemyList)
+	public List<Enemy> getPrioEnemies(List<Enemy> enemyList)
 	{
-		Enemy priority = null;
+		List<Enemy> prios = this.getEnemyList();
+		prios.clear();
 		if(enemyList.isEmpty()) {
 			return null;
 		}
-		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.getLocation().getX(), 2)
-				            + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.getLocation().getY()), 2));
-		if(closest < this.getRange() && enemyList.get(enemyList.size()-1).canBeHit())
-			priority = enemyList.get(enemyList.size()-1);
 		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
-			if (dist < this.getRange() && dist < closest && en.canBeHit()) {
-				priority = en;
-				closest = dist;
+			if (dist < this.getRange() && en.canBeHit()) {
+				prios.add(en);
 			}
 		}
 
-		return priority;
+		return prios;
 	}
 	@Override
-	public boolean AttackEnemy() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean attack() {
+		List<Enemy> ens = this.getEnemyList();
+		if(ens.isEmpty())
+			return false;
+		for (Enemy en : ens) {
+			en.setAttacked(true);
+			en.setHel(en.getHel()-this.getDamage());
+		}
+		return true;
 	}
 
 	@Override
 	public boolean levelUp() {
-		// TODO Auto-generated method stub
+		switch(this.getLevel()) {
+		case 1:
+			this.setImage(new Image("file:images/"));
+			break;
+		case 2:
+			this.setImage(new Image("file:images/"));
+			break;
+		case 3:
+			this.setImage(new Image("file:images/"));
+			break;
+		default:
+			//NO LEVEL FOR U
+		}
+		this.setDamage((int)(this.getDamage() * 0.65));
+		this.setRange((int)(this.getRange() * 1.5));
+		this.increaseLevel();
 		return false;
+	}
+
+	@Override
+	public Enemy getPrioEnemy(List<Enemy> enemyList) {
+		return null;
 	}
 }
 

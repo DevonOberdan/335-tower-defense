@@ -88,18 +88,18 @@ public class TestMap extends Map {
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
-			if( i >= 5 ) { //Trying to introduce 'waves'
-				Point offset = new Point(((i*75 + 1000)), 0);
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-				enemyList.add(enemy);
-			} else {
+			//if( i >= 5 ) { //Trying to introduce 'waves'
+			//	Point offset = new Point(((i*75 + 1000)), 0);
+			//	enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			//	enemyList.add(enemy);
+			//} else {
 				Point offset = new Point(((i*75)), 0);
 				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 		}
-		System.out.printf("%d enemies have been spawned.\n", enemyCount);
-	}
+		//System.out.printf("%d enemies have been spawned.\n", enemyCount);
+	//}
 	/**
 	 * Private handler for timeline that will target an enemy for each tower, and
 	 * animate each object that we have placed on the map. THis is where
@@ -115,10 +115,26 @@ public class TestMap extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			//if()
 			for (Tower t : towerList) { 
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
+					if(t.getTowerType() == ETower.area) {
+						List<Enemy> es = t.getPrioEnemies(enemyList);
+						for(Enemy e : es) {
+							t.setEnemy(e);
+							if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+								enemyList.remove(e);
+								if(!isRunning()) {
+									endRound();
+									return;
+								}
+							}
+							if(e != null) {
+								t.attack();
+								e.setAttacked(true);
+							}
+						}
+					} else {
 					Enemy e = t.getPrioEnemy(enemyList);
 					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
 						enemyList.remove(e);
@@ -136,6 +152,7 @@ public class TestMap extends Map {
 						e.setAttacked(true);
 					}
 				} 
+				}
 				t.show(gc);
 			}
 			
@@ -165,15 +182,19 @@ public class TestMap extends Map {
 	}
 	
 	
-	
-	/**
+	/**********************************************************************
+	DEBUGGING TOWER ADD FUNCTIONS
 	 * Adds a new archerTower onto the screen at position p.
 	 */
+	public void addMultiTower(Point p) {
+		System.out.println("Tower added @"+p);
+		towerList.add(new MultiTower(p));
+	}
 	public void addTower(Point p) {
 		System.out.println("Tower added @"+p);
-		towerList.add(new ArcherTower(p));
+		towerList.add(new MultiTower(p));
 	}
-	
+	/**********************************************************************/
 	/**
 	 * Plays the timeline, and ultimately plays the game!
 	 */
