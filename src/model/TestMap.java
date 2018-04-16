@@ -117,13 +117,6 @@ public class TestMap extends Map {
 			gc.drawImage(background, 0, 0);
 			//if()
 			for (Tower t : towerList) { 
-				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
-				if(e != null && e.getHel() < 1) {
-					enemyList.remove(e);
-				}
-				t.setEnemy(e);
-				t.attack();
-				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
 					Enemy e = t.getPrioEnemy(enemyList);
@@ -156,8 +149,7 @@ public class TestMap extends Map {
 				}
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
-			if(!isRunning()) {
-				
+			if(!isRunning()) { 
 				endRound();
 			}
 		}

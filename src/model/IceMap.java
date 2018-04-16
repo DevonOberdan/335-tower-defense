@@ -118,15 +118,8 @@ public class IceMap extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			//if()
+			
 			for (Tower t : towerList) { 
-				/* WolfEnemy e = (WolfEnemy) t.getPrioEnemy(enemyList);
-				if(e != null && e.getHel() < 1) {
-					enemyList.remove(e);
-				}
-				t.setEnemy(e);
-				t.attack();
-				*/
 				if(!enemyList.isEmpty()) {
 					t.setEnemy(null);
 					Enemy e = t.getPrioEnemy(enemyList);
