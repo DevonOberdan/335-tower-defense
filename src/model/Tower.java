@@ -31,7 +31,7 @@ public abstract class Tower {
 	private List<Enemy> ens;
 	private Enemy enemy;
 	
-	private final Image testing = new Image("file:images/testing.png") ;
+	protected final Image testing = new Image("file:images/testing.png") ;
 	
 	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff, Point location) {
 		this.towerName = name;
@@ -117,13 +117,7 @@ public abstract class Tower {
 	 * Draws this tower on the board at this position.
 	 * @param gc
 	 */
-	public void show(GraphicsContext gc) {
-		//actual tower image
-		gc.drawImage(image, 0, 0, 60, 80, TowerLocation.getX()-30, TowerLocation.getY()-40, 60, 80);
-		//actual tower location green box
-		gc.drawImage(testing, TowerLocation.getX(), TowerLocation.getY());
-		
-	}
+	public abstract void show(GraphicsContext gc); 
 	/**
 	 * Sets this tower's enemy target to e.
 	 * @param e

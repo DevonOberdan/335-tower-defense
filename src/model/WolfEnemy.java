@@ -48,7 +48,7 @@ public class WolfEnemy extends Enemy {
 		dead_wolf[0]  = new Image("file:images/enemies/wolf/dead_wolf_right.png");
 		dead_wolf[1]  = new Image("file:images/enemies/wolf/dead_wolf_left.png");
 
-		img = wolf[0];
+		img = wolf[0];  
 		
 		this.imgWidth = 60;
 		this.imgHeight = 60;		

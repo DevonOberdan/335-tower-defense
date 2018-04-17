@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 public class MultiTower extends Tower{
@@ -18,7 +19,7 @@ public class MultiTower extends Tower{
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 1, 100, 2, new Image("file:images/archer.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 1, 100, 2, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.area);
 	}
 
@@ -54,25 +55,31 @@ public class MultiTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
+		this.setDamage((int)(this.getDamage() * 0.65));
+		this.setRange((int)(this.getRange() * 1.5));
+		this.increaseLevel();
 		switch(this.getLevel()) {
-		case 1:
-			this.setImage(new Image("file:images/"));
-			break;
 		case 2:
-			this.setImage(new Image("file:images/"));
+			this.setImage(new Image("file:images/MultiTower2.png"));
 			break;
 		case 3:
-			this.setImage(new Image("file:images/"));
+			this.setImage(new Image("file:images/MultiTower3.png"));
 			break;
 		default:
 			//NO LEVEL FOR U
 		}
-		this.setDamage((int)(this.getDamage() * 0.65));
-		this.setRange((int)(this.getRange() * 1.5));
-		this.increaseLevel();
 		return false;
 	}
 
+	public void show(GraphicsContext gc)
+	{
+		//actual tower image
+		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 125, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		//actual tower location green box
+		gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
+		
+	}
+	
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {
 		return null;

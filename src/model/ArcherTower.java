@@ -1,9 +1,11 @@
 package model;
 
+import java.awt.GraphicsConfigTemplate;
 import java.awt.Point;
 import java.io.File;
 import java.util.List;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -71,5 +73,14 @@ public class ArcherTower extends Tower {
 	public List<Enemy> getPrioEnemies(List<Enemy> enemyList) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void show(GraphicsContext gc)
+	{
+		//actual tower image
+		gc.drawImage(this.getCurrentImage(), 0, 0, 60, 80, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		//actual tower location green box
+		gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
+		
 	}
 }
