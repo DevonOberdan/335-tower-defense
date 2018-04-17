@@ -12,7 +12,7 @@ import model.Map;
 import model.TestMap;
 
 public class WelcomeView extends BorderPane implements Observer{
-	private Observer gameView, instructionView, currentView, mapSelector;
+	private Observer gameView, instructionView, currentView;
 	
 	public WelcomeView() {
 		GridPane grid = new GridPane();
