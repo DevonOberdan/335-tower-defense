@@ -74,7 +74,7 @@ public class MultiTower extends Tower{
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 125, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 150, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 		//actual tower location green box
 		gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
 		
