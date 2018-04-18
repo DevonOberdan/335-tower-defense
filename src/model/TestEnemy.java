@@ -20,7 +20,7 @@ public class TestEnemy extends Enemy {
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public TestEnemy(int speed, Path path, Point start) {
-		super(speed, speed, path, start);
+		super(speed, speed, path, start, 10);
 		loc =  start;
 		
 		this.path = super.getPath();

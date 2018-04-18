@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class WolfEnemy extends Enemy {
+	private final static int damage = 10;
 	private final static int maxHealth = 160;
 	private final Image[] wolf, crazy_wolf, angry_wolf, dead_wolf;
 	private boolean attacked;
@@ -30,7 +31,7 @@ public class WolfEnemy extends Enemy {
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public WolfEnemy(Path path, Point start) {
-		super(2, 160, path, start);
+		super(2, 160, path, start, damage);
 		
 		wolf          = new Image[2];
 		wolf[0]       = new Image("file:images/enemies/wolf/wolf_right.png");
@@ -79,12 +80,12 @@ public class WolfEnemy extends Enemy {
 			dir = 1; previousDir = 1;
 		}
 		
-		if (enraged) {
+		if (!dead && enraged) {
 			img = angry_wolf[dir];
 			gc.drawImage(img, walkTick*174, 0, 174, 174, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
-		else if (stalled) {
+		else if (!dead && stalled) {
 			img = crazy_wolf[dir];
 			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
@@ -185,5 +186,10 @@ public class WolfEnemy extends Enemy {
 			speed = 0;
 		}
 	}
-	
+	public void setDead() {
+		dead = true;
+	}
+	public boolean getDead() {
+		return dead;
+	}
 }

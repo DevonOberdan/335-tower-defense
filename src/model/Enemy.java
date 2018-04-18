@@ -39,13 +39,15 @@ public abstract class Enemy{
 	protected Image img;
 	protected int imgWidth;
 	protected int imgHeight;
+	protected int damage;
 	
-	public Enemy(int speed, int health, Path path, Point start) {
+	public Enemy(int speed, int health, Path path, Point start, int damage) {
 		this.loc = start;
 		this.speed = speed;
 		this.path = path;
 		this.health = health;
-		this.turns = new Point(1,1);		
+		this.turns = new Point(1,1);	
+		this.damage = damage;
 	}
 	
 	public void setLoc(Point p)     { loc = p;       }
@@ -73,6 +75,13 @@ public abstract class Enemy{
 		if (dist <= t.getRange())
 			return true;
 		
+		return false;
+	}
+	public boolean attackPlayer(Player p) {
+		if (loc.getX()>500) {
+			p.updteHealth(this.damage);
+			return true;
+		}
 		return false;
 	}
 	

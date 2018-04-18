@@ -47,6 +47,7 @@ public class TestMap extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
+	private final Image gameOver = new Image("file:images/game_over.png");
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -162,8 +163,11 @@ public class TestMap extends Map {
 					e = enemyList.get(0);
 				}
 				if(e != null) {
+					checkGameOver(player);
 					e.show(gc);
 					e.setAttacked(false);
+					if (!((WolfEnemy) e).getDead() && e.attackPlayer(player))
+						((WolfEnemy) e).setDead();
 				}
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
@@ -190,11 +194,26 @@ public class TestMap extends Map {
 	 */
 	public void addMultiTower(Point p) {
 		System.out.println("Tower added @"+p);
-		towerList.add(new MultiTower(p));
+		Tower t = new MultiTower(p);
+		
+		if (t.getCost()<=player.getGold()) {
+			player.updateGold(-t.getCost());
+			towerList.add(t);
+		}
+		else {
+			System.out.println("You're broke");
+		}
 	}
 	public void addTower(Point p) {
 		System.out.println("Tower added @"+p);
-		towerList.add(new MultiTower(p));
+		Tower t = new MultiTower(p);
+		if (t.getCost()<=player.getGold()) {
+			player.updateGold(-t.getCost());
+			towerList.add(t);
+		}
+		else {
+			System.out.println("You're broke");
+		}
 	}
 	/**********************************************************************/
 	/**
@@ -258,5 +277,14 @@ public class TestMap extends Map {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean checkGameOver(Player p) {
+		if (p.getHealth()<1) {
+			timeline.stop();
+			gc.drawImage(gameOver, 0, 0);
+			return true;
+		}
+		return false;
 	}
 }
