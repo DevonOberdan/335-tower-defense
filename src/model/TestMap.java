@@ -209,9 +209,9 @@ public class TestMap extends Map {
 			System.out.println("You're broke");
 		}
 	}
-	public void addTower(Point p) {
+	public void addTower(Tower t, Point p) {
 		System.out.println("Tower added @"+p);
-		Tower t = new MultiTower(p);
+		t = new MultiTower(p);
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
 			towerList.add(t);

@@ -74,7 +74,7 @@ public abstract class Map extends BorderPane implements Observer{
 	 * Adds a tower to this map at location p.
 	 * @param p
 	 */
-	public abstract void addTower(Point p);
+	public abstract void addTower(Tower t, Point p);
 	
 	/**
 	 * Shows this map.

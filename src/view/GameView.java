@@ -95,8 +95,8 @@ public class GameView extends BorderPane implements Observer{
 					System.out.println(e.getX()+"  "+e.getY());
 					((TestMap) map).addMultiTower(new Point((int)e.getX(), (int)e.getY()));
 				} else {
-				System.out.println(e.getX()+"  "+e.getY());
-				map.addTower(new Point((int)e.getX(), (int)e.getY()));
+					System.out.println(e.getX()+"  "+e.getY());
+					map.addTower(null, new Point((int)e.getX(), (int)e.getY()));
 				}
 			}
 		});
