@@ -15,6 +15,7 @@ import model.IceMap;
 import model.Map;
 import model.Player;
 import model.TestMap;
+import model.Tower;
 
 public class GameView extends BorderPane implements Observer{
 
@@ -28,21 +29,26 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		player.setOnMouseClicked(e -> {
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText(null);
-			a.setContentText("yay!");
-			a.show();
-		});
-		pane.setRight(player);
 		this.map = new TestMap(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0;
+		/*
+		 * Where we define what happens when we click a tower and drag it. This
+		 * is going to be really disgusting and messy. I hate this. 
+		 */
+		this.setOnMouseDragged(e -> {
+			
+		});
+		
+		/*
+		 * Makes it easier to transition. 
+		 */
 
 		//showIntroCutscene();
 		
 		pane.setCenter(canvas);
 		this.setCenter(pane);
+		
 		this.setOnMouseClicked(e ->{
 			if(this.player.isDead()) {
 				this.setCenter(null);
@@ -53,7 +59,9 @@ public class GameView extends BorderPane implements Observer{
 				this.setCenter((Node)(Observer) new WelcomeView());
 				return;
 			}
-			switch(ptr) {
+			
+			if(this.map != null && !this.map.isRunning()) {
+				switch(ptr) {
 				case 0:
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
@@ -101,17 +109,26 @@ public class GameView extends BorderPane implements Observer{
 						this.setCenter((Node)(Observer) new WelcomeView());
 					}
 					break;
+				}
 			}
 			
-			if(map != null) {
-				
-				
-				if(e.getButton() == MouseButton.SECONDARY) {
+			if(map != null && map.isRunning()) {
+				if(e.getButton() == MouseButton.PRIMARY) {
+					int x = (int) e.getX();
+					int y = (int) e.getY();
+					for(Tower t : player.getTowers()) {
+						if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
+								|| y < t.getLocation().getY()-10 || y > t.getLocation().getY()+10) {
+							
+							t.setSelected(false);
+							
+						} else { //must be in bounds
+							t.setSelected(true);
+						}
+					}
+				} else if(e.getButton() == MouseButton.SECONDARY) {
 					System.out.println(e.getX()+"  "+e.getY());
 					((TestMap) map).addMultiTower(new Point((int)e.getX(), (int)e.getY()));
-				} else {
-					System.out.println(e.getX()+"  "+e.getY());
-					map.addTower(null, new Point((int)e.getX(), (int)e.getY()));
 				}
 			}
 		});

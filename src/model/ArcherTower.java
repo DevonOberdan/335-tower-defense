@@ -82,6 +82,7 @@ public class ArcherTower extends Tower {
 		//actual tower image
 		gc.drawImage(this.getCurrentImage(), 0, 0, 60, 80, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 		//actual tower location green box
+		gc.setGlobalAlpha(0.2);
 		gc.setFill(Color.GHOSTWHITE);
 		gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
 		gc.setGlobalAlpha(1.0);

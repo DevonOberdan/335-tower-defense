@@ -147,7 +147,7 @@ public class TestMap extends Map {
 	
 	
 	public void updateAndReassignTowers() {
-		for (Tower t : towerList) { 
+		for (Tower t : player.getTowers()) { 
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
 				if(t.getTowerType() == ETower.area) {
@@ -199,7 +199,7 @@ public class TestMap extends Map {
 		
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
-			towerList.add(t);
+			player.addTower(t);
 		}
 		else {
 			System.out.println("You're broke");
@@ -210,7 +210,7 @@ public class TestMap extends Map {
 		t = new MultiTower(p);
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
-			towerList.add(t);
+			player.addTower(t);
 		}
 		else {
 			System.out.println("You're broke");

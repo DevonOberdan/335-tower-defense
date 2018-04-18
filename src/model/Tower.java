@@ -11,13 +11,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
+import javafx.scene.shape.Shape;
 
 /**
  * 
  * @author Taite Nazifi
  *
  */
-public abstract class Tower extends BorderPane {
+public abstract class Tower {
 	
 	private String   towerName;
 	private int      radius; //range
@@ -31,6 +32,7 @@ public abstract class Tower extends BorderPane {
 	private Image    projectile;
 	private Media    soundEffect;
 	private Point 	 TowerLocation;
+	private boolean isSelected;
 	private List<Enemy> ens;
 	private Enemy enemy;
 	
@@ -47,17 +49,8 @@ public abstract class Tower extends BorderPane {
 		this.soundEffect = soundeff;
 		this.TowerLocation = location;
 		this.enemy = null;
+		this.isSelected = false;
 		ens = new ArrayList<>();
-		this.setHeight(30);
-		this.setWidth(30);
-		this.setOnMouseMoved(e -> {
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setTitle("hi");
-			a.setHeaderText(null);
-			a.setContentText("u r doin work boi");
-			a.show();
-		});
-		this.setVisible(true);
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -81,11 +74,14 @@ public abstract class Tower extends BorderPane {
 	public int    getLevel()             { return currentLevel; }
 	public int    getCost()              { return (int) (cost * (currentLevel * 1.5)); }
 	public ETower getTowerType()		 { return this.towerType; }
-	
+	public int getX()					 { return (int)this.TowerLocation.getX(); }
+	public int getY()					 { return (int)this.TowerLocation.getY(); }
 	public Image  getCurrentImage()      { return image;        }
 	public Image  getCurrentProjectile() { return projectile;   }
 	public Media  getSoundEffect()       { return soundEffect;  }
 	public Point  getLocation()          { return TowerLocation;}
+	public void setSelected(boolean b) {this.isSelected = b; }
+	public boolean getSelected() 		{return this.isSelected; }
 	public Enemy getCurrentEnemy()    { return enemy;   }
 	public List<Enemy> getEnemyList() { return ens; }
 	public void setDamage(int num)		 { this.damage = num; 	}
@@ -116,6 +112,8 @@ public abstract class Tower extends BorderPane {
 		this.currentLevel++;
 		return true;
 	}
+	
+	
 	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest

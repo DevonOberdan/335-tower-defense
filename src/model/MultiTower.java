@@ -56,7 +56,9 @@ public class MultiTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		this.setDamage((int)(this.getDamage() * 0.65));
+		if(this.getLevel() == 3)
+			return false;
+		this.setDamage((int)(this.getDamage() * 1.5));
 		this.setRange((int)(this.getRange() * 1.5));
 		this.increaseLevel();
 		switch(this.getLevel()) {
@@ -76,11 +78,17 @@ public class MultiTower extends Tower{
 	{
 		//actual tower image
 		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 150, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
-		gc.setGlobalAlpha(0.1);
-		gc.setFill(Color.GHOSTWHITE);
-		gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
-		gc.setGlobalAlpha(1.0);
-		gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
+		if(this.getSelected()) {
+			gc.setGlobalAlpha(0.1);
+			gc.setFill(Color.GHOSTWHITE);
+			gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
+			gc.setGlobalAlpha(1.0);
+			if(this.getLevel() != 3)
+			{	this.levelUp();
+				this.setSelected(false);
+			}
+		}
+		//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
 		
 	}
 	
