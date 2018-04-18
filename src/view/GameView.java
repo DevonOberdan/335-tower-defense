@@ -11,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import model.IceMap;
 import model.Map;
+import model.Player;
 import model.TestMap;
 
 public class GameView extends BorderPane implements Observer{
@@ -24,6 +25,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		this.map = new TestMap(gc);
+		new Player(gc,100,500);
 		this.map.spawnEnemies(50);
 		this.ptr = 0;
 
