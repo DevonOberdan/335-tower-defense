@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Queue;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 
 /**
@@ -14,7 +17,7 @@ import javafx.scene.media.Media;
  * @author Taite Nazifi
  *
  */
-public abstract class Tower {
+public abstract class Tower extends BorderPane {
 	
 	private String   towerName;
 	private int      radius; //range
@@ -45,6 +48,16 @@ public abstract class Tower {
 		this.TowerLocation = location;
 		this.enemy = null;
 		ens = new ArrayList<>();
+		this.setHeight(30);
+		this.setWidth(30);
+		this.setOnMouseMoved(e -> {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setTitle("hi");
+			a.setHeaderText(null);
+			a.setContentText("u r doin work boi");
+			a.show();
+		});
+		this.setVisible(true);
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -66,7 +79,7 @@ public abstract class Tower {
 	public int    getDamage()            { return damage;       }
 	public int    getXP()                { return xp;           }
 	public int    getLevel()             { return currentLevel; }
-	public int    getCost()              { return (int) (cost * (currentLevel * 0.85)); }
+	public int    getCost()              { return (int) (cost * (currentLevel * 1.5)); }
 	public ETower getTowerType()		 { return this.towerType; }
 	
 	public Image  getCurrentImage()      { return image;        }

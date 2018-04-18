@@ -47,7 +47,6 @@ public class TestMap extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
-	private final Image gameOver = new Image("file:images/game_over.png");
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -57,11 +56,11 @@ public class TestMap extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public TestMap(GraphicsContext gc) {
+	public TestMap(Player p, GraphicsContext gc) {
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
- 		player = new Player(this.gc, 100, 500);
+ 		player = p;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
@@ -70,9 +69,6 @@ public class TestMap extends Map {
 		 start = new Point(-30, 47);
 		 this.path = new TestPath();
 		 alert = new Alert(AlertType.INFORMATION);
-		 alert.setOnCloseRequest(e -> {
-		//	 clickAnywhereToContinue();
-		 });
 	}
 	
 	/**
@@ -127,12 +123,12 @@ public class TestMap extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!((WolfEnemy) e).getDead() && e.attackPlayer(player))
-						((WolfEnemy) e).setDead();
+					if (!e.getDead() && e.attackPlayer(player))
+						e.setDead();
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
+			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
 			if(!isRunning()) { 
 				endRound();
 			}
@@ -272,18 +268,7 @@ public class TestMap extends Map {
 	public List<Tower> getTowerList() {
 		return towerList;
 	}
-	
-	public void clickAnywhereToContinue() {
-		TextArea text = new TextArea("Click anywhere to continue");
-		this.setTop(text);
-	}
-
 	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public boolean checkGameOver(Player p) {
 		if (p.getHealth()<1) {
 			timeline.stop();

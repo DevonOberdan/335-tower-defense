@@ -6,8 +6,9 @@ import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 
-public class Player {
+public class Player extends BorderPane {
 
 	private int health;
 	private int gold;
@@ -47,8 +48,9 @@ public class Player {
 	 * 
 	 * @param amt
 	 */
-	public void deposit(int amt) {
+	public boolean deposit(int amt) {
 		this.gold += amt;
+		return true;
 	}
 	
 	/**

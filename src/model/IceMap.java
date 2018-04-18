@@ -49,6 +49,8 @@ public class IceMap extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
+	private Player player;
+	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -57,22 +59,20 @@ public class IceMap extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY FRUITY CREATIVENESS
 	 */
-	public IceMap(GraphicsContext gc) {
+	public IceMap(Player p, GraphicsContext gc) {
 		super();
 		background = new Image("file:images/maps/map_5.png");
 		menuBar = new Image("file:images/menu.jpg");
 		this.gc = gc;
 		enemyList = new LinkedList<>();
 		towerList = new ArrayList<>();
+		this.player = p;
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point (375, 500);
 		 path = new IcePath();
 		 alert = new Alert(AlertType.INFORMATION);
-		 alert.setOnCloseRequest(e -> {
-			 clickAnywhereToContinue();
-		 });
 	}
 	
 	/**
@@ -119,28 +119,7 @@ public class IceMap extends Map {
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
 			
-			for (Tower t : towerList) { 
-				if(!enemyList.isEmpty()) {
-					t.setEnemy(null);
-					Enemy e = t.getPrioEnemy(enemyList);
-					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-						enemyList.remove(e);
-						if(isRunning()) {
-							e = enemyList.get(0);
-						}
-						else {
-							endRound();
-							return;
-						}
-					}
-					if(e != null) {
-						t.setEnemy(e);
-						t.attack();
-						e.setAttacked(true);
-					}
-				} 
-				t.show(gc);
-			}
+			updateAndReassignTowers();
 			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
@@ -149,9 +128,12 @@ public class IceMap extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
+					if (!e.getDead() && e.attackPlayer(player))
+						e.setDead();
 				}
+				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
+			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
 			if(!isRunning()) {
 				
 				endRound();
@@ -176,6 +158,33 @@ public class IceMap extends Map {
 		towerList.add(new ArcherTower(p));
 	}
 	
+	/**
+	 * updates towers' targets and redraws them on the map
+	 */
+	public void updateAndReassignTowers() {
+		for (Tower t : towerList) { 
+			if(!enemyList.isEmpty()) {
+				t.setEnemy(null);
+				Enemy e = t.getPrioEnemy(enemyList);
+				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+					enemyList.remove(e);
+					if(isRunning()) {
+						e = enemyList.get(0);
+					}
+					else {
+						endRound();
+						return;
+					}
+				}
+				if(e != null) {
+					t.setEnemy(e);
+					t.attack();
+					e.setAttacked(true);
+				}
+			} 
+			t.show(gc);
+		}
+	}
 
 	/**
 	 * Plays the timeline, and ultimately plays the game!
@@ -217,21 +226,19 @@ public class IceMap extends Map {
 	public Path getPath() {
 		return path;
 	}
-
-	public void clickAnywhereToContinue() {
-		TextArea text = new TextArea("Click anywhere to continue");
-		this.setTop(text);
-	}
 	
-	@Override
-	public void update(java.util.Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public Player getPlayer() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public boolean checkGameOver(Player p) {
+		if (p.getHealth()<1) {
+			timeline.stop();
+			gc.drawImage(gameOver, 0, 0);
+			return true;
+		}
+		return false;
 	}
 }

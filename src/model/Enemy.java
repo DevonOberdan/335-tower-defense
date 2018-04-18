@@ -32,28 +32,38 @@ public abstract class Enemy{
 //	protected Timeline timeline;
 	protected double xOffset = 0;
 	protected double yOffset = 0;
-	protected Point turns;
+	private Point turns;
 	protected boolean attacked;	 
-	protected int speed;
+	private int speed;
 	protected final Image testing = new Image("file:images/testing.png") ;
-	protected Image img;
-	protected int imgWidth;
-	protected int imgHeight;
-	protected int damage;
+	private Image img;
+	private int imgWidth;
+	private int imgHeight;
+	private int damage;
+	private int reward;
+	protected boolean dead;
 	
-	public Enemy(int speed, int health, Path path, Point start, int damage) {
+	public Enemy(int speed, int health, Path path, Point start, int damage, int reward) {
 		this.loc = start;
 		this.speed = speed;
 		this.path = path;
 		this.health = health;
 		this.turns = new Point(1,1);	
 		this.damage = damage;
+		this.reward = reward;
 	}
 	
 	public void setLoc(Point p)     { loc = p;       }
 	public void setHel(int h)       { health = h;    }
 	public void setImage(Image img) { this.img = img;}
+	public void setImageWidth(int w) {this.imgWidth = w;}
+	public void setImageHeight(int h) {this.imgHeight = h;}
+	public void setTurns(Point p)	{this.turns = p;}
+	public void setSpeed(int s)		{this.speed = s;}
 	
+	public void setDead()		{ this.dead = true; }
+	public int getReward()		{ return this.reward;}
+	public boolean getDead()	{ return this.dead; }
 	public int   getSpeed()     { return speed;     }
 	public Path  getPath()      { return path;      }
 	public Point getTurns()     { return turns;     }

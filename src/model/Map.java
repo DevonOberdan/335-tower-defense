@@ -21,7 +21,8 @@ import model.Path;
  * @author Taite Nazifi
  *
  */
-public abstract class Map extends BorderPane implements Observer{
+public abstract class Map{
+	protected final Image gameOver = new Image("file:images/game_over.png");
 
 	/**
 	 * @return Gets the number of enemies left in the game
@@ -86,5 +87,10 @@ public abstract class Map extends BorderPane implements Observer{
 	 * @return 
 	 */
 	public abstract Player getPlayer();
+	
+	/**
+	 * checks if the player has died and makes the game end
+	 */
+	public abstract boolean checkGameOver(Player p);
 	
 }
