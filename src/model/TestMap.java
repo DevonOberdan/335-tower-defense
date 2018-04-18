@@ -38,7 +38,7 @@ public class TestMap extends Map {
 	private Timeline timeline; //The animator-2000.
 	private Point start;
 	private Alert alert;
-	
+	private Player player;
 	private Image background; //background of the map
 	private Image menuBar; //Menu bar; where we select different enemies.
 	
@@ -60,6 +60,7 @@ public class TestMap extends Map {
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
+ 		player = new Player(this.gc, 100, 500);
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
@@ -169,6 +170,7 @@ public class TestMap extends Map {
 			if(!isRunning()) { 
 				endRound();
 			}
+			player.draw();
 		}
 		
 	}
