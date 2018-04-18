@@ -130,8 +130,8 @@ public class TestMap extends Map {
 					if (!((WolfEnemy) e).getDead() && e.attackPlayer(player))
 						((WolfEnemy) e).setDead();
 				}
+				checkGameOver(player);
 			}
-			checkGameOver(player);
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
 			if(!isRunning()) { 
 				endRound();
