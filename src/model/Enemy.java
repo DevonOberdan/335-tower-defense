@@ -77,9 +77,10 @@ public abstract class Enemy{
 		
 		return false;
 	}
+	
 	public boolean attackPlayer(Player p) {
 		if (loc.getX()>500) {
-			p.updteHealth(this.damage);
+			p.doDamage(this.damage);
 			return true;
 		}
 		return false;

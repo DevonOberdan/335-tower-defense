@@ -80,5 +80,12 @@ public class Player {
 		goldC++;
 		healthC++;
 	}
+
+	public boolean isDead() {
+		if(getHealth() <= 0) {
+			return true;
+		}
+		return false;
+	}
 	
 }

@@ -117,59 +117,21 @@ public class TestMap extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			for (Tower t : towerList) { 
-				if(!enemyList.isEmpty()) {
-					t.setEnemy(null);
-					if(t.getTowerType() == ETower.area) {
-						List<Enemy> es = t.getPrioEnemies(enemyList);
-						for(Enemy e : es) {
-							t.setEnemy(e);
-							if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-								enemyList.remove(e);
-								if(!isRunning()) {
-									endRound();
-									return;
-								}
-							}
-							if(e != null) {
-								t.attack();
-								e.setAttacked(true);
-							}
-						}
-					} else {
-					Enemy e = t.getPrioEnemy(enemyList);
-					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-						enemyList.remove(e);
-						if(isRunning()) {
-							e = enemyList.get(0);
-						}
-						else {
-							endRound();
-							return;
-						}
-					}
-					if(e != null) {
-						t.setEnemy(e);
-						t.attack();
-						e.setAttacked(true);
-					}
-				} 
-				}
-				t.show(gc);
-			}
+			
+			updateAndReassignTowers();
 			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}
 				if(e != null) {
-					checkGameOver(player);
 					e.show(gc);
 					e.setAttacked(false);
 					if (!((WolfEnemy) e).getDead() && e.attackPlayer(player))
 						((WolfEnemy) e).setDead();
 				}
 			}
+			checkGameOver(player);
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
 			if(!isRunning()) { 
 				endRound();
@@ -187,6 +149,49 @@ public class TestMap extends Map {
 		alert.show();
 	}
 	
+	
+	public void updateAndReassignTowers() {
+		for (Tower t : towerList) { 
+			if(!enemyList.isEmpty()) {
+				t.setEnemy(null);
+				if(t.getTowerType() == ETower.area) {
+					List<Enemy> es = t.getPrioEnemies(enemyList);
+					for(Enemy e : es) {
+						t.setEnemy(e);
+						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+							enemyList.remove(e);
+							if(!isRunning()) {
+								endRound();
+								return;
+							}
+						}
+						if(e != null) {
+							t.attack();
+							e.setAttacked(true);
+						}
+					}
+				} else {
+				Enemy e = t.getPrioEnemy(enemyList);
+				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+					enemyList.remove(e);
+					if(isRunning()) {
+						e = enemyList.get(0);
+					}
+					else {
+						endRound();
+						return;
+					}
+				}
+				if(e != null) {
+					t.setEnemy(e);
+					t.attack();
+					e.setAttacked(true);
+				}
+			} 
+			}
+			t.show(gc);
+		}
+	}
 	
 	/**********************************************************************
 	DEBUGGING TOWER ADD FUNCTIONS
@@ -286,5 +291,10 @@ public class TestMap extends Map {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Player getPlayer() {
+		return this.player;
 	}
 }

@@ -228,4 +228,10 @@ public class IceMap extends Map {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Player getPlayer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

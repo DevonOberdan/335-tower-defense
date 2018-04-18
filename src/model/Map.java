@@ -81,4 +81,10 @@ public abstract class Map extends BorderPane implements Observer{
 	 */
 	public abstract void show();
 	
+	/**
+	 * Gets the player object for this map.
+	 * @return 
+	 */
+	public abstract Player getPlayer();
+	
 }
