@@ -30,7 +30,7 @@ public class WolfEnemy extends Enemy {
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public WolfEnemy(Path path, Point start) {
-		super(2, 160, path, start);
+		super(3, 160, path, start);
 		
 		wolf          = new Image[2];
 		wolf[0]       = new Image("file:images/enemies/wolf/wolf_right.png");

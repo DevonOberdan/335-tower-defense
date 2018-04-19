@@ -62,7 +62,7 @@ public class TestMap extends Map {
  		this.gc = gc;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
-		timeline = new Timeline(new KeyFrame(Duration.millis(100),
+		timeline = new Timeline(new KeyFrame(Duration.millis(150),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 47);

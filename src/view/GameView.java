@@ -24,7 +24,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		this.map = new TestMap(gc);
-		this.map.spawnEnemies(50);
+		this.map.spawnEnemies(5);
 		this.ptr = 0;
 
 		//showIntroCutscene();
@@ -57,7 +57,7 @@ public class GameView extends BorderPane implements Observer{
 							ptr++;
 						}
 					}
-					
+
 					break;
 					
 				case 2:
