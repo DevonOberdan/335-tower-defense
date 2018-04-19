@@ -103,7 +103,7 @@ public class ArcherTower extends Tower {
 				gc.setGlobalAlpha(1.0);
 			}
 			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
-			
+			 
 		}
 	}
 }
