@@ -193,21 +193,8 @@ public class TestMap extends Map {
 	DEBUGGING TOWER ADD FUNCTIONS
 	 * Adds a new archerTower onto the screen at position p.
 	 */
-	public void addMultiTower(Point p) {
-		System.out.println("Tower added @"+p);
-		Tower t = new MultiTower(p);
-		
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
-			player.addTower(t);
-		}
-		else {
-			System.out.println("You're broke");
-		}
-	}
-	public void addTower(Tower t, Point p) {
-		System.out.println("Tower added @"+p);
-		t = new MultiTower(p);
+	public void addTower(Tower t) {
+		System.out.println("Tower added @"+t.getLocation().toString());
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
 			player.addTower(t);

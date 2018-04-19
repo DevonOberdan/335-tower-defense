@@ -38,6 +38,17 @@ public abstract class Tower {
 	
 	protected final Image testing = new Image("file:images/testing.png") ;
 	
+	/**
+	 * Creates a new Tower object. 
+	 * @param name name of the tower (useless!)
+	 * @param damage how much dmg it does to enemies
+	 * @param radius the range of this tower
+	 * @param fireRate how quickly this tower fires
+	 * @param image what the tower looks like
+	 * @param cost how much it costs to purchase this tower
+	 * @param soundeff the sound effects of this tower
+	 * @param location the location on the scene of this tower.
+	 */
 	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff, Point location) {
 		this.towerName = name;
 		this.radius = radius;
@@ -67,53 +78,39 @@ public abstract class Tower {
 	 */
 	public abstract boolean levelUp();
 	
-	public String getName()				 { return towerName; 	}
-	public int	  getRange()			 { return radius;       }
-	public int    getDamage()            { return damage;       }
-	public int    getXP()                { return xp;           }
-	public int    getLevel()             { return currentLevel; }
-	public int    getCost()              { return (int) (cost * (currentLevel * 1.5)); }
-	public ETower getTowerType()		 { return this.towerType; }
-	public int getX()					 { return (int)this.TowerLocation.getX(); }
-	public int getY()					 { return (int)this.TowerLocation.getY(); }
-	public Image  getCurrentImage()      { return image;        }
-	public Image  getCurrentProjectile() { return projectile;   }
-	public Media  getSoundEffect()       { return soundEffect;  }
-	public Point  getLocation()          { return TowerLocation;}
-	public void setSelected(boolean b) {this.isSelected = b; }
-	public boolean getSelected() 		{return this.isSelected; }
-	public Enemy getCurrentEnemy()    { return enemy;   }
-	public List<Enemy> getEnemyList() { return ens; }
-	public void setDamage(int num)		 { this.damage = num; 	}
-	public void setRange(int num)		 { this.radius = num;	}
-	public void setSoundEffect(Media sound) { this.soundEffect = sound; }
-	
-	public boolean setTowerType(ETower type) {
-		this.towerType = type;
-		return true;
-	}
-	
+	public String getName()				 { return towerName; 	} //name of tower
+	public int	  getRange()			 { return radius;       } //range of tower
+	public int    getDamage()            { return damage;       } //damage of tower
+	public int    getXP()                { return xp;           } //current tower xp ?
+	public int    getLevel()             { return currentLevel; } //current tower level
+	public int    getCost()              { return (int) (cost * (currentLevel * 1.5)); } //current cost of tower
+	public ETower getTowerType()		 { return this.towerType; } //type of tower
+	public int getX()					 { return (int)this.TowerLocation.getX(); } //location of x on board
+	public int getY()					 { return (int)this.TowerLocation.getY(); } //location of y on board
+	public Image  getCurrentImage()      { return image;        } //image of the tower
+	public Image  getCurrentProjectile() { return projectile;   } //projectile image
+	public Media  getSoundEffect()       { return soundEffect;  } //sound effects of this tower when it shoots
+	public Point  getLocation()          { return TowerLocation;} //location of tower
+	public void setSelected(boolean b) {this.isSelected = b; } //is this tower selected?
+	public boolean getSelected() 		{return this.isSelected; } //is this tower selected?
+	public Enemy getCurrentEnemy()    { return enemy;   } //current target
+	public List<Enemy> getEnemyList() { return ens; } //current targets
+	public void setDamage(int num)		 { this.damage = num; 	} //set damage
+	public void setRange(int num)		 { this.radius = num;	} //set range
+	public void setSoundEffect(Media sound) { this.soundEffect = sound; } //set sound effect.
+	public boolean setTowerType(ETower type) { this.towerType = type; return true;} //set tower type.
 	
 	/**
 	 * Sets this tower's image to image.
 	 * @param image
 	 * @return
 	 */
-	public boolean setImage(Image image) {
-		this.image = image;
-		return true;
-	}
-	
+	public boolean setImage(Image image) { this.image = image; return true; } //sets the image 
 	/**
 	 * Levels up this tower!
 	 * @return
 	 */
-	public boolean increaseLevel() {
-		this.currentLevel++;
-		return true;
-	}
-	
-	
+	public boolean increaseLevel() { this.currentLevel++; return true;}	//increments tower level.
 	
 	/**
 	 * gets the highest valued enemy (the enemy that has traveled the farthest

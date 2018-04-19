@@ -27,7 +27,7 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 3, 200, 5, new Image("file:images/archer.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 3, 200, 5, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
 	}
 
@@ -67,8 +67,21 @@ public class ArcherTower extends Tower {
 
 	@Override
 	public boolean levelUp() {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.getLevel() >= 3) 
+			return false;
+		this.setDamage((int)(this.getDamage() * 1.5));
+		this.setRange((int)(this.getRange() * 1.5));
+		this.increaseLevel();
+		switch(this.getLevel()) {
+		case 2:
+			this.setImage(new Image("file:images/archer2.png"));
+			return true;
+		case 3:
+			this.setImage(new Image("file:images/archer3.png"));
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -80,13 +93,17 @@ public class ArcherTower extends Tower {
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), 0, 0, 60, 80, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
-		//actual tower location green box
-		gc.setGlobalAlpha(0.2);
-		gc.setFill(Color.GHOSTWHITE);
-		gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
-		gc.setGlobalAlpha(1.0);
-		gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
-		
+		{
+			//actual tower image
+			gc.drawImage(this.getCurrentImage(), 0, 0, 150, 150, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+			if(this.getSelected()) {
+				gc.setGlobalAlpha(0.15);
+				gc.setFill(Color.GHOSTWHITE);
+				gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
+				gc.setGlobalAlpha(1.0);
+			}
+			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
+			
+		}
 	}
 }

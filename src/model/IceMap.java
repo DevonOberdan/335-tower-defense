@@ -153,9 +153,9 @@ public class IceMap extends Map {
 	/**
 	 * Adds a new archerTower onto the screen at position p.
 	 */
-	public void addTower(Tower t, Point p) {
-		System.out.println("Tower added @"+p);
-		towerList.add(new ArcherTower(p));
+	public void addTower(Tower t) {
+		System.out.println("Tower added @"+t.getLocation().toString());
+		towerList.add(t);
 	}
 	
 	/**

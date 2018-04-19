@@ -75,7 +75,7 @@ public abstract class Map{
 	 * Adds a tower to this map at location p.
 	 * @param p
 	 */
-	public abstract void addTower(Tower t, Point p);
+	public abstract void addTower(Tower t);
 	
 	/**
 	 * Shows this map.
