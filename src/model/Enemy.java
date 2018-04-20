@@ -92,7 +92,7 @@ public abstract class Enemy{
 	}
 	
 	public boolean attackPlayer(Player p) {
-		if (loc.getX()>469) {
+		if (loc.getX()>469 || loc.getY()>469) {
 			p.doDamage(this.damage);
 			return true;
 		}

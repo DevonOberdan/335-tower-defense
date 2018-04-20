@@ -66,8 +66,8 @@ public class Map2 extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
-		 start = new Point(-30, 47);
-		 this.path = new Map1_Path();
+		 start = new Point(-30, 395);
+		 this.path = new Map2_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 	}
 	
