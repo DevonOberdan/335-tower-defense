@@ -14,6 +14,8 @@ import javafx.scene.layout.BorderPane;
 import model.IceMap;
 import model.Map;
 import model.Map1;
+import model.Map2;
+import model.Map3;
 import model.MultiTower;
 import model.Player;
 import model.TestMap;
@@ -84,7 +86,7 @@ public class GameView extends BorderPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							//showFirstCutscene();
-							this.map = new IceMap(player, gc);
+							this.map = new Map2(player, gc);
 							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
@@ -97,7 +99,7 @@ public class GameView extends BorderPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							//showSecondCutscene();
-							this.map = new TestMap(player, gc);
+							this.map = new Map3(player, gc);
 							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
