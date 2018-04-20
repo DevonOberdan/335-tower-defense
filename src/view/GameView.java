@@ -13,6 +13,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import model.IceMap;
 import model.Map;
+import model.Map1;
 import model.MultiTower;
 import model.Player;
 import model.TestMap;
@@ -37,7 +38,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new TestMap(player, gc);
+		this.map = new Map1(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		/*

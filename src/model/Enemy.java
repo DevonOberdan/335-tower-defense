@@ -42,6 +42,7 @@ public abstract class Enemy{
 	private int damage;
 	private int reward;
 	protected boolean dead;
+	private int numTurns;
 	
 	public Enemy(int speed, int health, Path path, Point start, int damage, int reward) {
 		this.loc = start;
@@ -51,6 +52,7 @@ public abstract class Enemy{
 		this.turns = new Point(1,1);	
 		this.damage = damage;
 		this.reward = reward;
+		this.numTurns = 0;
 	}
 	
 	public void setLoc(Point p)     { loc = p;       }
@@ -60,6 +62,7 @@ public abstract class Enemy{
 	public void setImageHeight(int h) {this.imgHeight = h;}
 	public void setTurns(Point p)	{this.turns = p;}
 	public void setSpeed(int s)		{this.speed = s;}
+	public void updateNumTurns()    { numTurns++;    }
 	
 	public void setDead()		{ this.dead = true; }
 	public int getReward()		{ return this.reward;}
@@ -72,7 +75,7 @@ public abstract class Enemy{
 	public Image getImage()     { return img;       }
 	public int   getImgWidth()  { return imgWidth;  }
 	public int   getImgHeight() { return imgHeight; }
-	
+	public int   getNumTurns()  { return numTurns;  }
 	/*public void showEnemy() {
 		 timeline.play();
 	}*/

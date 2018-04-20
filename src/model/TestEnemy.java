@@ -69,7 +69,7 @@ public class TestEnemy extends Enemy {
 				(int)(loc.getY() + speed*turns.getY())));
 	}
 	public void checkTurns() {
-		turns = path.checkTurns(loc);
+		turns = path.checkTurns(loc, this);
 	}
 
 	@Override

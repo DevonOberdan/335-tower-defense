@@ -132,7 +132,7 @@ public class WolfEnemy extends Enemy {
 				(int)(loc.getY() + this.getSpeed()*this.getTurns().getY())));
 	}
 	public void checkTurns() {
-		this.setTurns(this.path.checkTurns(this.loc));
+		this.setTurns(this.path.checkTurns(this.loc, this));
 	}
 
 	@Override
