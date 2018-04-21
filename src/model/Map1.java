@@ -68,7 +68,7 @@ public class Map1 extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
-		 start = new Point(-30, 47);
+		 start = new Point(-30, 40);
 		 this.path = new Map1_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 5;
