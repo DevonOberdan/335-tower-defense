@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
@@ -20,6 +21,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import model.ArcherTower;
 import model.IceMap;
 import model.Map;
@@ -31,7 +33,7 @@ import model.Player;
 import model.TestMap;
 import model.Tower;
 
-public class GameView extends BorderPane implements Observer{
+public class GameView extends StackPane implements Observer{
 
 	private Map map;
 	private Canvas canvas;
@@ -47,7 +49,7 @@ public class GameView extends BorderPane implements Observer{
 	 * map that the player is on once they have won the game. 
 	 */
 	public GameView() {
-		BorderPane pane = new BorderPane();
+		//StackPane pane = new StackPane();
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
@@ -57,6 +59,8 @@ public class GameView extends BorderPane implements Observer{
 		nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
 		nextWave.setMinWidth(30);
+		nextWave.setTranslateX(250);
+		nextWave.setTranslateY(230);
 		nextWave.setOnAction(e -> {
 			if(this.map != null && !this.map.isRunning() && this.map.getPlayer().getHealth() > 0)
 				this.map.spawnEnemies(6 * this.map.getWaveCount());
@@ -66,22 +70,30 @@ public class GameView extends BorderPane implements Observer{
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
-		this.setOnMouseDragged(e -> {
+		ImageView archerTower = new ImageView("file:images/archer1.png");
+		Image archerimg = new Image("file:images/archer1.png");
+		archerTower.setOnMouseReleased(e -> {
+			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			System.out.println("hello1");
+			if(!selectTower((int)e.getSceneX(), (int)e.getSceneY()))
+			{
+				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				map.addTower(t);
+			}
+		});
+		archerTower.setOnMouseDragged(e -> {
 			if(this.map != null && this.map.isRunning()) {
 				this.x = (int) e.getSceneX();
 				this.y = (int) e.getSceneY();
-				
-				
-				
+				gc.drawImage(archerimg, 0, 0, 150, 150, x-30, y-40, 60, 80);
 			}
 		});
-		BorderPane.setMargin(nextWave, new Insets(0, 50, -20, 0));
-		nextWave.setVisible(true);
-		pane.setRight(nextWave);
-		//showIntroCutscene();
-		
-		pane.setCenter(canvas);
-		this.setCenter(pane);
+		archerTower.setTranslateX(255);
+		archerTower.setTranslateY(-125);
+		archerTower.setFitHeight(80);
+		archerTower.setFitWidth(70);
+		this.getChildren().addAll(canvas,nextWave,archerTower);
+		//this.setCenter(pane);
 		
 		/**
 		 * How we transition to the next cutscene / map. OnClick events will try to understand
@@ -90,12 +102,14 @@ public class GameView extends BorderPane implements Observer{
 		 */
 		this.setOnMouseClicked(e ->{
 			if(this.player.isDead()) {
-				this.setCenter(null);
+				this.getChildren().clear();
+				//this.setCenter(null);
 				this.setOnMouseClicked(null);
 				this.map = null;
 				this.canvas = null;
 				this.gc = null;
-				this.setCenter((Node)(Observer) new WelcomeView());
+				this.getChildren().add((Node)(Observer) new WelcomeView());
+				//this.setCenter((Node)(Observer) new WelcomeView());
 				return;
 			}
 			
@@ -144,30 +158,18 @@ public class GameView extends BorderPane implements Observer{
 					
 				default: //If they've clicked through everything, send them back home.
 					if(!this.map.isRunning()) {
-						this.setCenter(null);
+						this.getChildren().clear();
+						//this.setCenter(null);
 						this.setOnMouseClicked(null);
 						this.map = null;
 						this.canvas = null;
 						this.gc = null;
-						this.setCenter((Node)(Observer) new WelcomeView());
+						this.getChildren().add((Node)(Observer) new WelcomeView());
 					}
 					break;
 				}
 			}
-			
-			//Temporary code. Selects / places a tower on the board
-			if(map != null && map.isRunning()) {
-				if(e.getButton() == MouseButton.PRIMARY) {
-					selectTower((int)e.getX(), (int)e.getY());
-				} else if(e.getButton() == MouseButton.SECONDARY) {
-					Tower t = new ArcherTower(new Point((int)e.getX(), (int)e.getY()));
-					if(!selectTower((int)e.getX(), (int)e.getY()))
-					{
-						System.out.println(e.getX()+"  "+e.getY());
-						map.addTower(t);
-					}
-				}
-			}
+			selectTower((int)e.getX(), (int)e.getY());
 		});
 	}
 	
@@ -202,3 +204,4 @@ public class GameView extends BorderPane implements Observer{
 
 
 }
+

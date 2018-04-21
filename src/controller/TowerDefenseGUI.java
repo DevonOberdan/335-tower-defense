@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Map;
 import view.GameView;
@@ -31,7 +32,7 @@ import view.WelcomeView;
 public class TowerDefenseGUI extends Application{
 
 	
-	private BorderPane pane; // pane will represent the scene
+	private StackPane pane; // pane will represent the scene
 	
 	public static void main (String [] args)
 	{
@@ -48,10 +49,11 @@ public class TowerDefenseGUI extends Application{
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		stage.setTitle("Tower Defense");
-		pane = new BorderPane();
+		pane = new StackPane();
 		Scene scene = new Scene (pane, 580,500);
 		Observer welcome = new WelcomeView();
-		pane.setCenter((Node) welcome);
+		pane.getChildren().add((Node) welcome);
+		//pane.setCenter((Node) welcome);
 		stage.setScene(scene);
 		stage.show();
 	}
