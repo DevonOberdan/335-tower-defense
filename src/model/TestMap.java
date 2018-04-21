@@ -123,7 +123,7 @@ public class TestMap extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player))
+					if (!e.getDead() && e.attackPlayer(player, new Point (469, 469)))
 						e.setDead();
 				}
 				checkGameOver(player);

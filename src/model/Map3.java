@@ -47,6 +47,7 @@ public class Map3 extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
+	private Point endZone;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -66,9 +67,10 @@ public class Map3 extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
-		 start = new Point(-30, 47);
-		 this.path = new Map1_Path();
+		 start = new Point(367, -30);
+		 this.path = new Map3_Path();
 		 alert = new Alert(AlertType.INFORMATION);
+		 endZone = new Point (65, 5);
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class Map3 extends Map {
 			//	enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			//	enemyList.add(enemy);
 			//} else {
-				Point offset = new Point(((i*75)), 0);
+				Point offset = new Point(0, ((i*75)));
 				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
@@ -123,7 +125,7 @@ public class Map3 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);

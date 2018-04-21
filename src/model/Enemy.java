@@ -43,6 +43,7 @@ public abstract class Enemy{
 	private int reward;
 	protected boolean dead;
 	private int numTurns;
+	private int pathNum;
 	
 	public Enemy(int speed, int health, Path path, Point start, int damage, int reward) {
 		this.loc = start;
@@ -53,6 +54,7 @@ public abstract class Enemy{
 		this.damage = damage;
 		this.reward = reward;
 		this.numTurns = 0;
+		this.pathNum = (int) (Math.random()*3);
 	}
 	
 	public void setLoc(Point p)     { loc = p;       }
@@ -76,6 +78,7 @@ public abstract class Enemy{
 	public int   getImgWidth()  { return imgWidth;  }
 	public int   getImgHeight() { return imgHeight; }
 	public int   getNumTurns()  { return numTurns;  }
+	public int 	 getPathNum()   { return pathNum;   }
 	/*public void showEnemy() {
 		 timeline.play();
 	}*/
@@ -91,10 +94,18 @@ public abstract class Enemy{
 		return false;
 	}
 	
-	public boolean attackPlayer(Player p) {
-		if (loc.getX()>469 || loc.getY()>469) {
+	public boolean attackPlayer(Player p, Point endZone) {
+		if (endZone.getX()<250 && endZone.getY()<250) {
+			if (loc.getX()<endZone.getX() && loc.getY()<endZone.getY()) {
+				p.doDamage(this.damage);
+				return true;
+			}
+		}
+		else {
+		if (loc.getX()>endZone.getX() || loc.getY()>endZone.getY()) {
 			p.doDamage(this.damage);
 			return true;
+		}
 		}
 		return false;
 	}

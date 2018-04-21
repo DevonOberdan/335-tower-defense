@@ -40,14 +40,7 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map2(player, gc);
-		/*
-		
-		For testing
-		
-		//this.map = new Map1(player, gc);
-		
-		*/
+		this.map = new Map1(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		/*
