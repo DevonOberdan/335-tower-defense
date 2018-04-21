@@ -50,6 +50,7 @@ public class IceMap extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private Player player;
+	private int maxWaveCount, waveCount;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -87,18 +88,13 @@ public class IceMap extends Map {
 	 * 
 	 * @param enemyCount
 	 */
+	
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
-			if( i >= 5 ) { //Trying to introduce 'waves'
-				Point offset = new Point(0, -((i*75 + 1000)));
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-				enemyList.add(enemy);
-			} else {
-				Point offset = new Point(0, -((i*75)));
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
-				enemyList.add(enemy);
-			}
+			Point offset = new Point(0, -((i*75)));
+			enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int)(start.getY() - offset.getY())));
+			enemyList.add(enemy);
 			enemy.setHel(100);
 		}
 		System.out.printf("%d enemies have been spawned.\n", enemyCount);
@@ -121,6 +117,13 @@ public class IceMap extends Map {
 			
 			updateAndReassignTowers();
 			
+			if(enemyList.isEmpty() && waveCount < maxWaveCount) {
+				timeline.pause();
+				
+			} else {
+				endRound();
+				return;
+			}
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
@@ -134,10 +137,7 @@ public class IceMap extends Map {
 				checkGameOver(player);
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
-			if(!isRunning()) {
-				
-				endRound();
-			}
+			player.draw();
 		}
 		
 	}
@@ -145,7 +145,7 @@ public class IceMap extends Map {
 	
 	public void endRound() {
 		timeline.stop();
-		alert.setTitle("GAME OVER");
+		alert.setTitle("Round Over");
 		alert.setHeaderText(null);
 		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 		alert.show();
@@ -155,14 +155,14 @@ public class IceMap extends Map {
 	 */
 	public void addTower(Tower t) {
 		System.out.println("Tower added @"+t.getLocation().toString());
-		towerList.add(t);
+		player.addTower(t);
 	}
 	
 	/**
 	 * updates towers' targets and redraws them on the map
 	 */
 	public void updateAndReassignTowers() {
-		for (Tower t : towerList) { 
+		for (Tower t : player.getTowers()) { 
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
 				Enemy e = t.getPrioEnemy(enemyList);
@@ -199,7 +199,7 @@ public class IceMap extends Map {
 
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0;
+		return getEnemyCount() > 0 && timeline.getStatus() == Animation.Status.RUNNING;
 	}
 
 	@Override
@@ -229,9 +229,14 @@ public class IceMap extends Map {
 	
 	@Override
 	public Player getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.player;
 	}
+	
+	@Override
+	public int getWaveCount() {
+		return waveCount;
+	}
+	
 	@Override
 	public boolean checkGameOver(Player p) {
 		if (p.getHealth()<1) {

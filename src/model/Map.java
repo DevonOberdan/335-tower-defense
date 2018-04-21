@@ -33,7 +33,11 @@ public abstract class Map{
 	 * @return Is the game still running or not
 	 */
 	public abstract boolean isRunning();
-	
+	/**
+	 * Gets the count of waves left.
+	 * @return 
+	 */
+	public abstract int getWaveCount();
 	/**
 	 * Places a certain number of enemies. Slightly complex, and waves
 	 * are introduced in this function. It is easier code, and stuff. May

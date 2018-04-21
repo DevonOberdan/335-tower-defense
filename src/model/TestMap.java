@@ -269,4 +269,10 @@ public class TestMap extends Map {
 	public Player getPlayer() {
 		return this.player;
 	}
+
+	@Override
+	public int getWaveCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
