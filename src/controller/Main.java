@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,6 +25,8 @@ public class Main extends Application {
         gc.setFill(Color.BLUE);
         gc.fillRect(10, 10, 300, 300);
 
+        Image background = new Image("file:images/world-map.png");
+		gc.drawImage(background, 400, 400);
         ImageView image = new ImageView("https://cdn0.iconfinder.com/data/icons/toys/256/teddy_bear_toy_6.png");
 
         // Listener for MouseClick
