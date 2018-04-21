@@ -34,8 +34,6 @@ import view.WelcomeView;
  * 
  */
 public class IceMap extends Map {
-//	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
-	// ^^^^^^^ Needs to be implemented somehow. 
 	
 	private Timeline timeline; //The animator-2000.
 	private Point start;

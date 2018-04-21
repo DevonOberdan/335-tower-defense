@@ -8,6 +8,7 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -36,7 +37,7 @@ public class WolfEnemy extends Enemy {
 		wolf          = new Image[2];
 		wolf[0]       = new Image("file:images/enemies/wolf/wolf_right.png");
 		wolf[1]       = new Image("file:images/enemies/wolf/wolf_left.png");
-		
+		new BackgroundImage(testing, null, null, null, null);
 		crazy_wolf    = new Image[2];
 		crazy_wolf[0] = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
 		crazy_wolf[1] = new Image("file:images/enemies/wolf/crazy_wolf_left.png");

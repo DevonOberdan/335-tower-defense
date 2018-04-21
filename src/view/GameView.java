@@ -4,13 +4,21 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import model.ArcherTower;
 import model.IceMap;
@@ -43,17 +51,12 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map2(player, gc);
-		/*
-		
-		For testing
-		
-		//this.map = new Map1(player, gc);
-		
-		*/
+		this.map = new Map1(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
-		nextWave = new Button();
+		nextWave = new Button("Next Wave");
+		nextWave.setMinHeight(20);
+		nextWave.setMinWidth(30);
 		nextWave.setOnAction(e -> {
 			if(this.map != null && !this.map.isRunning() && this.map.getPlayer().getHealth() > 0)
 				this.map.spawnEnemies(6 * this.map.getWaveCount());
@@ -72,8 +75,9 @@ public class GameView extends BorderPane implements Observer{
 				
 			}
 		});
-		
-		
+		BorderPane.setMargin(nextWave, new Insets(0, 50, -20, 0));
+		nextWave.setVisible(true);
+		pane.setRight(nextWave);
 		//showIntroCutscene();
 		
 		pane.setCenter(canvas);
@@ -104,7 +108,7 @@ public class GameView extends BorderPane implements Observer{
 							player.getTowers().clear();
 							//showFirstCutscene();
 							this.map = new Map2(player, gc);
-							this.map.spawnEnemies(1);
+							this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
 						}
@@ -118,7 +122,7 @@ public class GameView extends BorderPane implements Observer{
 							player.getTowers().clear();
 							//showSecondCutscene();
 							this.map = new Map3(player, gc);
-							this.map.spawnEnemies(1);
+							this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
 						}
@@ -154,26 +158,40 @@ public class GameView extends BorderPane implements Observer{
 			//Temporary code. Selects / places a tower on the board
 			if(map != null && map.isRunning()) {
 				if(e.getButton() == MouseButton.PRIMARY) {
-					
-					int x = (int) e.getX();
-					int y = (int) e.getY();
-					for(Tower t : player.getTowers()) {
-						if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
-								|| y < t.getLocation().getY()-20 || y > t.getLocation().getY()+20) {
-							//NOT in bounds
-							t.setSelected(false);
-						} else { //must be in bounds
-							t.setSelected(true);
-						}
-					}
+					selectTower((int)e.getX(), (int)e.getY());
 				} else if(e.getButton() == MouseButton.SECONDARY) {
-					System.out.println(e.getX()+"  "+e.getY());
 					Tower t = new ArcherTower(new Point((int)e.getX(), (int)e.getY()));
-					map.addTower(t);
+					if(!selectTower((int)e.getX(), (int)e.getY()))
+					{
+						System.out.println(e.getX()+"  "+e.getY());
+						map.addTower(t);
+					}
 				}
 			}
 		});
 	}
+	
+	public boolean selectTower(int x, int y) {
+		unselectTowers();
+		for(Tower t : player.getTowers()) {
+			if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
+					|| y < t.getLocation().getY()-20 || y > t.getLocation().getY()+20) {
+				//NOT in bounds
+				t.setSelected(false);
+			} else { //must be in bounds
+				t.setSelected(true);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void unselectTowers() {
+		for(Tower t : player.getTowers()) {
+			t.setSelected(false);
+		}
+	}
+	
 	public void show() {
 		map.show();
 	}

@@ -47,7 +47,8 @@ public class Map1 extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
-	
+	private int maxWaveCount, waveCount;
+
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -69,6 +70,7 @@ public class Map1 extends Map {
 		 start = new Point(-30, 47);
 		 this.path = new Map1_Path();
 		 alert = new Alert(AlertType.INFORMATION);
+		 this.maxWaveCount = 5;
 	}
 	
 	/**
@@ -268,5 +270,11 @@ public class Map1 extends Map {
 	@Override
 	public Player getPlayer() {
 		return this.player;
+	}
+
+	@Override
+	public int getWaveCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

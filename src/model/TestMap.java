@@ -32,9 +32,6 @@ import javafx.util.Duration;
  * 
  */
 public class TestMap extends Map {
-//	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
-	// ^^^^^^^ Needs to be implemented somehow. 
-	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
 	private Alert alert;
@@ -47,7 +44,8 @@ public class TestMap extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
-	
+	private int maxWaveCount, waveCount;
+
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -69,6 +67,7 @@ public class TestMap extends Map {
 		 start = new Point(-30, 47);
 		 this.path = new TestPath();
 		 alert = new Alert(AlertType.INFORMATION);
+		 this.maxWaveCount = 3;
 	}
 	
 	/**
@@ -116,6 +115,13 @@ public class TestMap extends Map {
 			
 			updateAndReassignTowers();
 			
+			if(enemyList.isEmpty() && waveCount < maxWaveCount) {
+				timeline.pause();
+				
+			} else {
+				endRound();
+				return;
+			}
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
@@ -129,9 +135,6 @@ public class TestMap extends Map {
 				checkGameOver(player);
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
-			if(!isRunning()) { 
-				endRound();
-			}
 			player.draw();
 		}
 		
