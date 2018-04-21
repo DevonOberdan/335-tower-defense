@@ -4,8 +4,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -14,13 +16,12 @@ import model.TestMap;
 
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView;
-	
 	public WelcomeView() {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
 		//pane.setPadding(new Insets (10,10,10,10));
-		
+		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
 		Button newGame = new Button("New Game");
 		newGame.setMinWidth(120);
@@ -58,6 +59,8 @@ public class WelcomeView extends StackPane implements Observer{
 	 * @author The Team
 	 */
 	  public void setViewTo(Observer newView) {
+		 
+
 		    this.getChildren().clear();
 		    //this.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer
