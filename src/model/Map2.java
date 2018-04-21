@@ -48,7 +48,7 @@ public class Map2 extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
-
+	private Point endZone;
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -71,6 +71,7 @@ public class Map2 extends Map {
 		 this.path = new Map2_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 7;
+		 endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -125,7 +126,7 @@ public class Map2 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);

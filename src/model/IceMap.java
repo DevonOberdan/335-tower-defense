@@ -129,7 +129,7 @@ public class IceMap extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player))
+					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
 						e.setDead();
 				}
 				checkGameOver(player);
