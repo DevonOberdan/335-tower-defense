@@ -9,8 +9,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import model.ArcherTower;
 import model.IceMap;
 import model.Map;
 import model.MultiTower;
@@ -26,6 +28,7 @@ public class GameView extends BorderPane implements Observer{
 	private int ptr;
 	private Player player;
 	private int x, y;
+	private Button nextWave;
 	
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
@@ -40,6 +43,12 @@ public class GameView extends BorderPane implements Observer{
 		this.map = new TestMap(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
+		nextWave = new Button();
+		nextWave.setOnAction(e -> {
+			if(this.map != null && !this.map.isRunning() && this.map.getPlayer().getHealth() > 0)
+				this.map.spawnEnemies(6 * this.map.getWaveCount());
+		});
+		
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
@@ -82,6 +91,7 @@ public class GameView extends BorderPane implements Observer{
 				case 0: //level 2
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
+							player.getTowers().clear();
 							//showFirstCutscene();
 							this.map = new IceMap(player, gc);
 							this.map.spawnEnemies(1);
@@ -95,6 +105,7 @@ public class GameView extends BorderPane implements Observer{
 				case 1: //Level 3
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
+							player.getTowers().clear();
 							//showSecondCutscene();
 							this.map = new TestMap(player, gc);
 							this.map.spawnEnemies(1);
@@ -108,6 +119,7 @@ public class GameView extends BorderPane implements Observer{
 				case 2: //You've won! Play the outro scene.
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
+							player.getTowers().clear();
 							//showOutroCutscene();
 							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;
@@ -146,7 +158,7 @@ public class GameView extends BorderPane implements Observer{
 					}
 				} else if(e.getButton() == MouseButton.SECONDARY) {
 					System.out.println(e.getX()+"  "+e.getY());
-					Tower t = new MultiTower(new Point((int)e.getX(), (int)e.getY()));
+					Tower t = new ArcherTower(new Point((int)e.getX(), (int)e.getY()));
 					map.addTower(t);
 				}
 			}
