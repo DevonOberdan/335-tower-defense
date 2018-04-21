@@ -42,6 +42,7 @@ public class GameView extends StackPane implements Observer{
 	private Player player;
 	private int x, y;
 	private Button nextWave;
+	private ImageView currView;
 	
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
@@ -53,6 +54,7 @@ public class GameView extends StackPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
+		currView = new ImageView("file:images/maps/map1.png");
 		this.map = new Map1(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
@@ -64,7 +66,6 @@ public class GameView extends StackPane implements Observer{
 		nextWave.setOnAction(e -> {
 			if(this.map != null && !this.map.isRunning() && this.map.getPlayer().getHealth() > 0)
 				this.map.spawnEnemies(6 * this.map.getWaveCount());
-			this.map.show();
 		});
 		
 		/*
@@ -93,7 +94,7 @@ public class GameView extends StackPane implements Observer{
 		archerTower.setTranslateY(-125);
 		archerTower.setFitHeight(80);
 		archerTower.setFitWidth(70);
-		this.getChildren().addAll(canvas,nextWave,archerTower);
+		this.getChildren().addAll(currView, canvas,nextWave,archerTower);
 		//this.setCenter(pane);
 		
 		/**
@@ -122,6 +123,9 @@ public class GameView extends StackPane implements Observer{
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
 							//showFirstCutscene();
+							this.getChildren().remove(currView);
+							currView = new ImageView("file:images/maps/map2.png");
+							this.getChildren().add(currView);
 							this.map = new Map2(player, gc);
 							this.map.spawnEnemies(5);
 							this.map.show();
@@ -136,6 +140,9 @@ public class GameView extends StackPane implements Observer{
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
 							//showSecondCutscene();
+							this.getChildren().remove(currView);
+							currView = new ImageView("file:images/maps/map3.png");
+							this.getChildren().add(currView);
 							this.map = new Map3(player, gc);
 							this.map.spawnEnemies(5);
 							this.map.show();

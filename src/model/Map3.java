@@ -236,7 +236,7 @@ public class Map3 extends Map {
 	 */
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0;
+		return getEnemyCount() > 0 && timeline.getStatus() == Animation.Status.RUNNING;
 	}
 
 	@Override

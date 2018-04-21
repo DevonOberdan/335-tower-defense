@@ -167,7 +167,7 @@ public class IceMap extends Map {
 				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
 					enemyList.remove(e);
 					if(isRunning()) {
-						e = enemyList.get(0);
+						e = t.getPrioEnemy(enemyList);
 					}
 					else {
 						endRound();

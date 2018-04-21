@@ -120,6 +120,13 @@ public class Map1 extends Map {
 			
 			updateAndReassignTowers();
 			
+			if(enemyList.isEmpty() && waveCount < maxWaveCount) {
+				timeline.pause();
+				return;
+			} else if(!isRunning() && timeline.getStatus() == Animation.Status.STOPPED){
+				endRound();
+				return;
+			}
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
@@ -127,55 +134,45 @@ public class Map1 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, endZone))
+					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
 						e.setDead();
 				}
 				checkGameOver(player);
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
-			if(!isRunning()) { 
-				endRound();
-			}
 			player.draw();
 		}
 		
 	}
 	
+	
 	public void endRound() {
 		timeline.stop();
+		alert.setTitle("Round Over");
 		alert.setHeaderText(null);
-		alert.setTitle("GAME OVER");
-		alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 		alert.show();
 	}
+	/**
+	 * Adds a new archerTower onto the screen at position p.
+	 */
+	public void addTower(Tower t) {
+		System.out.println("Tower added @"+t.getLocation().toString());
+		player.addTower(t);
+	}
 	
-	
+	/**
+	 * updates towers' targets and redraws them on the map
+	 */
 	public void updateAndReassignTowers() {
 		for (Tower t : player.getTowers()) { 
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
-				if(t.getTowerType() == ETower.area) {
-					List<Enemy> es = t.getPrioEnemies(enemyList);
-					for(Enemy e : es) {
-						t.setEnemy(e);
-						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-							enemyList.remove(e);
-							if(!isRunning()) {
-								endRound();
-								return;
-							}
-						}
-						if(e != null) {
-							t.attack();
-							e.setAttacked(true);
-						}
-					}
-				} else {
 				Enemy e = t.getPrioEnemy(enemyList);
 				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
 					enemyList.remove(e);
 					if(isRunning()) {
-						e = enemyList.get(0);
+						e = t.getPrioEnemy(enemyList);
 					}
 					else {
 						endRound();
@@ -188,23 +185,7 @@ public class Map1 extends Map {
 					e.setAttacked(true);
 				}
 			} 
-			}
 			t.show(gc);
-		}
-	}
-	
-	/**********************************************************************
-	DEBUGGING TOWER ADD FUNCTIONS
-	 * Adds a new archerTower onto the screen at position p.
-	 */
-	public void addTower(Tower t) {
-		System.out.println("Tower added @"+t.getLocation().toString());
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
-			player.addTower(t);
-		}
-		else {
-			System.out.println("You're broke");
 		}
 	}
 	/**********************************************************************/
@@ -237,7 +218,7 @@ public class Map1 extends Map {
 	 */
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0;
+		return getEnemyCount() > 0 && timeline.getStatus() == Animation.Status.RUNNING;
 	}
 
 	@Override
