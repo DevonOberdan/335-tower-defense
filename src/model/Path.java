@@ -39,5 +39,5 @@ public abstract class Path {
 		}
 		
 
-		public abstract Point checkTurns(Point p);
+		public abstract Point checkTurns(Point p, Enemy e);
 }

@@ -15,6 +15,9 @@ import javafx.scene.layout.BorderPane;
 import model.ArcherTower;
 import model.IceMap;
 import model.Map;
+import model.Map1;
+import model.Map2;
+import model.Map3;
 import model.MultiTower;
 import model.Player;
 import model.TestMap;
@@ -40,7 +43,14 @@ public class GameView extends BorderPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new TestMap(player, gc);
+		this.map = new Map2(player, gc);
+		/*
+		
+		For testing
+		
+		//this.map = new Map1(player, gc);
+		
+		*/
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		nextWave = new Button();
@@ -93,7 +103,7 @@ public class GameView extends BorderPane implements Observer{
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
 							//showFirstCutscene();
-							this.map = new IceMap(player, gc);
+							this.map = new Map2(player, gc);
 							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
@@ -107,7 +117,7 @@ public class GameView extends BorderPane implements Observer{
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
 							//showSecondCutscene();
-							this.map = new TestMap(player, gc);
+							this.map = new Map3(player, gc);
 							this.map.spawnEnemies(1);
 							this.map.show();
 							ptr++;
