@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 public class Rider extends Enemy{
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int speed = 8;
+	private final static int health = 80;
+	private final static int damage = 14;
+	private final static int reward = 25;
+	
 	private static Point imgDims = new Point(100,112);
 	
 	private static String[] rider = new String[]{"file:images/enemies/rider/rider_right.png",
@@ -29,7 +35,7 @@ public class Rider extends Enemy{
 	 */
 	public Rider(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(9, 120, imgDims, imgDims, 12, 6, rider, dead_rider, path, start);
+		super(speed, health, damage, reward, imgDims, imgDims, 12, 6, rider, dead_rider, path, start);
 	}	
 	
 	/**

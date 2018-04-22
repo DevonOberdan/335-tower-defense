@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 public class Troll extends Enemy{
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int speed = 2;
+	private final static int health = 240;
+	private final static int damage = 15;
+	private final static int reward = 40;
+	
 	private static Point walkDims = new Point(300,227);
 	private static Point deathDims = new Point(350,180);
 	
@@ -29,7 +35,7 @@ public class Troll extends Enemy{
 	 */
 	public Troll(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(2, 240, walkDims, deathDims, 7, 6, troll, dead_troll, path, start);
+		super(speed, health, damage, reward, walkDims, deathDims, 7, 6, troll, dead_troll, path, start);
 	}	
 	
 	/**

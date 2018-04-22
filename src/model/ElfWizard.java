@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 public class ElfWizard extends Enemy{
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int speed = 5;
+	private final static int health = 100;
+	private final static int damage = 15;
+	private final static int reward = 25;
+	
 	private static Point walkDims = new Point(416,473);
 	private static Point deathDims = new Point(350,330);
 	
@@ -30,7 +36,7 @@ public class ElfWizard extends Enemy{
 	 */
 	public ElfWizard(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(5, 100, walkDims, deathDims, 5, 5, elfWizard, deadElfWizard, path, start);
+		super(speed, health, damage, reward, walkDims, deathDims, 5, 5, elfWizard, deadElfWizard, path, start);
 	}	
 	
 	/**

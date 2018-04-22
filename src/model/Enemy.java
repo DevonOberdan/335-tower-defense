@@ -25,7 +25,8 @@ public abstract class Enemy{
 	protected Path path;
 	protected Point loc;
 	
-//	protected int bounty;
+	protected int reward;
+	protected int damage;
 	
 	protected Point turns;
 	protected boolean attacked;	 
@@ -69,13 +70,16 @@ public abstract class Enemy{
 	 * 
 	 * @author Devon Oberdan
 	 */
-	public Enemy(int speed, int health, Point walkSizes, Point dieSizes,
-				 int walkFrames, int dieFrames, String[] walkFiles, 
+	public Enemy(int speed, int health, int damage, int reward, Point walkSizes,
+			     Point dieSizes, int walkFrames, int dieFrames, String[] walkFiles, 
 				 String[] dieFiles, Path path, Point start) {
 		
 		this.speed       = speed; 
 		this.health      = health;
 		this.maxHealth   = health;
+		
+		this.damage = damage;
+		this.reward = reward;
 		
 		// Point objects to stores the pixel size of the specific frames
 		sourceWalkSizes.setLocation(walkSizes.getX(), walkSizes.getY());
@@ -114,10 +118,11 @@ public abstract class Enemy{
 	}
 	
 	/* setters */
-	public void setLoc(Point p)     { loc = p;       }
-	public void setTurns(Point p)	{this.turns = p;}
-	public void setSpeed(int s)		{this.speed = s;}
-	public void updateNumTurns()    { numTurns++;    }
+	public void setLoc(Point p)			{ loc = p;          		}
+	public void setHel(int newHealth)	{ health = newHealth; 	}
+	public void setTurns(Point p)		{ this.turns = p;    	}
+	public void setSpeed(int s)			{ this.speed = s;   		}
+	public void updateNumTurns()			{ numTurns++;       		}
 	
 	public void setDead()		{ this.dead = true; }
 	/* getters */
@@ -202,7 +207,7 @@ public abstract class Enemy{
 	 *  Updates the turns list at current frame.
 	 */
 	public void checkTurns() {
-		this.turns = this.path.checkTurns(this.loc);
+		this.turns = this.path.checkTurns(this.loc,this);
 	}
 	
 	/* Abstract methods and other methods that are possibly overwritten by certain
@@ -228,7 +233,6 @@ public abstract class Enemy{
 	 */
 	public void checkStatus() {
 		healthPerc = ((double)health / (double)maxHealth );
-
 		dead = (healthPerc <= 0);
 	}
 	
@@ -274,7 +278,7 @@ public abstract class Enemy{
 		checkStatus();
 		
 		drawHealthBar(gc);
-		this.turns = this.path.checkTurns(this.loc);
+		this.turns = this.path.checkTurns(this.loc,this);
 		move();
 	}
 	

@@ -15,6 +15,12 @@ import javafx.scene.paint.Color;
 public class Wolf extends Enemy {
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int startSpeed = 3;
+	private final static int wolfHealth = 160;
+	private final static int damage = 12;
+	private final static int reward = 50;
+	
 	private final Image[] crazy_wolf, angry_wolf;
 	private boolean enraged;
 	private boolean stalled;
@@ -40,8 +46,8 @@ public class Wolf extends Enemy {
 	 * @param start
 	 */
 	public Wolf(Path path, Point start) {
-		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(3, 160, walkDims, deadDims, 4, 8, wolf, dead_wolf, path, start);		
+		//speed, health, damage, reward, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
+		super(startSpeed, wolfHealth, damage, reward, walkDims, deadDims, 4, 8, wolf, dead_wolf, path, start);		
 		
 		crazy_wolf    = new Image[2];
 		crazy_wolf[0] = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
@@ -105,7 +111,7 @@ public class Wolf extends Enemy {
 		checkStatus();
 		
 		drawHealthBar(gc);
-		this.turns = this.path.checkTurns(this.loc);
+		this.turns = this.path.checkTurns(this.loc,this);
 		move();
 	}
 	

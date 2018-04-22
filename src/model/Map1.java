@@ -96,7 +96,7 @@ public class Map1 extends Map {
 			//	enemyList.add(enemy);
 			//} else {
 				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new BlueKnight(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 		}
@@ -139,7 +139,7 @@ public class Map1 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30)));
 			player.draw();
 		}
 		

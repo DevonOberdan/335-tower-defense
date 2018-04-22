@@ -15,6 +15,12 @@ import javafx.scene.paint.Color;
 public class BlueKnight extends Enemy{
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int speed = 4;
+	private final static int health = 120;
+	private final static int damage = 10;
+	private final static int reward = 35;
+	
 	private static Point walkDims = new Point(98,120);
 	private static Point deathDims = new Point(144,120);
 	
@@ -30,8 +36,8 @@ public class BlueKnight extends Enemy{
 	 * @param start
 	 */
 	public BlueKnight(Path path, Point start) {
-		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(4, 120, walkDims, deathDims, 10, 9, knight, dead_knight, path, start);
+		//speed, health, damage, reward, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
+		super(speed, health, damage, reward, walkDims, deathDims, 10, 9, knight, dead_knight, path, start);
 	}
 	
 	/**
@@ -42,7 +48,6 @@ public class BlueKnight extends Enemy{
 	@Override
 	public void drawHealthBar(GraphicsContext gc) {		
 		double currentHealth = (imgWidth*0.6)*healthPerc;
-		
 		int xShift = 15;
 		
 		// draw bar to show current health

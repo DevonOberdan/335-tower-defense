@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 public class Skeleton extends Enemy{
 	
 	// data structures built here to be passed into super constructor
+	
+	private final static int speed = 3;
+	private final static int health = 100;
+	private final static int damage = 6;
+	private final static int reward = 15;
+	
 	private static Point walkDims = new Point(75,78);
 	private static Point deathDims = new Point(80,122);
 	
@@ -29,7 +35,7 @@ public class Skeleton extends Enemy{
 	 */
 	public Skeleton(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(5, 80, walkDims, deathDims, 6, 6, skeleton, dead_skeleton, path, start);
+		super(speed, health, damage, reward, walkDims, deathDims, 6, 6, skeleton, dead_skeleton, path, start);
 	}	
 	
 	/**

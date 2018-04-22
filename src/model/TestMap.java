@@ -135,7 +135,7 @@ public class TestMap extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30)));
 			player.draw();
 		}
 		
@@ -158,7 +158,7 @@ public class TestMap extends Map {
 					List<Enemy> es = t.getPrioEnemies(enemyList);
 					for(Enemy e : es) {
 						t.setEnemy(e);
-						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+						if(e != null && e.doWeRemove()) {
 							enemyList.remove(e);
 							if(!isRunning()) {
 								endRound();
@@ -172,7 +172,7 @@ public class TestMap extends Map {
 					}
 				} else {
 				Enemy e = t.getPrioEnemy(enemyList);
-				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+				if(e != null && e.doWeRemove()) {
 					enemyList.remove(e);
 					if(isRunning()) {
 						e = enemyList.get(0);
