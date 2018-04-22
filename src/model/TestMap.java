@@ -2,17 +2,14 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -65,7 +62,11 @@ public class TestMap extends Map {
 		timeline = new Timeline(new KeyFrame(Duration.millis(150),
                 new AnimateStarter())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
+		 
+		// start = new Point(500, 430);
+
 		 start = new Point(-30, 47);
+		 
 		 this.path = new TestPath();
 		 alert = new Alert(AlertType.INFORMATION);
 		 alert.setOnCloseRequest(e -> {
@@ -94,7 +95,7 @@ public class TestMap extends Map {
 			//	enemyList.add(enemy);
 			//} else {
 				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new TinyWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 				enemyList.add(enemy);
 			}
 		}
@@ -120,9 +121,11 @@ public class TestMap extends Map {
 					t.setEnemy(null);
 					if(t.getTowerType() == ETower.area) {
 						List<Enemy> es = t.getPrioEnemies(enemyList);
+						
 						for(Enemy e : es) {
 							t.setEnemy(e);
-							if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+							System.out.println("AREA: "+e+" "+e.doWeRemove());
+							if(e != null && e.doWeRemove()) {
 								enemyList.remove(e);
 								if(!isRunning()) {
 									endRound();
@@ -134,30 +137,32 @@ public class TestMap extends Map {
 								e.setAttacked(true);
 							}
 						}
+						
 					} else {
-					Enemy e = t.getPrioEnemy(enemyList);
-					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-						enemyList.remove(e);
-						if(isRunning()) {
-							e = enemyList.get(0);
+						Enemy e = t.getPrioEnemy(enemyList);
+						System.out.println("SINGLE: "+e+" "+e.doWeRemove());
+						if(e != null && e.doWeRemove()) {
+							enemyList.remove(e);
+							if(isRunning()) {
+								e = enemyList.get(0);
+							}
+							else {
+								endRound();
+								return;
+							}
 						}
-						else {
-							endRound();
-							return;
+						if(e != null) {
+							t.setEnemy(e);
+							t.attack();
+							e.setAttacked(true);
 						}
-					}
-					if(e != null) {
-						t.setEnemy(e);
-						t.attack();
-						e.setAttacked(true);
-					}
-				} 
+					} 
 				}
 				t.show(gc);
 			}
 			
 			for (Enemy e : enemyList) {
-				if(e.getDeathTicker() >= e.deathFrameCount()) {
+				if(e.doWeRemove()) {
 					e = enemyList.get(0);
 				}
 				if(e != null) {
@@ -165,7 +170,7 @@ public class TestMap extends Map {
 					e.setAttacked(false);
 				}
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount()));
+			enemyList.removeIf(e -> (e.doWeRemove()));
 			if(!isRunning()) { 
 				endRound();
 			}
