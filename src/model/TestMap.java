@@ -29,13 +29,10 @@ import javafx.util.Duration;
  * 
  */
 public class TestMap extends Map {
-//	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
-	// ^^^^^^^ Needs to be implemented somehow. 
-	
 	private Timeline timeline; //The animator-2000.
 	private Point start;
 	private Alert alert;
-	
+	private Player player;
 	private Image background; //background of the map
 	private Image menuBar; //Menu bar; where we select different enemies.
 	
@@ -44,7 +41,8 @@ public class TestMap extends Map {
 	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
-	
+	private int maxWaveCount, waveCount;
+
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -53,10 +51,11 @@ public class TestMap extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public TestMap(GraphicsContext gc) {
+	public TestMap(Player p, GraphicsContext gc) {
 		background = new Image("file:images/maps/map_1.jpg");
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
+ 		player = p;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(150),
@@ -69,9 +68,7 @@ public class TestMap extends Map {
 		 
 		 this.path = new TestPath();
 		 alert = new Alert(AlertType.INFORMATION);
-		 alert.setOnCloseRequest(e -> {
-		//	 clickAnywhereToContinue();
-		 });
+		 this.maxWaveCount = 3;
 	}
 	
 	/**
@@ -116,51 +113,16 @@ public class TestMap extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
-			for (Tower t : towerList) { 
-				if(!enemyList.isEmpty()) {
-					t.setEnemy(null);
-					if(t.getTowerType() == ETower.area) {
-						List<Enemy> es = t.getPrioEnemies(enemyList);
-						
-						for(Enemy e : es) {
-							t.setEnemy(e);
-							System.out.println("AREA: "+e+" "+e.doWeRemove());
-							if(e != null && e.doWeRemove()) {
-								enemyList.remove(e);
-								if(!isRunning()) {
-									endRound();
-									return;
-								}
-							}
-							if(e != null) {
-								t.attack();
-								e.setAttacked(true);
-							}
-						}
-						
-					} else {
-						Enemy e = t.getPrioEnemy(enemyList);
-						System.out.println("SINGLE: "+e+" "+e.doWeRemove());
-						if(e != null && e.doWeRemove()) {
-							enemyList.remove(e);
-							if(isRunning()) {
-								e = enemyList.get(0);
-							}
-							else {
-								endRound();
-								return;
-							}
-						}
-						if(e != null) {
-							t.setEnemy(e);
-							t.attack();
-							e.setAttacked(true);
-						}
-					} 
-				}
-				t.show(gc);
-			}
 			
+			updateAndReassignTowers();
+			
+			if(enemyList.isEmpty() && waveCount < maxWaveCount) {
+				timeline.pause();
+				
+			} else {
+				endRound();
+				return;
+			}
 			for (Enemy e : enemyList) {
 				if(e.doWeRemove()) {
 					e = enemyList.get(0);
@@ -168,12 +130,13 @@ public class TestMap extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
+					if (!e.getDead() && e.attackPlayer(player, new Point (469, 469)))
+						e.setDead();
 				}
+				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove()));
-			if(!isRunning()) { 
-				endRound();
-			}
+			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
+			player.draw();
 		}
 		
 	}
@@ -187,17 +150,62 @@ public class TestMap extends Map {
 	}
 	
 	
+	public void updateAndReassignTowers() {
+		for (Tower t : player.getTowers()) { 
+			if(!enemyList.isEmpty()) {
+				t.setEnemy(null);
+				if(t.getTowerType() == ETower.area) {
+					List<Enemy> es = t.getPrioEnemies(enemyList);
+					for(Enemy e : es) {
+						t.setEnemy(e);
+						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+							enemyList.remove(e);
+							if(!isRunning()) {
+								endRound();
+								return;
+							}
+						}
+						if(e != null) {
+							t.attack();
+							e.setAttacked(true);
+						}
+					}
+				} else {
+				Enemy e = t.getPrioEnemy(enemyList);
+				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+					enemyList.remove(e);
+					if(isRunning()) {
+						e = enemyList.get(0);
+					}
+					else {
+						endRound();
+						return;
+					}
+				}
+				if(e != null) {
+					t.setEnemy(e);
+					t.attack();
+					e.setAttacked(true);
+				}
+			} 
+			}
+			t.show(gc);
+		}
+	}
+	
 	/**********************************************************************
 	DEBUGGING TOWER ADD FUNCTIONS
 	 * Adds a new archerTower onto the screen at position p.
 	 */
-	public void addMultiTower(Point p) {
-		System.out.println("Tower added @"+p);
-		towerList.add(new MultiTower(p));
-	}
-	public void addTower(Point p) {
-		System.out.println("Tower added @"+p);
-		towerList.add(new MultiTower(p));
+	public void addTower(Tower t) {
+		System.out.println("Tower added @"+t.getLocation().toString());
+		if (t.getCost()<=player.getGold()) {
+			player.withdraw(t.getCost());
+			player.addTower(t);
+		}
+		else {
+			System.out.println("You're broke");
+		}
 	}
 	/**********************************************************************/
 	/**
@@ -251,15 +259,24 @@ public class TestMap extends Map {
 	public List<Tower> getTowerList() {
 		return towerList;
 	}
-	
-	public void clickAnywhereToContinue() {
-		TextArea text = new TextArea("Click anywhere to continue");
-		this.setTop(text);
+	@Override
+	public boolean checkGameOver(Player p) {
+		if (p.getHealth()<1) {
+			timeline.stop();
+			gc.drawImage(gameOver, 0, 0);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public Player getPlayer() {
+		return this.player;
+	}
+
+	@Override
+	public int getWaveCount() {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 }

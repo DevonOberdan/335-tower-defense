@@ -4,22 +4,24 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import model.Map;
 import model.TestMap;
 
-public class WelcomeView extends BorderPane implements Observer{
-	private Observer gameView, instructionView, currentView, mapSelector;
-	
+public class WelcomeView extends StackPane implements Observer{
+	private Observer gameView, instructionView, currentView;
 	public WelcomeView() {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
 		//pane.setPadding(new Insets (10,10,10,10));
-		
+		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
 		Button newGame = new Button("New Game");
 		newGame.setMinWidth(120);
@@ -44,7 +46,8 @@ public class WelcomeView extends BorderPane implements Observer{
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
 		});
-		this.setCenter(grid);
+		this.getChildren().add(grid);
+		//this.setCenter(grid);
 		this.setVisible(true);
 	}
 	
@@ -56,9 +59,13 @@ public class WelcomeView extends BorderPane implements Observer{
 	 * @author The Team
 	 */
 	  public void setViewTo(Observer newView) {
-		    this.setCenter(null); // set the center of pane to null
+		 
+
+		    this.getChildren().clear();
+		    //this.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer
-		    this.setCenter((Node) currentView); // set the center of the pane to the current observer
+		    this.getChildren().add((Node) currentView);
+		    //this.setCenter((Node) currentView); // set the center of the pane to the current observer
 	  }
 
 	@Override

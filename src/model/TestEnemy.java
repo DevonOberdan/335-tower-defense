@@ -20,7 +20,7 @@ public class TestEnemy extends Enemy {
 	private final Image testing = new Image("file:images/testing.png") ;
 
 	public TestEnemy(int speed, Path path, Point start) {
-		super(speed, speed, path, start);
+		super(speed, speed, path, start, 10, 10);
 		loc =  start;
 		
 		this.path = super.getPath();
@@ -69,7 +69,7 @@ public class TestEnemy extends Enemy {
 				(int)(loc.getY() + speed*turns.getY())));
 	}
 	public void checkTurns() {
-		turns = path.checkTurns(loc);
+		turns = path.checkTurns(loc, this);
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public class TestEnemy extends Enemy {
 
 	@Override
 	public void drawHealthBar(GraphicsContext gc) {
-		double currentHealth = (imgWidth*0.6)*healthPerc;
+		double currentHealth = (getImgWidth()*0.6)*healthPerc;
 		
 		gc.setFill(Color.LIME);
-		gc.fillRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), currentHealth, 4);
+		gc.fillRect(loc.getX()-(getImgWidth()/2)+20, loc.getY()-(getImgHeight()/2), currentHealth, 4);
 
 		gc.setStroke(Color.BLACK);		
-		gc.strokeRect(loc.getX()-(imgWidth/2)+20, loc.getY()-(imgHeight/2), imgWidth*0.6, 4);
+		gc.strokeRect(loc.getX()-(getImgWidth()/2)+20, loc.getY()-(getImgHeight()/2), getImgWidth()*0.6, 4);
 		
 	}
 	

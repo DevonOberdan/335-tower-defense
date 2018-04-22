@@ -5,7 +5,7 @@ import java.awt.Point;
 public class IcePath extends Path {
 
 	@Override
-	public Point checkTurns(Point p) {
+	public Point checkTurns(Point p, Enemy e) {
 		int x = 0;
 		int y = 0;
 		

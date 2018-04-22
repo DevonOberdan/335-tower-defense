@@ -8,7 +8,7 @@ public class TestPath extends Path{
 		super();
 	}
 	@Override
-	public Point checkTurns(Point p) {
+	public Point checkTurns(Point p, Enemy e) {
 		int x=0; int y=0;
 		
 		if (p.getX()>=230 && p.getY()<430) {

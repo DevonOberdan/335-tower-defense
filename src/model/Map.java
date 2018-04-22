@@ -21,7 +21,8 @@ import model.Path;
  * @author Taite Nazifi
  *
  */
-public abstract class Map extends BorderPane implements Observer{
+public abstract class Map{
+	protected final Image gameOver = new Image("file:images/game_over.png");
 
 	/**
 	 * @return Gets the number of enemies left in the game
@@ -32,7 +33,11 @@ public abstract class Map extends BorderPane implements Observer{
 	 * @return Is the game still running or not
 	 */
 	public abstract boolean isRunning();
-	
+	/**
+	 * Gets the count of waves left.
+	 * @return 
+	 */
+	public abstract int getWaveCount();
 	/**
 	 * Places a certain number of enemies. Slightly complex, and waves
 	 * are introduced in this function. It is easier code, and stuff. May
@@ -74,11 +79,22 @@ public abstract class Map extends BorderPane implements Observer{
 	 * Adds a tower to this map at location p.
 	 * @param p
 	 */
-	public abstract void addTower(Point p);
+	public abstract void addTower(Tower t);
 	
 	/**
 	 * Shows this map.
 	 */
 	public abstract void show();
+	
+	/**
+	 * Gets the player object for this map.
+	 * @return 
+	 */
+	public abstract Player getPlayer();
+	
+	/**
+	 * checks if the player has died and makes the game end
+	 */
+	public abstract boolean checkGameOver(Player p);
 	
 }

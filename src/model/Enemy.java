@@ -29,6 +29,8 @@ public abstract class Enemy{
 	
 	protected Point turns;
 	protected boolean attacked;	 
+	private int numTurns;
+	private int pathNum;
 	protected boolean dead;
 	
 	protected Image[] walkImgs  = new Image[2];
@@ -107,13 +109,20 @@ public abstract class Enemy{
 		this.healthPerc = 1.0;
 		
 		this.previousDir = 0;
+		this.numTurns = 0;
+		this.pathNum = (int) (Math.random()*3);
 	}
 	
 	/* setters */
-	public void setLoc(Point p) { loc = p;       }
-	public void setHel(int h)   { health = h;    }
+	public void setLoc(Point p)     { loc = p;       }
+	public void setTurns(Point p)	{this.turns = p;}
+	public void setSpeed(int s)		{this.speed = s;}
+	public void updateNumTurns()    { numTurns++;    }
 	
+	public void setDead()		{ this.dead = true; }
 	/* getters */
+	public int getReward()		{ return this.reward;}
+	public boolean getDead()	{ return this.dead; }
 	public int   getSpeed()     { return speed;     }
 	public Path  getPath()      { return path;      }
 	public Point getTurns()     { return turns;     }
@@ -121,7 +130,8 @@ public abstract class Enemy{
 	public int   getHel()       { return health;    }
 	public int   getImgWidth()  { return imgWidth;  }
 	public int   getImgHeight() { return imgHeight; }
-	
+	public int   getNumTurns()  { return numTurns;  }
+	public int 	 getPathNum()   { return pathNum;   }
 	
 	public int getDeathTicker() { return deathTick; }
 	public int deathFrameCount() { return deathFrames; }
@@ -152,6 +162,21 @@ public abstract class Enemy{
 		return (dist <= t.getRange());
 	}
 	
+	public boolean attackPlayer(Player p, Point endZone) {
+		if (endZone.getX()<250 && endZone.getY()<250) {
+			if (loc.getX()<endZone.getX() && loc.getY()<endZone.getY()) {
+				p.doDamage(this.damage);
+				return true;
+			}
+		}
+		else {
+		if (loc.getX()>endZone.getX() || loc.getY()>endZone.getY()) {
+			p.doDamage(this.damage);
+			return true;
+		}
+		}
+		return false;
+	}
 	/**
 	 *  Updates loc based on the Enemy's speed and current turns list.
 	 *  @author Devon Oberdan
