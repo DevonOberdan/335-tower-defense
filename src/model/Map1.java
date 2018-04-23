@@ -78,6 +78,7 @@ public class Map1 extends Map {
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
+		 this.dragging = false;
 	}
 	
 	/**
