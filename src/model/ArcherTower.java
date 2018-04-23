@@ -33,7 +33,7 @@ public class ArcherTower extends Tower {
 	 */
 	public ArcherTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Archer", 25, 100, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 15, 100, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
 		
 		AnimationTimer timer = new AnimationTimer(){
@@ -85,19 +85,24 @@ public class ArcherTower extends Tower {
 	}
 	
 	@Override
-	public boolean attack(GraphicsContext gc) {
+	public boolean attack() {
+		
 		if (this.getCurrentEnemy() == null)
 			return false;
 		
 		this.getCurrentEnemy().setAttacked(true);
-		gc.setStroke(Color.RED);
-		gc.strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
-				getLocation().getX(), getLocation().getY());
-		
-			System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
+		shoot();
+		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
 		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
 		this.setEnemy(null);
 		return true;
+	}
+	
+	@Override
+	public void shoot() {
+		this.getGC().setStroke(Color.RED);
+		this.getGC().strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
+				getLocation().getX(), getLocation().getY());
 	}
 
 	@Override

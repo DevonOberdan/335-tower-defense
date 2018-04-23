@@ -18,7 +18,6 @@ public class MultiTower extends Tower{
 
 	
 	private static boolean first = true;
-	private long start;
 	private long previous;
 	/**
 	 * Creates a new multi-area tower that will become 
@@ -40,7 +39,7 @@ public class MultiTower extends Tower{
 					previous = now;
 					first = false;
 				}
-				if((now - previous >= 0.2e9) && canAttack()) {
+				if((now - previous >= 0.5e9) && canAttack()) {
 					previous = now;
 					//System.out.println("one second later");
 					attack();
@@ -82,15 +81,25 @@ public class MultiTower extends Tower{
 	 * be a list of enemy entities that we can target and kill.
 	 */
 	@Override
-	public boolean attack(GraphicsContext gc) {
+	public boolean attack() {
 		List<Enemy> ens = this.getEnemyList();
 		if(ens.isEmpty())
 			return false;
+		
+		shoot();
 		for (Enemy en : ens) {
 			en.setAttacked(true);
 			en.setHel(en.getHel()-this.getDamage());
 		}
 		return true;
+	}
+	
+	@Override
+	public void shoot() {
+		this.getGC().setGlobalAlpha(0.15);
+		this.getGC().setFill(Color.RED);
+		this.getGC().fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
+		this.getGC().setGlobalAlpha(1.0);
 	}
 
 	@Override
