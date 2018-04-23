@@ -188,6 +188,7 @@ public class Map2 extends Map {
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
 			player.addTower(t);
+			t.setGC(gc);
 		}
 		else {
 			System.out.println("You're broke");
@@ -219,7 +220,6 @@ public class Map2 extends Map {
 							e.setAttacked(true);
 						}
 					}
-					t.attack();
 					break;
 				case archer:
 					Enemy e = t.getPrioEnemy(enemyList);
@@ -235,7 +235,6 @@ public class Map2 extends Map {
 					}
 					if(e != null) {
 						t.setEnemy(e);
-						t.attack();
 						e.setAttacked(true);
 					}
 					break;

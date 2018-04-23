@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -15,6 +16,12 @@ import javafx.scene.paint.Color;
  */
 public class ArcherTower extends Tower {
 
+	
+	private static boolean first = true;
+	//private long start;
+	private long previous;
+	
+	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
 	 * giving this tower a projectile.
@@ -25,8 +32,29 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 3, 200, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		//Type, damage, radius, image, cost, sound, location
+		super("Archer", 15, 100, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
+		
+		AnimationTimer timer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+					//System.out.println("First call");
+					//attackEnemy();
+					//return;
+				}
+				if((now - previous >= 1.0e9) && canAttack()) {
+					previous = now;
+					//System.out.println("one second later");
+					attack();
+				}
+			}
+		};
+		timer.start();
 	}
 
 	@Override
@@ -52,15 +80,29 @@ public class ArcherTower extends Tower {
 		return priority;
 	}
 	
+	public boolean canAttack() {
+		return (this.getCurrentEnemy() != null);
+	}
+	
 	@Override
 	public boolean attack() {
+		
 		if (this.getCurrentEnemy() == null)
 			return false;
 		
 		this.getCurrentEnemy().setAttacked(true);
+		shoot();
+		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
 		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
 		this.setEnemy(null);
 		return true;
+	}
+	
+	@Override
+	public void shoot() {
+		this.getGC().setStroke(Color.RED);
+		this.getGC().strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
+				getLocation().getX(), getLocation().getY());
 	}
 
 	@Override
@@ -100,6 +142,7 @@ public class ArcherTower extends Tower {
 				gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
 				gc.setGlobalAlpha(1.0);
 			}
+			
 			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
 			 
 		}

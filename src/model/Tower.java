@@ -30,6 +30,8 @@ public abstract class Tower {
 	private List<Enemy> ens;
 	private Enemy enemy;
 	
+	private GraphicsContext gc;
+	
 	protected final Image testing = new Image("file:images/testing.png") ;
 	
 	/**
@@ -61,6 +63,7 @@ public abstract class Tower {
 	 * @return
 	 */
 	public abstract boolean attack();
+	public abstract void shoot();
 	
 	/**
 	 * Levels up this specific tower. Different for other tower types.
@@ -113,7 +116,7 @@ public abstract class Tower {
 	 */
 	public abstract Enemy getPrioEnemy(List<Enemy> enemyList);
 	public abstract List<Enemy> getPrioEnemies(List<Enemy> enemyList);
-	
+		
 	/**
 	 * Draws this tower on the board at this position.
 	 * @param gc
@@ -126,5 +129,10 @@ public abstract class Tower {
 	public void setEnemy (Enemy e) {
 		enemy = e;
 	}
-	
+	public void setGC(GraphicsContext gc) {
+		this.gc = gc;
+	}
+	public GraphicsContext getGC() {
+		return gc;
+	}
 }
