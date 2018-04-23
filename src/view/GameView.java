@@ -47,7 +47,8 @@ public class GameView extends StackPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map1(player, gc);
+		this.map = new Map1(player);
+		this.map.setGC(gc);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
@@ -179,7 +180,8 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showFirstCutscene();
-							this.map = new Map2(player, gc);
+							this.map = new Map2(player);
+							this.map.setGC(gc);
 							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
@@ -194,7 +196,8 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showSecondCutscene();
-							this.map = new Map3(player, gc);
+							this.map = new Map3(player);
+							this.map.setGC(gc);
 							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;

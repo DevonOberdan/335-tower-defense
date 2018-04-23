@@ -63,10 +63,9 @@ public class Map2 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map2(Player p, GraphicsContext gc) {
+	public Map2(Player p) {
 		background = new Image("file:images/maps/map2.png");
 		menuBar = new Image("file:images/menu.jpg");
- 		this.gc = gc;
  		player = p;
  		roundMode = true;
 		enemyList = new ArrayList<>();
@@ -279,6 +278,12 @@ public class Map2 extends Map {
 	public Path getPath() {
 		System.out.println("Map: returned path");
 		return this.path;
+	}
+	
+	@Override
+	public void setGC(GraphicsContext gc)
+	{
+		this.gc = gc;
 	}
 	/**
 	 * Gets the number of enemies left to be killed.

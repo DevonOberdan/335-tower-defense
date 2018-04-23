@@ -61,10 +61,9 @@ public class Map1 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map1(Player p, GraphicsContext gc) {
+	public Map1(Player p) {
 		background = new Image("file:images/maps/map1.png");
 		menuBar = new Image("file:images/menu.jpg");
- 		this.gc = gc;
  		player = p;
  		roundMode = true;
 		enemyList = new ArrayList<>();
@@ -170,11 +169,18 @@ public class Map1 extends Map {
 		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 		alert.show();
 	}
-	
+
 	@Override
 	public void toggleRound() {
 		this.roundMode = !this.roundMode;
 	}
+	
+	@Override
+	public void setGC(GraphicsContext gc)
+	{
+		this.gc = gc;
+	}
+	
 	/**
 	 * Ends the round.
 	 */

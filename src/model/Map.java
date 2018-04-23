@@ -98,6 +98,10 @@ public abstract class Map extends StackPane{
 	public abstract void addTower(Tower t);
 	
 	/**
+	 * Sets the graphics context
+	 */
+	public abstract void setGC(GraphicsContext gc);
+	/**
 	 * Shows this map.
 	 */
 	public abstract void show();
