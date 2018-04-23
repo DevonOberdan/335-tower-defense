@@ -94,7 +94,7 @@ public class Map3 extends Map {
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
-			Point offset = new Point(((i*75)), 0);
+			Point offset = new Point(0, (i*75));
 			if (enemyCount == 0 || enemyCount == 1)
 				enemy = new ElfWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
