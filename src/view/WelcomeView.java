@@ -43,6 +43,8 @@ public class WelcomeView extends StackPane implements Observer{
 		});
 		this.getChildren().add(grid);
 		//this.setCenter(grid);
+		this.setId("pane");
+		this.getStylesheets().addAll(this.getClass().getResource("welcomView_style.css").toExternalForm());
 		this.setVisible(true);
 	}
 	
