@@ -45,7 +45,6 @@ public class Map3 extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
-	//private Point endZone;
 	private boolean roundMode;
 	
 	/**
@@ -70,9 +69,9 @@ public class Map3 extends Map {
 		 start = new Point(367, -30);
 		 this.path = new Map3_Path();
 		 alert = new Alert(AlertType.INFORMATION);
-		 this.maxWaveCount = 5;
+		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
-		// endZone = new Point (469, 469);
+		 endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -88,7 +87,7 @@ public class Map3 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
+		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
 			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
@@ -134,7 +133,7 @@ public class Map3 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);

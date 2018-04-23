@@ -70,9 +70,9 @@ public class Map1 extends Map {
 		 start = new Point(-30, 40);
 		 this.path = new Map1_Path();
 		 alert = new Alert(AlertType.INFORMATION);
-		 this.maxWaveCount = 5;
+		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
-		// endZone = new Point (469, 469);
+		 this.endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -88,7 +88,8 @@ public class Map1 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
+		//int type1=(int) (Math.random()*enemyCount), type2=0, type3;
+		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
 			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
@@ -134,7 +135,7 @@ public class Map1 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);

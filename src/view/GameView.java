@@ -112,7 +112,7 @@ public class GameView extends StackPane implements Observer{
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {
 				System.out.println("Spawning enemies");
-				this.map.spawnEnemies(1);
+				this.map.spawnEnemies(this.map.getWaveCount());
 				//this.map.spawnEnemies((int)(5 * this.map.getWaveCount()) + 3);
 				this.map.incrementWave();
 				this.map.toggleRound();

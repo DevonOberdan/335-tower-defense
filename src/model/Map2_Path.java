@@ -42,7 +42,7 @@ public class Map2_Path extends Path{
 		case 4:
 			setL(false); setR(true);
 			setU(false); setD(false);
-			if (p.x>248) // 239
+			if (p.x>251) // 239
 				e.updateNumTurns();
 			break;
 		case 5:
@@ -54,19 +54,19 @@ public class Map2_Path extends Path{
 		case 6:
 			setL(true); setR(false);
 			setU(false); setD(false);
-			if (p.x<68)
+			if (p.x<63)
 				e.updateNumTurns();
 			break;
 		case 7:
 			setL(false); setR(false);
 			setU(true); setD(false);
-			if (p.y<55)
+			if (p.y<51)
 				e.updateNumTurns();
 			break;
 		case 8:
 			setL(false); setR(true);
 			setU(false); setD(false);
-			if (p.x>437)
+			if (p.x>442)
 				e.updateNumTurns();
 			break;
 		case 9:
@@ -78,7 +78,7 @@ public class Map2_Path extends Path{
 		case 10:
 			setL(true); setR(true);
 			setU(false); setD(false);
-			if (p.x<368)
+			if (p.x<362)
 				e.updateNumTurns();
 			break;
 		case 11:

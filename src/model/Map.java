@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.util.List;
 
 import javafx.scene.canvas.Canvas;
@@ -20,8 +21,10 @@ import model.enemy.Enemy;
  *
  */
 public abstract class Map{
+	// the background image
 	protected final Image gameOver = new Image("file:images/game_over.png");
-
+	// the end-zone where the enemies are headed
+	protected Point endZone;
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
