@@ -1,7 +1,6 @@
 package model;
 import java.awt.Point;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -20,12 +19,12 @@ public class MultiTower extends Tower{
 	 * Creates a new multi-area tower that will become 
 	 * 
 	 * Has 4 different upgrades.
-	 * Damage: 50
+	 * Damage: 5
 	 * Range: 200
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 1, 100, 2, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.area);
 	}
 

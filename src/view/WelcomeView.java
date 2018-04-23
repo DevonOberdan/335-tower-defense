@@ -4,15 +4,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import model.Map;
-import model.TestMap;
 
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView;

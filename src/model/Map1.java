@@ -2,22 +2,17 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 /**
@@ -48,7 +43,7 @@ public class Map1 extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
-	private Point endZone;
+	//private Point endZone;
 	private boolean roundMode;
 	
 	/**
@@ -68,13 +63,14 @@ public class Map1 extends Map {
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
-                new AnimateStarter())); 
+                new AnimateStarter1())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 40);
 		 this.path = new Map1_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 5;
-		 endZone = new Point (469, 469);
+		 this.waveCount = 0;
+		// endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -93,7 +89,7 @@ public class Map1 extends Map {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
-			enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
@@ -107,7 +103,7 @@ public class Map1 extends Map {
 	 * OOP-y, but this works.
 	 *
 	 */
-	private class AnimateStarter implements EventHandler<ActionEvent> {
+	private class AnimateStarter1 implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
@@ -118,7 +114,7 @@ public class Map1 extends Map {
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
 				toggleRound();
 				endRound();
-			} else if(!isRunning() && timeline.getStatus() == Animation.Status.STOPPED){
+			} else if(mapFinished()){
 				endMap();
 			}
 			
@@ -141,7 +137,7 @@ public class Map1 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30)));
 		}
 	}
 	
@@ -274,13 +270,22 @@ public class Map1 extends Map {
 	}
 	
 	/**
+	 * Returns true if the player has finished all enemies on the map.
+	 */
+	@Override
+	public boolean mapFinished() {
+		return this.enemyList.isEmpty() && this.waveCount >= this.maxWaveCount && player.getHealth() >= 0;
+	}
+	/**
 	 * Returns true if there exists an enemy count
 	 * in our enemy list; being that there are still enemies
 	 * to be killed!
 	 */
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0 && (timeline.getStatus() == Animation.Status.RUNNING || timeline.getStatus() == Animation.Status.PAUSED) ;
+		return getEnemyCount() > 0 && 
+				(timeline.getStatus() == Animation.Status.RUNNING || timeline.getStatus() == Animation.Status.PAUSED) &&
+				this.getWaveCount() < this.getMaxWaveCount();
 	}
 
 	@Override
@@ -329,7 +334,11 @@ public class Map1 extends Map {
 	
 	@Override
 	public int getWaveCount() {
-		// TODO Auto-generated method stub
 		return this.waveCount;
+	}
+
+	@Override
+	public boolean getRoundMode() {
+		return this.roundMode;	
 	}
 }

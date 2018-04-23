@@ -2,22 +2,17 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 /**
@@ -48,9 +43,9 @@ public class Map2 extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
-	private Point endZone;
+	//private Point endZone;
 	private boolean roundMode;
-
+	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -64,16 +59,18 @@ public class Map2 extends Map {
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
  		player = p;
+ 		roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
-                new AnimateStarter())); 
+                new AnimateStarter2())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 395);
 		 this.path = new Map2_Path();
 		 alert = new Alert(AlertType.INFORMATION);
-		 this.maxWaveCount = 7;
-		 endZone = new Point (469, 469);
+		 this.maxWaveCount = 5;
+		 this.waveCount = 0;
+		// endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -91,19 +88,13 @@ public class Map2 extends Map {
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
-			//if( i >= 5 ) { //Trying to introduce 'waves'
-			//	Point offset = new Point(((i*75 + 1000)), 0);
-			//	enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			//	enemyList.add(enemy);
-			//} else {
-				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-				enemyList.add(enemy);
-			}
+			Point offset = new Point(((i*75)), 0);
+			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			enemyList.add(enemy);
 		}
-		//System.out.printf("%d enemies have been spawned.\n", enemyCount);
-	//}
-	/**
+	}
+	
+	/*
 	 * Private handler for timeline that will target an enemy for each tower, and
 	 * animate each object that we have placed on the map. THis is where
 	 * all of the animating, targeting, and logic of object interactions takes place.
@@ -112,14 +103,27 @@ public class Map2 extends Map {
 	 * OOP-y, but this works.
 	 *
 	 */
-	private class AnimateStarter implements EventHandler<ActionEvent> {
+	private class AnimateStarter2 implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
+			player.draw();
+
+			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
+				toggleRound();
+				endRound();
+			} else if(mapFinished()){
+				endMap();
+			}
 			
 			updateAndReassignTowers();
+			
+			if(roundMode) {
+				return;
+			}
+			
 			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
@@ -128,74 +132,55 @@ public class Map2 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, endZone))
+					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
 						e.setDead();
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
-			if(!isRunning()) { 
-				endRound();
-			}
-			player.draw();
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30)));
 		}
-		
 	}
 	
-	public void endRound() {
+	/**
+	 * Ends the round.
+	 */
+	public void endMap() {
 		timeline.stop();
+		alert.setTitle("Map Over");
 		alert.setHeaderText(null);
-		alert.setTitle("GAME OVER");
-		alert.setContentText("You've defeated the Scourge! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
+		alert.show();
+	}
+	
+	@Override
+	public void toggleRound() {
+		this.roundMode = !this.roundMode;
+	}
+	/**
+	 * Ends the round.
+	 */
+	public void endRound() {
+		alert.setTitle("Round Over");
+		alert.setHeaderText(null);
+		alert.setContentText("Round " + waveCount + " complete!");
 		alert.show();
 	}
 	
 	
-	public void updateAndReassignTowers() {
-		for (Tower t : player.getTowers()) { 
-			if(!enemyList.isEmpty()) {
-				t.setEnemy(null);
-				if(t.getTowerType() == ETower.area) {
-					List<Enemy> es = t.getPrioEnemies(enemyList);
-					for(Enemy e : es) {
-						t.setEnemy(e);
-						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-							enemyList.remove(e);
-							if(!isRunning()) {
-								endRound();
-								return;
-							}
-						}
-						if(e != null) {
-							t.attack();
-							e.setAttacked(true);
-						}
-					}
-				} else {
-				Enemy e = t.getPrioEnemy(enemyList);
-				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-					enemyList.remove(e);
-					if(isRunning()) {
-						e = enemyList.get(0);
-					}
-					else {
-						endRound();
-						return;
-					}
-				}
-				if(e != null) {
-					t.setEnemy(e);
-					t.attack();
-					e.setAttacked(true);
-				}
-			} 
-			}
-			t.show(gc);
-		}
+	/**
+	 * Pauses the game.
+	 */
+	public void pause() {
+		this.timeline.pause();
+	}
+	/**
+	 * Resumes the game.
+	 */
+	public void play() {
+		this.timeline.play();
 	}
 	
-	/**********************************************************************
-	DEBUGGING TOWER ADD FUNCTIONS
+	/**
 	 * Adds a new archerTower onto the screen at position p.
 	 */
 	public void addTower(Tower t) {
@@ -206,6 +191,59 @@ public class Map2 extends Map {
 		}
 		else {
 			System.out.println("You're broke");
+		}	}
+	
+	/**
+	 * updates towers' targets and redraws them on the map
+	 */
+	public void updateAndReassignTowers() {
+		for (Tower t : player.getTowers()) { 
+			if(!enemyList.isEmpty()) {
+				t.setEnemy(null);
+				switch(t.getTowerType()) {
+				case area:
+					List<Enemy> es = t.getPrioEnemies(enemyList);
+					for(Enemy e : es) {
+						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+							enemyList.remove(e);
+							if(isRunning()) {
+								e = t.getPrioEnemy(enemyList);
+							}
+							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								endMap();
+								return;
+							}
+						}
+						if(e != null) {
+							t.setEnemy(e);
+							e.setAttacked(true);
+						}
+					}
+					t.attack();
+					break;
+				case archer:
+					Enemy e = t.getPrioEnemy(enemyList);
+					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+						enemyList.remove(e);
+						if(isRunning()) {
+							e = t.getPrioEnemy(enemyList);
+						}
+						else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							endMap();
+							return;
+						}
+					}
+					if(e != null) {
+						t.setEnemy(e);
+						t.attack();
+						e.setAttacked(true);
+					}
+					break;
+				default:
+					break;
+				}
+			} 
+			t.show(gc);
 		}
 	}
 	/**********************************************************************/
@@ -232,13 +270,22 @@ public class Map2 extends Map {
 	}
 	
 	/**
+	 * Returns true if the player has finished all enemies on the map.
+	 */
+	@Override
+	public boolean mapFinished() {
+		return this.enemyList.isEmpty() && this.waveCount >= this.maxWaveCount && player.getHealth() >= 0;
+	}
+	/**
 	 * Returns true if there exists an enemy count
 	 * in our enemy list; being that there are still enemies
 	 * to be killed!
 	 */
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0 && timeline.getStatus() == Animation.Status.RUNNING;
+		return getEnemyCount() > 0 && 
+				(timeline.getStatus() == Animation.Status.RUNNING || timeline.getStatus() == Animation.Status.PAUSED) &&
+				this.getWaveCount() < this.getMaxWaveCount();
 	}
 
 	@Override
@@ -280,6 +327,10 @@ public class Map2 extends Map {
 		this.waveCount++;	
 	}
 
+	@Override
+	public int getMaxWaveCount() {
+		return this.maxWaveCount;
+	}
 	
 	@Override
 	public int getWaveCount() {
@@ -287,12 +338,7 @@ public class Map2 extends Map {
 	}
 
 	@Override
-	public void toggleRound() {
-		this.roundMode = !this.roundMode;
-	}
-
-	@Override
-	public int getMaxWaveCount() {
-		return this.maxWaveCount;
+	public boolean getRoundMode() {
+		return this.roundMode;	
 	}
 }

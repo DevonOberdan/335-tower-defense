@@ -3,15 +3,10 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
-import javafx.scene.shape.Shape;
 
 /**
  * 
@@ -25,7 +20,6 @@ public abstract class Tower {
 	private int      damage;
 	private int      xp;
 	private int      currentLevel;
-	private int		 fireRate;
 	private int 	 cost;
 	private ETower   towerType;
 	private Image  	 image;
@@ -49,11 +43,10 @@ public abstract class Tower {
 	 * @param soundeff the sound effects of this tower
 	 * @param location the location on the scene of this tower.
 	 */
-	public Tower (String name, int damage, int radius, int fireRate, Image image, int cost, Media soundeff, Point location) {
+	public Tower (String name, int damage, int radius, Image image, int cost, Media soundeff, Point location) {
 		this.towerName = name;
 		this.radius = radius;
 		this.damage = damage;
-		this.fireRate = fireRate;
 		this.image = image;
 		this.cost = cost;
 		this.currentLevel = 1;
@@ -78,26 +71,26 @@ public abstract class Tower {
 	 */
 	public abstract boolean levelUp();
 	
-	public String getName()				 { return towerName; 	} //name of tower
-	public int	  getRange()			 { return radius;       } //range of tower
-	public int    getDamage()            { return damage;       } //damage of tower
-	public int    getXP()                { return xp;           } //current tower xp ?
-	public int    getLevel()             { return currentLevel; } //current tower level
-	public int    getCost()              { return (int) (cost * (currentLevel * 1.5)); } //current cost of tower
-	public ETower getTowerType()		 { return this.towerType; } //type of tower
-	public int getX()					 { return (int)this.TowerLocation.getX(); } //location of x on board
-	public int getY()					 { return (int)this.TowerLocation.getY(); } //location of y on board
-	public Image  getCurrentImage()      { return image;        } //image of the tower
-	public Image  getCurrentProjectile() { return projectile;   } //projectile image
-	public Media  getSoundEffect()       { return soundEffect;  } //sound effects of this tower when it shoots
-	public Point  getLocation()          { return TowerLocation;} //location of tower
-	public void setSelected(boolean b) {this.isSelected = b; } //is this tower selected?
-	public boolean getSelected() 		{return this.isSelected; } //is this tower selected?
-	public Enemy getCurrentEnemy()    { return enemy;   } //current target
-	public List<Enemy> getEnemyList() { return ens; } //current targets
-	public void setDamage(int num)		 { this.damage = num; 	} //set damage
-	public void setRange(int num)		 { this.radius = num;	} //set range
-	public void setSoundEffect(Media sound) { this.soundEffect = sound; } //set sound effect.
+	public String getName()					{ return towerName; 	} 	//name of tower
+	public int	  getRange()					{ return radius;       } //range of tower
+	public int    getDamage()				{ return damage;       } //damage of tower
+	public int    getXP()              		{ return xp;           } //current tower xp ?
+	public int    getLevel()             	{ return currentLevel; } //current tower level
+	public int    getCost()              	{ return (int) (cost * (currentLevel * 1.5)); } //current cost of tower
+	public ETower getTowerType()				{ return this.towerType; } //type of tower
+	public int getX()						{ return (int)this.TowerLocation.getX(); } //location of x on board
+	public int getY()						{ return (int)this.TowerLocation.getY(); } //location of y on board
+	public Image  getCurrentImage()      	{ return image;        } //image of the tower
+	public Image  getCurrentProjectile() 	{ return projectile;   } //projectile image
+	public Media  getSoundEffect()       	{ return soundEffect;  } //sound effects of this tower when it shoots
+	public Point  getLocation()          	{ return TowerLocation;} //location of tower
+	public void setSelected(boolean b) 		{ this.isSelected = b; } //is this tower selected?
+	public boolean getSelected() 			{ return this.isSelected; } //is this tower selected?
+	public Enemy getCurrentEnemy()    		{ return enemy;   } //current target
+	public List<Enemy> getEnemyList() 		{ return ens; } //current targets
+	public void setDamage(int num)			{ this.damage = num; 	} //set damage
+	public void setRange(int num)			{ this.radius = num;	} //set range
+	public void setSoundEffect(Media sound) 	{ this.soundEffect = sound; } //set sound effect.
 	public boolean setTowerType(ETower type) { this.towerType = type; return true;} //set tower type.
 	
 	/**

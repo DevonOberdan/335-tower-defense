@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,23 +12,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import model.ArcherTower;
-import model.IceMap;
 import model.Map;
 import model.Map1;
 import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
-import model.TestMap;
 import model.Tower;
 
 public class GameView extends StackPane implements Observer{
@@ -54,7 +43,6 @@ public class GameView extends StackPane implements Observer{
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
 		this.map = new Map1(player, gc);
-		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		Button nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
@@ -79,6 +67,8 @@ public class GameView extends StackPane implements Observer{
 		ImageView archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
+			if(this.map.mapFinished())
+				return;
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -87,7 +77,7 @@ public class GameView extends StackPane implements Observer{
 			}
 		});
 		archerTower.setOnMouseDragged(e -> {
-			if(this.map != null && this.map.isRunning()) {
+			if(this.map != null && !this.map.mapFinished()) {
 				this.x = (int) e.getSceneX();
 				this.y = (int) e.getSceneY();
 				gc.drawImage(archerimg, 0, 0, 150, 150, x-30, y-40, 60, 80);
@@ -97,6 +87,8 @@ public class GameView extends StackPane implements Observer{
 		ImageView multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
+			if(this.map.mapFinished())
+				return;
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -105,7 +97,7 @@ public class GameView extends StackPane implements Observer{
 			}
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && this.map.isRunning()) {
+			if(this.map != null && !this.map.mapFinished()) {
 				this.x = (int) e.getSceneX();
 				this.y = (int) e.getSceneY();
 				gc.drawImage(multiimg, 0, 0, 60, 80, x-30, y-40, 60, 80);
@@ -118,17 +110,20 @@ public class GameView extends StackPane implements Observer{
 		archerTower.setFitWidth(70);
 		
 		multiTower.setTranslateX(252);
-		multiTower.setTranslateY(-30);
+		multiTower.setTranslateY(-33);
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
 		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower);
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
-			if(this.map.getEnemyCount() == 0) {
-				this.map.spawnEnemies((int)(5 * this.map.getWaveCount()));
+			if(this.map.getRoundMode()) {
+				System.out.println("Spawning enemies");
+				this.map.spawnEnemies(1);
+				//this.map.spawnEnemies((int)(5 * this.map.getWaveCount()) + 3);
 				this.map.incrementWave();
 				this.map.toggleRound();
 			}
+				
 		});
 		
 		/*
@@ -149,7 +144,7 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			
-			if(this.map != null && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()) {
+			if(this.map != null && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()){
 				switch(ptr) {
 				
 				case 0: //level 2
@@ -158,7 +153,7 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							//showFirstCutscene();
 							this.map = new Map2(player, gc);
-							this.map.spawnEnemies(5);
+							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
 						}
@@ -172,7 +167,7 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							//showSecondCutscene();
 							this.map = new Map3(player, gc);
-							this.map.spawnEnemies(5);
+							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
 						}
@@ -204,6 +199,12 @@ public class GameView extends StackPane implements Observer{
 					}
 					break;
 				}
+			} else if(this.map != null){
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setTitle("Enemies inbound!");
+				a.setHeaderText(null);
+				a.setContentText("You must complete all of the waves\nbefore advancing to the next round.\nYou have completed " + this.map.getWaveCount() + " out of " + this.map.getMaxWaveCount() + " rounds.");
+				a.show();
 			}
 		});
 		

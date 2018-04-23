@@ -1,13 +1,10 @@
 package model;
 
-import java.awt.Point;
 import java.util.List;
-import java.util.Observer;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import model.Path;
 
 
@@ -106,6 +103,16 @@ public abstract class Map{
 	 */
 	public abstract boolean checkGameOver(Player p);
 
+	/**
+	 * @return returns the maximum amount of waves for this map.
+	 */
 	public abstract int getMaxWaveCount();
+	
+	/**
+	 * Returns the boolean round mode value.
+	 */
+	public abstract boolean getRoundMode();
+
+	public abstract boolean mapFinished();
 	
 }

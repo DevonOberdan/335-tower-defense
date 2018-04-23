@@ -1,13 +1,9 @@
 package view;
 
 import java.util.Observer;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import model.Map;
 
 public class InstructionView extends BorderPane implements Observer{
 	private static final String instructions = "Welcome to Tower Defense! This game is brought"

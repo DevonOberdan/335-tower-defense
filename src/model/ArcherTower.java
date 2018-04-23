@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.GraphicsConfigTemplate;
 import java.awt.Point;
 import java.io.File;
 import java.util.List;
@@ -9,7 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 
 /**
  * ArcherTower is another Tower type. 
@@ -27,7 +25,7 @@ public class ArcherTower extends Tower {
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public ArcherTower(Point location) {
-		super("Archer", 3, 200, 5, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 3, 200, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
 	}
 
