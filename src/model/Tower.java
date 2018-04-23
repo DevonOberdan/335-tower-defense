@@ -60,7 +60,7 @@ public abstract class Tower {
 	 * To be implemented later... I have a few ideas for this.
 	 * @return
 	 */
-	public abstract boolean attack();
+	public abstract boolean attack(GraphicsContext gc);
 	
 	/**
 	 * Levels up this specific tower. Different for other tower types.
