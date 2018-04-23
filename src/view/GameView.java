@@ -20,6 +20,7 @@ import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
+import model.RandomTower;
 import model.Tower;
 
 /**
@@ -103,6 +104,26 @@ public class GameView extends StackPane implements Observer{
 			}
 		});
 		
+		ImageView randomTower = new ImageView("file:images/random.png");
+		Image randomimg = new Image("file:images/random.png");
+		randomTower.setOnMouseReleased(e -> {
+			if(this.map.mapFinished())
+				return;
+			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			{
+				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				map.addTower(t);
+			}
+		});
+		randomTower.setOnMouseDragged(e -> {
+			if(this.map != null && !this.map.mapFinished()) {
+				this.x = (int) e.getSceneX();
+				this.y = (int) e.getSceneY();
+				gc.drawImage(randomimg, 0, 0, 150, 125, x-30, y-40, 60, 80);
+			}
+		});
+		
 		archerTower.setTranslateX(255);
 		archerTower.setTranslateY(-125);
 		archerTower.setFitHeight(80);
@@ -112,7 +133,13 @@ public class GameView extends StackPane implements Observer{
 		multiTower.setTranslateY(-33);
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
-		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower);
+		
+		randomTower.setTranslateX(255);
+		randomTower.setTranslateY(50);
+		randomTower.setFitHeight(80);
+		randomTower.setFitWidth(70);
+		
+		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, randomTower);
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {

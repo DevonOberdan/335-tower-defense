@@ -83,13 +83,13 @@ public class Wolf extends Enemy {
 			dir = 1; previousDir = 1;
 		}
 		
-		if (enraged) {      // draws Rage wolf
+		if (enraged && !dead) {      // draws Rage wolf
 			img = angry_wolf[dir];
 			gc.drawImage(img, walkTick*sourceWalkSizes.getX(), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
-		else if (stalled) { // draws the crazy stalled wolf
+		else if (stalled && !dead) { // draws the crazy stalled wolf
 			img = crazy_wolf[dir];
 			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
@@ -99,7 +99,7 @@ public class Wolf extends Enemy {
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
-		else if(dead) {   // draw death frames
+		else if(dead || this.getAttackedPlayer()) {   // draw death frames
 			img = deathImgs[dir];
 
 			gc.drawImage(img, deathTick*sourceDeathSizes.getX(), 0, sourceDeathSizes.getX(),

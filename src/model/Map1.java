@@ -74,7 +74,7 @@ public class Map1 extends Map {
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
-		 this.endZone = new Point (469, 469);
+		 this.endZone = new Point (490, 418);
 	}
 	
 	/**
@@ -142,12 +142,14 @@ public class Map1 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, endZone))
+					if (!e.getDead() && e.attackPlayer(player, endZone)) {
+						e.setAttackPlayer();
 						e.setDead();
+					}
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30)));
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30, e)));
 		}
 	}
 	
