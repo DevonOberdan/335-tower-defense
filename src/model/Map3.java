@@ -15,12 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-import model.enemy.BlueKnight;
-import model.enemy.ElfArcher;
-import model.enemy.ElfWizard;
 import model.enemy.Enemy;
-import model.enemy.TinyWizard;
-import model.enemy.Troll;
 import model.enemy.Wolf;
 /**
  * TestMap exhibits the nature of an actual game that we might
@@ -93,14 +88,9 @@ public class Map3 extends Map {
 	 */
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount+1; i++) {
-			Enemy enemy = null; 
+			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
-			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new ElfWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			else if (enemyCount == 0 || enemyCount == 1)
-				enemy = new ElfArcher(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			else
-				enemy = new BlueKnight(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
