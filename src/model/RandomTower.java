@@ -34,10 +34,19 @@ public class RandomTower extends Tower {
 	 */
 	public RandomTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Archer", 15, 100, new Image("file:images/random.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
-		super.setTowerType(ETower.archer);
-		
-		AnimationTimer timer = new AnimationTimer(){
+		super("Catapult", 100, 80, new Image("file:images/cannon.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super.setTowerType(ETower.catapult);
+		findSpot();
+		AnimationTimer shootTimer = new AnimationTimer(){
+				
+			@Override
+			public void handle (long now) {
+				if((now - prev >= 0.05e9)) {
+					prev = now;
+					drawBall();
+				}
+			}
+		};
 			
 			@Override
 			public void handle (long now) {
@@ -98,6 +107,32 @@ public class RandomTower extends Tower {
 		this.setEnemy(null);
 		return true;
 	}
+	
+	public void drawBall() {
+		
+		if(shotIter ==0) {
+			prevBallX = this.getLocation().getX();
+			prevBallY = this.getLocation().getY();
+		}
+	
+		double ballX = (xDist/20) + prevBallX;
+		double ballY = (yDist/20) + prevBallY;
+		
+		this.getGC().drawImage(ball, ballX, ballY, 20, 20);
+		
+		
+		this.getGC().setGlobalAlpha(0.15);
+		this.getGC().setFill(Color.RED);
+		this.getGC().fillOval(fireLoc.getX()-this.getRange(), fireLoc.getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
+		this.getGC().setGlobalAlpha(1.0);
+		this.getGC().setFill(Color.WHITE);
+		
+		prevBallX = ballX;
+		prevBallY = ballY;
+		
+		shotIter++;
+	}
+	
 	
 	@Override
 	public void shoot() {
