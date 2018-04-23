@@ -99,7 +99,7 @@ public class Wolf extends Enemy {
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
-		else if(dead) {   // draw death frames
+		else if(dead || this.getAttackedPlayer()) {   // draw death frames
 			img = deathImgs[dir];
 
 			gc.drawImage(img, deathTick*sourceDeathSizes.getX(), 0, sourceDeathSizes.getX(),
