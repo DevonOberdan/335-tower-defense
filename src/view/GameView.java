@@ -77,14 +77,21 @@ public class GameView extends StackPane implements Observer{
 		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+
+			
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			
 			this.map.setDragged(null, false, 0, 0);
 		});
 		archerTower.setOnMouseDragged(e -> {
@@ -96,14 +103,21 @@ public class GameView extends StackPane implements Observer{
 		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
+			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			
 			this.map.setDragged(null, false, 0, 0);
 
 		});
@@ -115,8 +129,13 @@ public class GameView extends StackPane implements Observer{
 		ImageView randomTower = new ImageView("file:images/random.png");
 		Image randomimg = new Image("file:images/random.png");
 		randomTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
+			
 			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{

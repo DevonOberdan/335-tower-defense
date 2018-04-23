@@ -85,11 +85,16 @@ public class SelectorView extends StackPane implements Observer{
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
+		//Archer tower image, where the archer tower is drawn and assigned event handlers.
 		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -103,11 +108,15 @@ public class SelectorView extends StackPane implements Observer{
 				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
+		//multi tower image, where the multi tower is drawn and assigned event handlers.
 		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -115,17 +124,21 @@ public class SelectorView extends StackPane implements Observer{
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
+
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) 
+			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		ImageView randomTower = new ImageView("file:images/random.png");
 		Image randomimg = new Image("file:images/random.png");
 		randomTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
 			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
