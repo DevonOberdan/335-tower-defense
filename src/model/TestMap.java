@@ -272,6 +272,12 @@ public class TestMap extends Map {
 	public Player getPlayer() {
 		return this.player;
 	}
+	
+	
+	@Override
+	public void incrementWave() {
+		this.waveCount++;	
+	}
 
 	@Override
 	public int getWaveCount() {

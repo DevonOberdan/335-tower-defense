@@ -41,7 +41,7 @@ public class GameView extends StackPane implements Observer{
 	private int ptr;
 	private Player player;
 	private int x, y;
-	private Button nextWave;
+	private Button nextRound;
 	
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
@@ -56,17 +56,22 @@ public class GameView extends StackPane implements Observer{
 		this.map = new Map1(player, gc);
 		this.map.spawnEnemies(5);
 		this.ptr = 0; this.x = 0; this.y = 0;
-		nextWave = new Button("Next Wave");
+		Button nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
-		nextWave.setMinWidth(30);
+		nextWave.setMinWidth(35);
 		nextWave.setTranslateX(250);
-		nextWave.setTranslateY(230);
-		nextWave.setOnAction(e -> {
+		nextWave.setTranslateY(202);
+		nextRound = new Button("Next Round");
+		nextRound.setMinHeight(20);
+		nextRound.setMinWidth(35);
+		nextRound.setTranslateX(250);
+		nextRound.setTranslateY(237);
+/*		nextRound.setOnAction(e -> {
 			if(this.map != null && !this.map.isRunning() && this.map.getPlayer().getHealth() > 0)
 				this.map.spawnEnemies(6 * this.map.getWaveCount());
 			this.map.show();
 		});
-		
+*/	
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
@@ -75,8 +80,7 @@ public class GameView extends StackPane implements Observer{
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
-			System.out.println("hello1");
-			if(!selectTower((int)e.getSceneX(), (int)e.getSceneY()))
+			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
@@ -89,19 +93,50 @@ public class GameView extends StackPane implements Observer{
 				gc.drawImage(archerimg, 0, 0, 150, 150, x-30, y-40, 60, 80);
 			}
 		});
+		
+		ImageView multiTower = new ImageView("file:images/MultiTower1.png");
+		Image multiimg = new Image("file:images/MultiTower1.png");
+		multiTower.setOnMouseReleased(e -> {
+			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			{
+				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				map.addTower(t);
+			}
+		});
+		multiTower.setOnMouseDragged(e -> {
+			if(this.map != null && this.map.isRunning()) {
+				this.x = (int) e.getSceneX();
+				this.y = (int) e.getSceneY();
+				gc.drawImage(multiimg, 0, 0, 60, 80, x-30, y-40, 60, 80);
+			}
+		});
+		
 		archerTower.setTranslateX(255);
 		archerTower.setTranslateY(-125);
 		archerTower.setFitHeight(80);
 		archerTower.setFitWidth(70);
-		this.getChildren().addAll(canvas,nextWave,archerTower);
-		//this.setCenter(pane);
 		
-		/**
+		multiTower.setTranslateX(252);
+		multiTower.setTranslateY(-30);
+		multiTower.setFitHeight(80);
+		multiTower.setFitWidth(60);
+		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower);
+		//this.setCenter(pane);
+		nextWave.setOnAction(e -> {
+			if(this.map.getEnemyCount() == 0) {
+				this.map.spawnEnemies((int)(5 * this.map.getWaveCount()));
+				this.map.incrementWave();
+				this.map.toggleRound();
+			}
+		});
+		
+		/*
 		 * How we transition to the next cutscene / map. OnClick events will try to understand
 		 * the game environment status (if they player is dead, all the enemies are dead, etc).
 		 * going off of this information, it will reassign the program's state (map/view).
 		 */
-		this.setOnMouseClicked(e ->{
+		nextRound.setOnAction(e ->{
 			if(this.player.isDead()) {
 				this.getChildren().clear();
 				//this.setCenter(null);
@@ -114,7 +149,7 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			
-			if(this.map != null && !this.map.isRunning()) {
+			if(this.map != null && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()) {
 				switch(ptr) {
 				
 				case 0: //level 2
@@ -170,11 +205,17 @@ public class GameView extends StackPane implements Observer{
 					break;
 				}
 			}
-			selectTower((int)e.getX(), (int)e.getY());
+		});
+		
+		this.setOnMouseClicked(e->{
+			Tower t = selectTower((int)e.getX(), (int)e.getY());
+			if(t != null) {
+				//add upgrade / sell obj
+			}
 		});
 	}
 	
-	public boolean selectTower(int x, int y) {
+	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
 			if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
@@ -183,10 +224,10 @@ public class GameView extends StackPane implements Observer{
 				t.setSelected(false);
 			} else { //must be in bounds
 				t.setSelected(true);
-				return true;
+				return t;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	public void unselectTowers() {

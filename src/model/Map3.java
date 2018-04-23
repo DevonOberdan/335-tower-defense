@@ -49,6 +49,7 @@ public class Map3 extends Map {
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	private Point endZone;
+	private boolean roundMode;
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -62,6 +63,7 @@ public class Map3 extends Map {
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
  		player = p;
+ 		this.roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
@@ -274,8 +276,23 @@ public class Map3 extends Map {
 	}
 
 	@Override
+	public void incrementWave() {
+		this.waveCount++;	
+	}
+
+	
+	@Override
 	public int getWaveCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.waveCount;
+	}
+
+	@Override
+	public void toggleRound() {
+		this.roundMode = !this.roundMode;
+	}
+
+	@Override
+	public int getMaxWaveCount() {
+		return this.maxWaveCount;
 	}
 }

@@ -76,6 +76,15 @@ public abstract class Map{
 	public abstract Path getPath();
 	
 	/**
+	 * increments the wave count
+	 */
+	public abstract void incrementWave();
+	
+	/**
+	 * Sets map to round mode
+	 */
+	public abstract void toggleRound();
+	/**
 	 * Adds a tower to this map at location p.
 	 * @param p
 	 */
@@ -96,5 +105,7 @@ public abstract class Map{
 	 * checks if the player has died and makes the game end
 	 */
 	public abstract boolean checkGameOver(Player p);
+
+	public abstract int getMaxWaveCount();
 	
 }

@@ -49,6 +49,7 @@ public class Map1 extends Map {
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	private Point endZone;
+	private boolean roundMode;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -63,6 +64,7 @@ public class Map1 extends Map {
 		menuBar = new Image("file:images/menu.jpg");
  		this.gc = gc;
  		player = p;
+ 		roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
@@ -90,19 +92,13 @@ public class Map1 extends Map {
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount; i++) {
 			Enemy enemy; 
-			//if( i >= 5 ) { //Trying to introduce 'waves'
-			//	Point offset = new Point(((i*75 + 1000)), 0);
-			//	enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			//	enemyList.add(enemy);
-			//} else {
-				Point offset = new Point(((i*75)), 0);
-				enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-				enemyList.add(enemy);
-			}
+			Point offset = new Point(((i*75)), 0);
+			enemy = new WolfEnemy(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			enemyList.add(enemy);
 		}
-		//System.out.printf("%d enemies have been spawned.\n", enemyCount);
-	//}
-	/**
+	}
+	
+	/*
 	 * Private handler for timeline that will target an enemy for each tower, and
 	 * animate each object that we have placed on the map. THis is where
 	 * all of the animating, targeting, and logic of object interactions takes place.
@@ -117,16 +113,22 @@ public class Map1 extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
+			player.draw();
+
+			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
+				toggleRound();
+				endRound();
+			} else if(!isRunning() && timeline.getStatus() == Animation.Status.STOPPED){
+				endMap();
+			}
 			
 			updateAndReassignTowers();
 			
-			if(enemyList.isEmpty() && waveCount < maxWaveCount) {
-				timeline.pause();
-				return;
-			} else if(!isRunning() && timeline.getStatus() == Animation.Status.STOPPED){
-				endRound();
+			if(roundMode) {
 				return;
 			}
+			
+			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
@@ -140,26 +142,60 @@ public class Map1 extends Map {
 				checkGameOver(player);
 			}
 			enemyList.removeIf(e -> (e.getDeathTicker() >= e.deathFrameCount() && player.deposit(30)));
-			player.draw();
 		}
-		
 	}
 	
-	
-	public void endRound() {
+	/**
+	 * Ends the round.
+	 */
+	public void endMap() {
 		timeline.stop();
-		alert.setTitle("Round Over");
+		alert.setTitle("Map Over");
 		alert.setHeaderText(null);
 		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
 		alert.show();
 	}
+	
+	@Override
+	public void toggleRound() {
+		this.roundMode = !this.roundMode;
+	}
+	/**
+	 * Ends the round.
+	 */
+	public void endRound() {
+		alert.setTitle("Round Over");
+		alert.setHeaderText(null);
+		alert.setContentText("Round " + waveCount + " complete!");
+		alert.show();
+	}
+	
+	
+	/**
+	 * Pauses the game.
+	 */
+	public void pause() {
+		this.timeline.pause();
+	}
+	/**
+	 * Resumes the game.
+	 */
+	public void play() {
+		this.timeline.play();
+	}
+	
 	/**
 	 * Adds a new archerTower onto the screen at position p.
 	 */
 	public void addTower(Tower t) {
 		System.out.println("Tower added @"+t.getLocation().toString());
-		player.addTower(t);
-	}
+		if (t.getCost()<=player.getGold()) {
+			player.withdraw(t.getCost());
+			player.addTower(t);
+		}
+		else {
+			System.out.println("You're broke");
+		}	}
 	
 	/**
 	 * updates towers' targets and redraws them on the map
@@ -168,21 +204,47 @@ public class Map1 extends Map {
 		for (Tower t : player.getTowers()) { 
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
-				Enemy e = t.getPrioEnemy(enemyList);
-				if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
-					enemyList.remove(e);
-					if(isRunning()) {
-						e = t.getPrioEnemy(enemyList);
+				switch(t.getTowerType()) {
+				case area:
+					List<Enemy> es = t.getPrioEnemies(enemyList);
+					for(Enemy e : es) {
+						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+							enemyList.remove(e);
+							if(isRunning()) {
+								e = t.getPrioEnemy(enemyList);
+							}
+							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								endMap();
+								return;
+							}
+						}
+						if(e != null) {
+							t.setEnemy(e);
+							e.setAttacked(true);
+						}
 					}
-					else {
-						endRound();
-						return;
-					}
-				}
-				if(e != null) {
-					t.setEnemy(e);
 					t.attack();
-					e.setAttacked(true);
+					break;
+				case archer:
+					Enemy e = t.getPrioEnemy(enemyList);
+					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
+						enemyList.remove(e);
+						if(isRunning()) {
+							e = t.getPrioEnemy(enemyList);
+						}
+						else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							endMap();
+							return;
+						}
+					}
+					if(e != null) {
+						t.setEnemy(e);
+						t.attack();
+						e.setAttacked(true);
+					}
+					break;
+				default:
+					break;
 				}
 			} 
 			t.show(gc);
@@ -218,7 +280,7 @@ public class Map1 extends Map {
 	 */
 	@Override
 	public boolean isRunning() {
-		return getEnemyCount() > 0 && timeline.getStatus() == Animation.Status.RUNNING;
+		return getEnemyCount() > 0 && (timeline.getStatus() == Animation.Status.RUNNING || timeline.getStatus() == Animation.Status.PAUSED) ;
 	}
 
 	@Override
@@ -256,8 +318,18 @@ public class Map1 extends Map {
 	}
 
 	@Override
+	public void incrementWave() {
+		this.waveCount++;	
+	}
+
+	@Override
+	public int getMaxWaveCount() {
+		return this.maxWaveCount;
+	}
+	
+	@Override
 	public int getWaveCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.waveCount;
 	}
 }
