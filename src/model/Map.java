@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import model.Path;
 import model.enemy.Enemy;
 
@@ -22,7 +23,7 @@ import model.enemy.Enemy;
  * @author Taite Nazifi
  *
  */
-public abstract class Map{
+public abstract class Map extends StackPane{
 	// the background image
 	protected final Image gameOver = new Image("file:images/game_over.png");
 	// the end-zone where the enemies are headed
@@ -132,4 +133,9 @@ public abstract class Map{
 	 * destroys everything
 	 */
 	public abstract void destroyitall();
+	
+	/**
+	 * Sets the img that we need to draw to be dragged to this
+	 */
+	public abstract void setDragged(Image img, boolean boo, int x, int y);
 }

@@ -185,6 +185,7 @@ public class GameView extends StackPane implements Observer{
 							ptr++;
 						}
 					}
+					
 					break;
 					
 				case 1: //Level 3
@@ -244,6 +245,15 @@ public class GameView extends StackPane implements Observer{
 		});
 	}
 	
+	/**
+	 * Attempts to select a given tower at x y on the map
+	 * if there are no towers there, it returns false. if it
+	 * successfully selects a tower, it returns true.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	
 	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
@@ -259,6 +269,9 @@ public class GameView extends StackPane implements Observer{
 		return null;
 	}
 	
+	/**
+	 * unselects all towers on the map.
+	 */
 	public void unselectTowers() {
 		for(Tower t : player.getTowers()) {
 			t.setSelected(false);

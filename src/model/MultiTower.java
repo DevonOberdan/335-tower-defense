@@ -126,7 +126,7 @@ public class MultiTower extends Tower{
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), 0, 0, 60, 80, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 		if(this.getSelected()) {
 			gc.setGlobalAlpha(0.15);
 			gc.setFill(Color.GHOSTWHITE);

@@ -95,13 +95,11 @@ public class SelectorView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
 		});
 		archerTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(archerimg, 0, 0, 150, 150, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished())
+				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		multiTower = new ImageView("file:images/MultiTower1.png");
@@ -115,13 +113,11 @@ public class SelectorView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(multiimg, 0, 0, 60, 80, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished()) 
+				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		ImageView randomTower = new ImageView("file:images/random.png");
@@ -135,13 +131,11 @@ public class SelectorView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
 		});
 		randomTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(randomimg, 0, 0, 150, 125, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished())
+				this.map.setDragged(randomimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		archerTower.setTranslateX(255);
@@ -218,11 +212,19 @@ public class SelectorView extends StackPane implements Observer{
 		
 	}
 
+	/**
+	 * Attempts to select a given tower at x y on the map
+	 * if there are no towers there, it returns false. if it
+	 * successfully selects a tower, it returns true.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
-			if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
-					|| y < t.getLocation().getY()-20 || y > t.getLocation().getY()+20) {
+			if(x < t.getLocation().getX()-30 || x > t.getLocation().getX()+30
+					|| y < t.getLocation().getY()-30 || y > t.getLocation().getY()+30) {
 				//NOT in bounds
 				t.setSelected(false);
 			} else { //must be in bounds
@@ -233,6 +235,9 @@ public class SelectorView extends StackPane implements Observer{
 		return null;
 	}
 	
+	/**
+	 * unselects all towers on the map.
+	 */
 	public void unselectTowers() {
 		for(Tower t : player.getTowers()) {
 			t.setSelected(false);

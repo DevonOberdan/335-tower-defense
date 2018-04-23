@@ -49,6 +49,9 @@ public class Map1 extends Map {
 	private int maxWaveCount, waveCount;
 	//private Point endZone;
 	private boolean roundMode;
+	private Image dragimg;
+	private boolean dragging;
+	private int dragx, dragy;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -120,7 +123,6 @@ public class Map1 extends Map {
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
 			player.draw();
-
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
 				toggleRound();
 				endRound();
@@ -129,6 +131,10 @@ public class Map1 extends Map {
 			}
 			
 			updateAndReassignTowers();
+			
+			if(dragging) {
+				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+			}
 			
 			if(roundMode) {
 				return;
@@ -375,5 +381,13 @@ public class Map1 extends Map {
 		this.timeline = null;
 		this.towerList.clear();
 		this.towerList = null;
+	}
+	
+	@Override
+	public void setDragged(Image img, boolean bool, int x, int y) {
+		this.dragx = x;
+		this.dragy = y;
+		this.dragging = bool;
+		this.dragimg = img;
 	}
 }
