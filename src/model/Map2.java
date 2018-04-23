@@ -16,6 +16,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import model.enemy.Enemy;
+import model.enemy.Ghost;
+import model.enemy.Rider;
+import model.enemy.Skeleton;
+import model.enemy.TinyWizard;
+import model.enemy.Troll;
 import model.enemy.Wolf;
 /**
  * TestMap exhibits the nature of an actual game that we might
@@ -88,9 +93,14 @@ public class Map2 extends Map {
 	 */
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount+1; i++) {
-			Enemy enemy; 
+			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
-			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			if (enemyCount == 0 || enemyCount == 1)
+				enemy = new Skeleton(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			else if (enemyCount == 0 || enemyCount == 1)
+				enemy = new Rider(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			else
+				enemy = new Ghost(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
