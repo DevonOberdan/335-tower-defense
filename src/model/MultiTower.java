@@ -3,6 +3,7 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -15,6 +16,10 @@ import javafx.scene.paint.Color;
  */
 public class MultiTower extends Tower{
 
+	
+	private static boolean first = true;
+	private long start;
+	private long previous;
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -24,8 +29,25 @@ public class MultiTower extends Tower{
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 4, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.area);
+		
+		AnimationTimer timer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+				}
+				if((now - previous >= 0.2e9) && canAttack()) {
+					previous = now;
+					//System.out.println("one second later");
+					attack();
+				}
+			}
+		};
+		timer.start();
 	}
 
 	/**
@@ -48,6 +70,11 @@ public class MultiTower extends Tower{
 			}
 		}
 		return prios;
+	}
+	
+	
+	public boolean canAttack() {
+		return (this.getCurrentEnemy() != null);
 	}
 	
 	/**

@@ -219,7 +219,7 @@ public class Map1 extends Map {
 							e.setAttacked(true);
 						}
 					}
-					t.attack();
+					//t.attack();
 					break;
 				case archer:
 					Enemy e = t.getPrioEnemy(enemyList);
@@ -235,7 +235,7 @@ public class Map1 extends Map {
 					}
 					if(e != null) {
 						t.setEnemy(e);
-						t.attack();
+						//t.attack();
 						e.setAttacked(true);
 					}
 					break;
