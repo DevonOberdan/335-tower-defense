@@ -103,7 +103,7 @@ public class ArcherTower extends Tower {
 	public void shoot() {
 		this.getGC().setStroke(Color.RED);
 		this.getGC().strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
-				getLocation().getX(), getLocation().getY());
+				getLocation().getX(), getLocation().getY()-20);
 	}
 
 	@Override

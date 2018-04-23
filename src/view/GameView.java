@@ -136,7 +136,7 @@ public class GameView extends StackPane implements Observer{
 			}
 			
 			
-			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
@@ -146,7 +146,7 @@ public class GameView extends StackPane implements Observer{
 		});
 		cannonTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished()) 
-				this.map.setDragged(randomimg, true, (int)e.getSceneX(), (int)e.getSceneY());
+				this.map.setDragged(cannonImg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		archerTower.setTranslateX(255);
