@@ -86,9 +86,23 @@ public class Map3 extends Map {
 	 */
 	public void spawnEnemies(int enemyCount) {
 		for (int i=0; i<enemyCount+1; i++) {
-			Enemy enemy; 
+			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
-			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			switch (enemyCount) {
+			case 0:
+				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				break;
+			case 1:
+				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+				default:
+					break;
+			}
+			
 			enemyList.add(enemy);
 		}
 	}
