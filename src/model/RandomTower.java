@@ -12,7 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import model.enemy.Enemy;
 
-public class Catapult extends Tower{
+public class RandomTower extends Tower{
 
 	
 	private static boolean first = true;
@@ -40,7 +40,7 @@ public class Catapult extends Tower{
 	 * Health: it needs health.
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
-	public Catapult(Point location) {
+	public RandomTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
 		super("Catapult", 100, 80, new Image("file:images/cannon.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.catapult);
