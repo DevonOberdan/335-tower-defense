@@ -86,7 +86,8 @@ public class Map1 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
+		//int type1=(int) (Math.random()*enemyCount), type2=0, type3;
+		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
 			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
