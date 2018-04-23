@@ -22,6 +22,11 @@ import model.MultiTower;
 import model.Player;
 import model.Tower;
 
+/**
+ * Select a map
+ * @author Taite Nazifi
+ *
+ */
 public class SelectorView extends StackPane implements Observer{
 	
 	private Map map;
@@ -30,6 +35,7 @@ public class SelectorView extends StackPane implements Observer{
 	private Player player;
 	private int x, y;
 	private Button mainMenu, nextWave;
+	private ImageView multiTower, archerTower;
 	
 	public SelectorView() {
 		
@@ -77,7 +83,7 @@ public class SelectorView extends StackPane implements Observer{
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
-		ImageView archerTower = new ImageView("file:images/archer1.png");
+		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished())
@@ -97,7 +103,7 @@ public class SelectorView extends StackPane implements Observer{
 			}
 		});
 		
-		ImageView multiTower = new ImageView("file:images/MultiTower1.png");
+		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished())
@@ -139,6 +145,11 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		mainMenu.setOnAction(e -> {
+			easy.setOnAction(null);
+			medium.setOnAction(null);
+			hard.setOnAction(null);
+			archerTower = null;
+			multiTower = null;
 			this.getChildren().clear();
 			this.setOnMouseClicked(null);
 			this.map.destroyitall();
@@ -157,6 +168,7 @@ public class SelectorView extends StackPane implements Observer{
 		easy.setOnAction(e -> {
 			this.map = new Map1(player, gc);
 			this.getChildren().clear();
+			this.getStylesheets().clear();
 			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
 			this.map.show();
 		});

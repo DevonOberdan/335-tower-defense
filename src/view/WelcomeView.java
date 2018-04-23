@@ -38,16 +38,26 @@ public class WelcomeView extends StackPane implements Observer{
 		grid.add(instructions, 11, 21);
 		grid.add(copyright, 0, 39);
 		campaign.setOnAction(e -> {
+			this.getStylesheets().clear();
+		    this.getChildren().clear();
+		    campaign.setOnAction(null);
+		    instructions.setOnAction(null);
+		    newGame.setOnAction(null);
 			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
 		});
 		newGame.setOnAction(e -> {
-			 selectorView = new SelectorView();
-			 setViewTo(selectorView);
-			 //((SelectorView)selectorView).show();
-			 System.out.println("Map selector");
+			this.getStylesheets().clear();
+		    this.getChildren().clear();
+		    campaign.setOnAction(null);
+		    instructions.setOnAction(null);
+		    //this.setCenter(null); // set the center of pane to null
+		    this.getChildren().add((Node) new SelectorView());
+			//((SelectorView)selectorView).show();
+		    newGame.setOnAction(null);
+			System.out.println("Map selector");
 		});
 		instructions.setOnAction(e -> {
 			instructionView = new InstructionView();
@@ -69,8 +79,7 @@ public class WelcomeView extends StackPane implements Observer{
 	 * @author The Team
 	 */
 	  public void setViewTo(Observer newView) {
-		 
-
+			this.getStylesheets().clear();
 		    this.getChildren().clear();
 		    //this.setCenter(null); // set the center of pane to null
 		    currentView = newView; // update the current view to the input observer

@@ -22,6 +22,11 @@ import model.MultiTower;
 import model.Player;
 import model.Tower;
 
+/**
+ * Game view
+ * @author Taite Nazifi
+ *
+ */
 public class GameView extends StackPane implements Observer{
 
 	private Map map;
@@ -153,7 +158,6 @@ public class GameView extends StackPane implements Observer{
 							ptr++;
 						}
 					}
-					
 					break;
 					
 				case 1: //Level 3
