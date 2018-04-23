@@ -8,7 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
+/**
+ * Main menu! This view is for welcoming our players to a bunch of options
+ * that they can choose to get the game going. Casual is where you can pick from the three maps, easy medium and hard.
+ * campaign is a story-line, iterating through each map and progressing to the end.
+ * @author Taite Nazifi
+ *
+ */
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView, selectorView;
 	public WelcomeView() {
