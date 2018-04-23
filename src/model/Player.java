@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import model.enemy.Enemy;
 
 public class Player extends BorderPane {
 
@@ -48,8 +49,9 @@ public class Player extends BorderPane {
 	 * 
 	 * @param amt
 	 */
-	public boolean deposit(int amt) {
-		this.gold += amt;
+	public boolean deposit(int amt, Enemy e) {
+		if (!e.getAttackedPlayer())
+			this.gold += amt;
 		return true;
 	}
 	

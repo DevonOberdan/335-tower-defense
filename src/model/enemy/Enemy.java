@@ -36,6 +36,7 @@ public abstract class Enemy{
 	private int numTurns;
 	private int pathNum;
 	protected boolean dead;
+	protected boolean attackedPlayer;
 	
 	protected Image[] walkImgs  = new Image[2];
 	protected Image[] deathImgs = new Image[2];
@@ -126,7 +127,7 @@ public abstract class Enemy{
 	public void setTurns(Point p)		{ this.turns = p;    	}
 	public void setSpeed(int s)			{ this.speed = s;   		}
 	public void updateNumTurns()			{ numTurns++;       		}
-	
+	public void setAttackPlayer()        { attackedPlayer = true;}
 	public void setDead()		{ this.dead = true; }
 	/* getters */
 	public int getReward()		{ return this.reward;}
@@ -140,7 +141,7 @@ public abstract class Enemy{
 	public int   getImgHeight() { return imgHeight; }
 	public int   getNumTurns()  { return numTurns;  }
 	public int 	 getPathNum()   { return pathNum;   }
-	
+	public boolean getAttackedPlayer() {return attackedPlayer;}
 	public int getDeathTicker() { return deathTick; }
 	public int deathFrameCount() { return deathFrames; }
 	
