@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import model.enemy.Enemy;
 
 public class Player extends BorderPane {
@@ -75,7 +76,7 @@ public class Player extends BorderPane {
 		{
 			goldC = 0;
 		}
-		
+		gc.setFill(Color.GHOSTWHITE);
 		gc.drawImage(goldImg, 60*goldC, 0, 60, 60, 510, 20, 20, 20);
 		gc.fillText(""+gold, 535, 35);
 		gc.drawImage(healthImg, 60*healthC, 0, 60, 60, 510, 55, 20, 20);

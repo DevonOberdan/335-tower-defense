@@ -136,7 +136,7 @@ public class ArcherTower extends Tower {
 		//actual tower image
 		{
 			//actual tower image
-			gc.drawImage(this.getCurrentImage(), 0, 0, 150, 150, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+			gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 			if(this.getSelected()) {
 				gc.setGlobalAlpha(0.15);
 				gc.setFill(Color.GHOSTWHITE);
