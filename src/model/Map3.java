@@ -97,7 +97,7 @@ public class Map3 extends Map {
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
 				enemy = new ElfWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			else if (enemyCount == 0 || enemyCount == 1)
+			else if (enemyCount == 2 || enemyCount == 3)
 				enemy = new ElfArcher(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
 				enemy = new BlueKnight(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));

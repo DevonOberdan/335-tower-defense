@@ -95,11 +95,11 @@ public class Map1 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			else if (enemyCount == 0 || enemyCount == 1)
+				enemy = new TinyWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			else if (enemyCount == 2 || enemyCount == 3)
 				enemy = new Troll(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
-				enemy = new TinyWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
