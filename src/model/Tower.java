@@ -31,9 +31,11 @@ public abstract class Tower {
 	private List<Enemy> ens;
 	private Enemy enemy;
 	
+	protected boolean betweenRounds;
+	
 	private GraphicsContext gc;
 	
-	protected final Image testing = new Image("file:images/testing.png") ;
+	//protected final Image testing = new Image("file:images/testing.png") ;
 	
 	/**
 	 * Creates a new Tower object. 
@@ -135,5 +137,8 @@ public abstract class Tower {
 	}
 	public GraphicsContext getGC() {
 		return gc;
+	}
+	public void giveRoundMode(boolean mode) {
+		betweenRounds = mode;
 	}
 }

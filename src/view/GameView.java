@@ -20,7 +20,7 @@ import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
-import model.RandomTower;
+import model.CannonTower;
 import model.Tower;
 
 /**
@@ -104,23 +104,23 @@ public class GameView extends StackPane implements Observer{
 			}
 		});
 		
-		ImageView randomTower = new ImageView("file:images/random.png");
-		Image randomimg = new Image("file:images/random.png");
-		randomTower.setOnMouseReleased(e -> {
+		ImageView cannonTower = new ImageView("file:images/cannon.png");
+		Image cannonImg = new Image("file:images/cannon.png");
+		cannonTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished())
 				return;
-			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
 		});
-		randomTower.setOnMouseDragged(e -> {
+		cannonTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished()) {
 				this.x = (int) e.getSceneX();
 				this.y = (int) e.getSceneY();
-				gc.drawImage(randomimg, 0, 0, 150, 125, x-30, y-40, 60, 80);
+				gc.drawImage(cannonImg, 0, 0, 150, 125, x-30, y-40, 60, 80);
 			}
 		});
 		
@@ -134,12 +134,12 @@ public class GameView extends StackPane implements Observer{
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
 		
-		randomTower.setTranslateX(255);
-		randomTower.setTranslateY(50);
-		randomTower.setFitHeight(80);
-		randomTower.setFitWidth(70);
+		cannonTower.setTranslateX(255);
+		cannonTower.setTranslateY(50);
+		cannonTower.setFitHeight(80);
+		cannonTower.setFitWidth(70);
 		
-		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, randomTower);
+		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, cannonTower);
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {
