@@ -43,7 +43,6 @@ public class Map3 extends Map {
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
-	//private Point endZone;
 	private boolean roundMode;
 	
 	/**
@@ -70,7 +69,7 @@ public class Map3 extends Map {
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 5;
 		 this.waveCount = 0;
-		// endZone = new Point (469, 469);
+		 endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -132,7 +131,7 @@ public class Map3 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);
