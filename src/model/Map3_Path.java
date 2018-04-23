@@ -51,7 +51,7 @@ public class Map3_Path extends Path{
 		case 0:
 				setL(false); setR(false);
 				setU(false); setD(true);
-				if (p.y>461)
+				if (p.y>449)
 					e.updateNumTurns();
 			break;
 		case 1:
@@ -114,13 +114,13 @@ public class Map3_Path extends Path{
 		case 4:
 			setL(false); setR(false);
 			setU(false); setD(true);
-			if (p.y>171)
+			if (p.y>160)
 				e.updateNumTurns();
 			break;
 		case 5:
 			setL(true); setR(false);
 			setU(false); setD(false);
-			if (p.x<46)
+			if (p.x<51)
 				e.updateNumTurns();
 			break;
 		case 6:
@@ -153,7 +153,7 @@ public class Map3_Path extends Path{
 	case 2:
 		setL(false); setR(false);
 		setU(false); setD(true);
-		if (p.y>315)
+		if (p.y>300)
 			e.updateNumTurns();
 		break;
 	case 3:
@@ -165,7 +165,7 @@ public class Map3_Path extends Path{
 	case 4:
 		setL(false); setR(false);
 		setU(false); setD(true);
-		if (p.y>446)
+		if (p.y>436)
 			e.updateNumTurns();
 		break;
 	case 5:
