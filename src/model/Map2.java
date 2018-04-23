@@ -67,7 +67,7 @@ public class Map2 extends Map {
 		 start = new Point(-30, 395);
 		 this.path = new Map2_Path();
 		 alert = new Alert(AlertType.INFORMATION);
-		 this.maxWaveCount = 5;
+		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 endZone = new Point (469, 469);
 	}
@@ -85,7 +85,7 @@ public class Map2 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
-		for (int i=0; i<enemyCount; i++) {
+		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy; 
 			Point offset = new Point(((i*75)), 0);
 			enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
