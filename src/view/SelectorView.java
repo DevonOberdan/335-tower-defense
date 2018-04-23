@@ -140,9 +140,9 @@ public class SelectorView extends StackPane implements Observer{
 		
 		mainMenu.setOnAction(e -> {
 			this.getChildren().clear();
-			//this.setCenter(null);
 			this.setOnMouseClicked(null);
-			this.map = null;
+			this.map.destroyitall();
+			this.player=null;
 			this.canvas = null;
 			this.gc = null;
 			this.getChildren().add((Node)(Observer) new WelcomeView());

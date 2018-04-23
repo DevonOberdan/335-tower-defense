@@ -343,4 +343,28 @@ public class Map1 extends Map {
 	public boolean getRoundMode() {
 		return this.roundMode;	
 	}
+	
+	@Override
+	public Timeline getTimeline() {
+		return this.timeline;
+	}
+	
+	@Override
+	public void destroyitall() {
+		this.alert = null;
+		this.background = null;
+		this.canvas = null;
+		this.endZone = null;
+		this.enemyList.clear();
+		this.enemyList = null;
+		this.gc = null;
+		this.menuBar = null;
+		this.path = null;
+		this.player = null;
+		this.start = null;
+		this.timeline.stop();
+		this.timeline = null;
+		this.towerList.clear();
+		this.towerList = null;
+	}
 }

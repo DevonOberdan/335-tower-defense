@@ -145,6 +145,7 @@ public class GameView extends StackPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
+							this.map.getTimeline().stop();
 							//showFirstCutscene();
 							this.map = new Map2(player, gc);
 							//this.map.spawnEnemies(5);
@@ -159,6 +160,7 @@ public class GameView extends StackPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
+							this.map.getTimeline().stop();
 							//showSecondCutscene();
 							this.map = new Map3(player, gc);
 							//this.map.spawnEnemies(5);
@@ -173,6 +175,7 @@ public class GameView extends StackPane implements Observer{
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
+							this.map.getTimeline().stop();
 							//showOutroCutscene();
 							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;

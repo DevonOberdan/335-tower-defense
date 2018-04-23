@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.List;
 
+import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -29,7 +30,10 @@ public abstract class Map{
 	 * @return Gets the number of enemies left in the game
 	 */
 	public abstract int getEnemyCount();
-	
+	/**
+	 * returns the timeline
+	 */
+	public abstract Timeline getTimeline();
 	/**
 	 * @return Is the game still running or not
 	 */
@@ -117,6 +121,14 @@ public abstract class Map{
 	 */
 	public abstract boolean getRoundMode();
 
+	/**
+	 * returns true if the game has ended.
+	 * @return
+	 */
 	public abstract boolean mapFinished();
 	
+	/**
+	 * destroys everything
+	 */
+	public abstract void destroyitall();
 }
