@@ -7,11 +7,11 @@ import java.util.Observer;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.ArcherTower;
 import model.Map;
@@ -22,37 +22,56 @@ import model.MultiTower;
 import model.Player;
 import model.Tower;
 
-public class GameView extends StackPane implements Observer{
-
+public class SelectorView extends StackPane implements Observer{
+	
 	private Map map;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private int ptr;
 	private Player player;
 	private int x, y;
-	private Button nextRound, nextWave;
-	/**
-	 * Creates a new gameView. This is the entirety of our towerdefense. 
-	 * The idea behind this class is to create a dynamic view that updates the
-	 * map that the player is on once they have won the game. 
-	 */
-	public GameView() {
-		//StackPane pane = new StackPane();
+	private Button mainMenu, nextWave;
+	
+	public SelectorView() {
+		
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
 		this.map = new Map1(player, gc);
-		this.ptr = 0; this.x = 0; this.y = 0;
+		this.x = 0; this.y = 0;
 		nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
 		nextWave.setMinWidth(35);
 		nextWave.setTranslateX(250);
 		nextWave.setTranslateY(202);
-		nextRound = new Button("Next Round");
-		nextRound.setMinHeight(20);
-		nextRound.setMinWidth(35);
-		nextRound.setTranslateX(250);
-		nextRound.setTranslateY(237);
+		mainMenu = new Button("Main Menu");
+		mainMenu.setMinHeight(20);
+		mainMenu.setMinWidth(35);
+		mainMenu.setTranslateX(250);
+		mainMenu.setTranslateY(237);
+		
+		GridPane grid = new GridPane();
+		grid.setVgap(10);
+		grid.setHgap(10);
+		//pane.setPadding(new Insets (10,10,10,10));
+		//gc.drawImage(background, 0, 0);
+		Label copyright = new Label ("  copyright The Team\n");
+		Button easy = new Button("Easy");
+		easy.setMinWidth(120);
+		Button medium = new Button("Medium");
+		medium.setMinWidth(120);
+		Button hard = new Button("Hard");
+		hard.setMinWidth(120);
+		//gameView = new GameView(theGame);
+		//mapSelector = new MapSelector();
+		grid.add(easy, 11, 18);
+		grid.add(medium, 11, 19);
+		grid.add(hard, 11, 20);
+		grid.add(copyright, 0, 39);
+		this.getChildren().add(grid);
+		//this.setCenter(grid);
+		this.setId("pane");
+		this.getStylesheets().addAll(this.getClass().getResource("welcomView_style.css").toExternalForm());
+		this.setVisible(true);
 		//this.getChildren().add((Node) new MenuView());
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
@@ -107,7 +126,6 @@ public class GameView extends StackPane implements Observer{
 		multiTower.setTranslateY(-33);
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
-		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower);
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {
@@ -120,96 +138,43 @@ public class GameView extends StackPane implements Observer{
 				
 		});
 		
-		/*
-		 * How we transition to the next cutscene / map. OnClick events will try to understand
-		 * the game environment status (if they player is dead, all the enemies are dead, etc).
-		 * going off of this information, it will reassign the program's state (map/view).
-		 */
-		nextRound.setOnAction(e ->{
-			if(this.player.isDead()) {
-				this.getChildren().clear();
-				//this.setCenter(null);
-				this.setOnMouseClicked(null);
-				this.map = null;
-				this.canvas = null;
-				this.gc = null;
-				this.getChildren().add((Node)(Observer) new WelcomeView());
-				//this.setCenter((Node)(Observer) new WelcomeView());
-				return;
-			}
-			
-			if(this.map != null && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()){
-				switch(ptr) {
-				
-				case 0: //level 2
-					if(this.map != null) {
-						if(!this.map.isRunning()) {
-							player.getTowers().clear();
-							//showFirstCutscene();
-							this.map = new Map2(player, gc);
-							//this.map.spawnEnemies(5);
-							this.map.show();
-							ptr++;
-						}
-					}
-					
-					break;
-					
-				case 1: //Level 3
-					if(this.map != null) {
-						if(!this.map.isRunning()) {
-							player.getTowers().clear();
-							//showSecondCutscene();
-							this.map = new Map3(player, gc);
-							//this.map.spawnEnemies(5);
-							this.map.show();
-							ptr++;
-						}
-					}
-					
-					break;
-					
-				case 2: //You've won! Play the outro scene.
-					if(this.map != null) {
-						if(!this.map.isRunning()) {
-							player.getTowers().clear();
-							//showOutroCutscene();
-							System.out.println("Entered outro-- click again to get back to main menu");
-							ptr++;
-						}
-					}
-					
-					break;
-					
-				default: //If they've clicked through everything, send them back home.
-					if(!this.map.isRunning()) {
-						this.getChildren().clear();
-						//this.setCenter(null);
-						this.setOnMouseClicked(null);
-						this.map = null;
-						this.canvas = null;
-						this.gc = null;
-						this.getChildren().add((Node)(Observer) new WelcomeView());
-					}
-					break;
-				}
-			} else if(this.map != null){
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setTitle("Enemies inbound!");
-				a.setHeaderText(null);
-				a.setContentText("You must complete all of the waves\nbefore advancing to the next round.\nYou have completed " + this.map.getWaveCount() + " out of " + this.map.getMaxWaveCount() + " rounds.");
-				a.show();
-			}
+		mainMenu.setOnAction(e -> {
+			this.getChildren().clear();
+			//this.setCenter(null);
+			this.setOnMouseClicked(null);
+			this.map = null;
+			this.canvas = null;
+			this.gc = null;
+			this.getChildren().add((Node)(Observer) new WelcomeView());
 		});
-		
 		this.setOnMouseClicked(e->{
 			Tower t = selectTower((int)e.getX(), (int)e.getY());
 			if(t != null) {
 				//add upgrade / sell obj
 			}
 		});
+		
+		easy.setOnAction(e -> {
+			this.map = new Map1(player, gc);
+			this.getChildren().clear();
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.map.show();
+		});
+		medium.setOnAction(e -> {
+			this.map = new Map2(player, gc);
+			this.getChildren().clear();
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.map.show();
+		});
+		hard.setOnAction(e -> {
+			this.map = new Map3(player, gc);
+			this.getChildren().clear();
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.map.show();
+		});
+		
 	}
-	
+
 	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
@@ -231,14 +196,12 @@ public class GameView extends StackPane implements Observer{
 		}
 	}
 	
-	public void show() {
-		map.show();
-	}
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
 		
 	}
 
-
+	 
+	
 }
-

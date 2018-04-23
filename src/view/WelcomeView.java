@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 public class WelcomeView extends StackPane implements Observer{
-	private Observer gameView, instructionView, currentView;
+	private Observer gameView, instructionView, currentView, selectorView;
 	public WelcomeView() {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -18,26 +18,33 @@ public class WelcomeView extends StackPane implements Observer{
 		//pane.setPadding(new Insets (10,10,10,10));
 		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
-		Button newGame = new Button("New Game");
+		Button newGame = new Button("Casual");
 		newGame.setMinWidth(120);
 		Button loadGame = new Button("Load Game");
 		loadGame.setMinWidth(120);
 		Button instructions = new Button("Instructions");
 		instructions.setMinWidth(120);
-		//gameView = new GameView(theGame);
-		instructionView = new InstructionView();
-		//mapSelector = new MapSelector();
-		grid.add(newGame, 11, 18);
-		grid.add(loadGame, 11, 19);
-		grid.add(instructions, 11, 20);
+		Button campaign = new Button("Campaign");
+		campaign.setMinWidth(120);
+		grid.add(campaign, 11, 18);
+		grid.add(newGame, 11, 19);
+		grid.add(loadGame, 11, 20);
+		grid.add(instructions, 11, 21);
 		grid.add(copyright, 0, 39);
-		newGame.setOnAction(e -> {
+		campaign.setOnAction(e -> {
 			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
 		});
+		newGame.setOnAction(e -> {
+			 selectorView = new SelectorView();
+			 setViewTo(selectorView);
+			 //((SelectorView)selectorView).show();
+			 System.out.println("Map selector");
+		});
 		instructions.setOnAction(e -> {
+			instructionView = new InstructionView();
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
 		});
