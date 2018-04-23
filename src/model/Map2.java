@@ -15,6 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import model.enemy.Enemy;
+import model.enemy.Wolf;
 /**
  * TestMap exhibits the nature of an actual game that we might
  * end up playing. Contains several tests including the drawing

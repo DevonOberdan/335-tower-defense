@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Point;
 
+import model.enemy.Enemy;
+
 public class IcePath extends Path {
 
 	@Override

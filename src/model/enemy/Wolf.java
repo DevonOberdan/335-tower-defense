@@ -1,9 +1,10 @@
-package model;
+package model.enemy;
 
 import java.awt.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import model.Path;
 
 /**
  * Enemy subclass that represents the Wolf Enemy type, with its

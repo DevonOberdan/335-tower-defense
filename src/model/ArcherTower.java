@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
+import model.enemy.Enemy;
 
 /**
  * ArcherTower is another Tower type. 

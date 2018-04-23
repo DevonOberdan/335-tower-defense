@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Point;
 
+import model.enemy.Enemy;
+
 public class Map1_Path extends Path{
 
 	public Map1_Path() {

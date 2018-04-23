@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
+import model.enemy.Enemy;
 
 /**
  * 
