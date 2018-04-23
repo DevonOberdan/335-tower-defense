@@ -19,8 +19,6 @@ import model.enemy.BlueKnight;
 import model.enemy.ElfArcher;
 import model.enemy.ElfWizard;
 import model.enemy.Enemy;
-import model.enemy.TinyWizard;
-import model.enemy.Troll;
 import model.enemy.Wolf;
 /**
  * TestMap exhibits the nature of an actual game that we might

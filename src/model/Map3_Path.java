@@ -90,7 +90,7 @@ public class Map3_Path extends Path{
 		case 0:
 				setL(false); setR(false);
 				setU(false); setD(true);
-				if (p.y>171)
+				if (p.y>150)
 					e.updateNumTurns();
 			break;
 		case 1:
@@ -141,7 +141,7 @@ public class Map3_Path extends Path{
 		case 0:
 			setL(false); setR(false);
 			setU(false); setD(true);
-			if (p.y>171)
+			if (p.y>150)
 				e.updateNumTurns();
 		break;
 	case 1:
