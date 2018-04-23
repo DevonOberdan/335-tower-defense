@@ -1,8 +1,9 @@
-package model;
+package model.enemy;
 
 import java.awt.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import model.Path;
 
 /**
  * Enemy subclass that represents the Skeleton Enemy type, with its
@@ -10,33 +11,33 @@ import javafx.scene.paint.Color;
  * 
  * @author Devon Oberdan
  *
- */
-public class Ghost extends Enemy{
+ */ 
+public class ElfWizard extends Enemy{
 	
 	// data structures built here to be passed into super constructor
 	
 	private final static int speed = 5;
-	private final static int health = 75;
-	private final static int damage = 20;
-	private final static int reward = 45;
+	private final static int health = 100;
+	private final static int damage = 15;
+	private final static int reward = 25;
 	
-	private static Point walkDims = new Point(47,73);
-	private static Point deathDims = new Point(56,77);
+	private static Point walkDims = new Point(416,473);
+	private static Point deathDims = new Point(350,330);
 	
-	private static String[] ghost = new String[]{"file:images/enemies/ghost/ghost_right.png",
-											     "file:images/enemies/ghost/ghost_left.png"};
+	private static String[] elfWizard = new String[]{"file:images/enemies/elfWizard/elf_wizard_right.png",
+											     "file:images/enemies/elfWizard/elf_wizard_left.png"};
 	
-	private static String[] dead_ghost = new String[] {"file:images/enemies/ghost/dead_ghost_right.png", 
-											   		   "file:images/enemies/ghost/dead_ghost_left.png"};
+	private static String[] deadElfWizard = new String[] {"file:images/enemies/elfWizard/dead_elf_wizard_right.png", 
+											   		   "file:images/enemies/elfWizard/dead_elf_wizard_left.png"};
 	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
 	 * @param start
 	 */
-	public Ghost(Path path, Point start) {
+	public ElfWizard(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(speed, health, damage, reward, walkDims, deathDims, 9, 8, ghost, dead_ghost, path, start);
+		super(speed, health, damage, reward, walkDims, deathDims, 5, 5, elfWizard, deadElfWizard, path, start);
 	}	
 	
 	/**

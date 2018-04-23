@@ -1,8 +1,9 @@
-package model;
+package model.enemy;
 
 import java.awt.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import model.Path;
 
 /**
  * Enemy subclass that represents the Skeleton Enemy type, with its
@@ -11,31 +12,32 @@ import javafx.scene.paint.Color;
  * @author Devon Oberdan
  *
  */
-public class Skeleton extends Enemy{
+public class Ghost extends Enemy{
 	
 	// data structures built here to be passed into super constructor
 	
-	private final static int speed = 3;
-	private final static int health = 100;
-	private final static int damage = 6;
-	private final static int reward = 15;
+	private final static int speed = 5;
+	private final static int health = 75;
+	private final static int damage = 20;
+	private final static int reward = 45;
 	
-	private static Point walkDims = new Point(75,78);
-	private static Point deathDims = new Point(80,122);
+	private static Point walkDims = new Point(47,73);
+	private static Point deathDims = new Point(56,77);
 	
-	private static String[] skeleton = new String[]{"file:images/enemies/skeleton/skeleton_right.png",
-											     "file:images/enemies/skeleton/skeleton_left.png"};
+	private static String[] ghost = new String[]{"file:images/enemies/ghost/ghost_right.png",
+											     "file:images/enemies/ghost/ghost_left.png"};
 	
-	private static String[] dead_skeleton = new String[] {"file:images/enemies/skeleton/dead_skeleton_right.png", 
-											   		   "file:images/enemies/skeleton/dead_skeleton_left.png"};
+	private static String[] dead_ghost = new String[] {"file:images/enemies/ghost/dead_ghost_right.png", 
+											   		   "file:images/enemies/ghost/dead_ghost_left.png"};
+	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
 	 * @param start
 	 */
-	public Skeleton(Path path, Point start) {
+	public Ghost(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
-		super(speed, health, damage, reward, walkDims, deathDims, 6, 6, skeleton, dead_skeleton, path, start);
+		super(speed, health, damage, reward, walkDims, deathDims, 9, 8, ghost, dead_ghost, path, start);
 	}	
 	
 	/**

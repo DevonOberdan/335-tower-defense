@@ -1,8 +1,9 @@
-package model;
+package model.enemy;
 
 import java.awt.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import model.Path;
 
 /**
  * Enemy subclass that represents the Skeleton Enemy type, with its
