@@ -74,7 +74,7 @@ public class Map3 extends Map {
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
-		 endZone = new Point (469, 469);
+		 endZone = new Point (46, 30);
 	}
 	
 	/**
