@@ -20,6 +20,7 @@ import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
+import model.RandomTower;
 import model.Tower;
 
 public class SelectorView extends StackPane implements Observer{
@@ -117,6 +118,26 @@ public class SelectorView extends StackPane implements Observer{
 			}
 		});
 		
+		ImageView randomTower = new ImageView("file:images/random.png");
+		Image randomimg = new Image("file:images/random.png");
+		randomTower.setOnMouseReleased(e -> {
+			if(this.map.mapFinished())
+				return;
+			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			{
+				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				map.addTower(t);
+			}
+		});
+		randomTower.setOnMouseDragged(e -> {
+			if(this.map != null && !this.map.mapFinished()) {
+				this.x = (int) e.getSceneX();
+				this.y = (int) e.getSceneY();
+				gc.drawImage(randomimg, 0, 0, 150, 125, x-30, y-40, 60, 80);
+			}
+		});
+		
 		archerTower.setTranslateX(255);
 		archerTower.setTranslateY(-125);
 		archerTower.setFitHeight(80);
@@ -126,6 +147,14 @@ public class SelectorView extends StackPane implements Observer{
 		multiTower.setTranslateY(-33);
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
+		
+		randomTower.setTranslateX(255);
+		randomTower.setTranslateY(50);
+		randomTower.setFitHeight(80);
+		randomTower.setFitWidth(70);
+		
+		
+		
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {
@@ -157,19 +186,19 @@ public class SelectorView extends StackPane implements Observer{
 		easy.setOnAction(e -> {
 			this.map = new Map1(player, gc);
 			this.getChildren().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
 			this.map.show();
 		});
 		medium.setOnAction(e -> {
 			this.map = new Map2(player, gc);
 			this.getChildren().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
 			this.map.show();
 		});
 		hard.setOnAction(e -> {
 			this.map = new Map3(player, gc);
 			this.getChildren().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
 			this.map.show();
 		});
 		

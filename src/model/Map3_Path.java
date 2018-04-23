@@ -9,6 +9,12 @@ public class Map3_Path extends Path{
 	public Map3_Path() {
 		super();
 	}
+	/**
+	 * Point checkTurns (Point, Enemy)
+	 * this method takes a point and a reference to an enemy 
+	 * and return a Point that indicate the offset that should
+	 * be added to the enemy's location in order to move
+	 */
 	@Override
 	public Point checkTurns(Point p, Enemy e) {
 		int x=0; int y=0;
@@ -42,7 +48,7 @@ public class Map3_Path extends Path{
 			y=-1;
 		}
 
-		
+		// return a new point with the x and y values
 		return new Point(x,y);
 	}
 	
