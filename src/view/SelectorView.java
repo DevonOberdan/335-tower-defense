@@ -29,6 +29,7 @@ import model.Tower;
  * this mode. The user can play on a map until they grow old and die.
  * 
  * Main menu button will destroy everything here and send us back to the homepage.
+ * 
  * @author Taite Nazifi
  *
  */
@@ -64,8 +65,6 @@ public class SelectorView extends StackPane implements Observer{
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
-		//pane.setPadding(new Insets (10,10,10,10));
-		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
 		Button easy = new Button("Easy");
 		easy.setMinWidth(120);
@@ -73,18 +72,15 @@ public class SelectorView extends StackPane implements Observer{
 		medium.setMinWidth(120);
 		Button hard = new Button("Hard");
 		hard.setMinWidth(120);
-		//gameView = new GameView(theGame);
-		//mapSelector = new MapSelector();
 		grid.add(easy, 11, 18);
 		grid.add(medium, 11, 19);
 		grid.add(hard, 11, 20);
 		grid.add(copyright, 0, 39);
 		this.getChildren().add(grid);
-		//this.setCenter(grid);
 		this.setId("pane");
 		this.getStylesheets().addAll(this.getClass().getResource("welcomView_style.css").toExternalForm());
 		this.setVisible(true);
-		//this.getChildren().add((Node) new MenuView());
+
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
