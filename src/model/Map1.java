@@ -70,7 +70,7 @@ public class Map1 extends Map {
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 5;
 		 this.waveCount = 0;
-		// endZone = new Point (469, 469);
+		 this.endZone = new Point (469, 469);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class Map1 extends Map {
 				if(e != null) {
 					e.show(gc);
 					e.setAttacked(false);
-					if (!e.getDead() && e.attackPlayer(player, new Point(0,0)))
+					if (!e.getDead() && e.attackPlayer(player, endZone))
 						e.setDead();
 				}
 				checkGameOver(player);
