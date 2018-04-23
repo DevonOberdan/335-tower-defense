@@ -53,11 +53,16 @@ public class ArcherTower extends Tower {
 	}
 	
 	@Override
-	public boolean attack() {
+	public boolean attack(GraphicsContext gc) {
 		if (this.getCurrentEnemy() == null)
 			return false;
 		
 		this.getCurrentEnemy().setAttacked(true);
+		gc.setStroke(Color.RED);
+		gc.strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
+				getLocation().getX(), getLocation().getY());
+		
+			System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
 		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
 		this.setEnemy(null);
 		return true;
@@ -100,6 +105,7 @@ public class ArcherTower extends Tower {
 				gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
 				gc.setGlobalAlpha(1.0);
 			}
+			
 			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
 			 
 		}

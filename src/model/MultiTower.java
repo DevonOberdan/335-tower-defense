@@ -55,7 +55,7 @@ public class MultiTower extends Tower{
 	 * be a list of enemy entities that we can target and kill.
 	 */
 	@Override
-	public boolean attack() {
+	public boolean attack(GraphicsContext gc) {
 		List<Enemy> ens = this.getEnemyList();
 		if(ens.isEmpty())
 			return false;
