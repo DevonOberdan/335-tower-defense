@@ -16,7 +16,7 @@ public class Map1_Path extends Path{
 		case 0:
 				setL(false); setR(true);
 				setU(false); setD(false);
-				if (p.x>113)
+				if (p.x>109)
 					e.updateNumTurns();
 			break;
 		case 1:
@@ -34,25 +34,25 @@ public class Map1_Path extends Path{
 		case 3:
 			setL(false); setR(false);
 			setU(true); setD(false);
-			if (p.y<48)
+			if (p.y<44)
 				e.updateNumTurns();
 			break;
 		case 4:
 			setL(false); setR(true);
 			setU(false); setD(false);
-			if (p.x>340)
+			if (p.x>336)
 				e.updateNumTurns();
 			break;
 		case 5:
 			setL(false); setR(false);
 			setU(false); setD(true);
-			if (p.y>216)
+			if (p.y>210)
 				e.updateNumTurns();
 			break;
 		case 6:
 			setL(true); setR(false);
 			setU(false); setD(false);
-			if (p.x<236)
+			if (p.x<231)
 				e.updateNumTurns();
 			break;
 		case 7:
@@ -64,13 +64,13 @@ public class Map1_Path extends Path{
 		case 8:
 			setL(false); setR(true);
 			setU(false); setD(false);
-			if (p.x>337)
+			if (p.x>341)
 				e.updateNumTurns();
 			break;
 		case 9:
 			setL(false); setR(false);
 			setU(true); setD(false);
-			if (p.y<338)
+			if (p.y<328)
 				e.updateNumTurns();
 			break;
 		case 10:
