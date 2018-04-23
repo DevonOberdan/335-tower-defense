@@ -250,25 +250,6 @@ public class Map1 extends Map {
 						e.setAttacked(true);
 					}
 					break;
-				case catapult:
-					List<Enemy> enList = t.getPrioEnemies(enemyList);
-					for(Enemy en : enList) {
-						if(en != null && en.getDeathTicker() >= en.deathFrameCount()) {
-							enemyList.remove(en);
-							if(isRunning()) {
-								en = t.getPrioEnemy(enemyList);
-							}
-							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
-								endMap();
-								return;
-							}
-						}
-						if(en != null) {
-							t.setEnemy(en);
-							en.setAttacked(true);
-						}
-					}
-					break;	
 				default:
 					break;
 				}

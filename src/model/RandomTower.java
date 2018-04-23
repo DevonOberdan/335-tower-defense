@@ -3,7 +3,6 @@ package model;
 import java.awt.Point;
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,24 +11,17 @@ import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import model.enemy.Enemy;
 
-public class RandomTower extends Tower{
+/**
+ * ArcherTower is another Tower type. 
+ *
+ */
+public class RandomTower extends Tower {
 
 	
 	private static boolean first = true;
 	//private long start;
 	private long previous;
-	private long prev;
 	
-	private int xDist;
-	private int yDist;
-	
-	private double prevBallX;
-	private double prevBallY;
-	private int shotIter = 0;
-	
-	private Image ball = new Image("file:images/cannon_ball.png");
-	
-	private Point fireLoc;
 	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
@@ -42,23 +34,10 @@ public class RandomTower extends Tower{
 	 */
 	public RandomTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Catapult", 100, 80, new Image("file:images/cannon.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
-		super.setTowerType(ETower.catapult);
+		super("Archer", 15, 100, new Image("file:images/random.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super.setTowerType(ETower.archer);
 		
-		AnimationTimer shootTimer = new AnimationTimer(){
-				
-			@Override
-			public void handle (long now) {
-				if((now - prev >= 0.05e9)) {
-					prev = now;
-					drawBall();
-				}
-			}
-		};
-			
-		
-		
-		AnimationTimer attackTimer = new AnimationTimer(){
+		AnimationTimer timer = new AnimationTimer(){
 			
 			@Override
 			public void handle (long now) {
@@ -69,118 +48,64 @@ public class RandomTower extends Tower{
 					//attackEnemy();
 					//return;
 				}
-				if((now - previous >= 5.0e9)) {
+				if((now - previous >= 1.0e9) && canAttack()) {
 					previous = now;
-					
-					shootTimer.start();
-					
-					shoot();
-					drawBall();
-				}
-				
-				if(shotIter == 20) {
+					//System.out.println("one second later");
 					attack();
-					//drawExplosion();
-					shootTimer.stop();
-					shotIter = 0;
 				}
 			}
 		};
-		attackTimer.start();
+		timer.start();
 	}
 
-	public void findSpot() {
-		Random r = new Random();
-		int randX = this.getRange()+r.nextInt(500-this.getRange());
-		
-		int randY = this.getRange()+r.nextInt(500-this.getRange());
-		
-		fireLoc = new Point(randX,randY);
-	}
-	
-	/**
-	 * Gets a list of enemies within this towers range and sets this list of enemies
-	 * as this tower's target, dealing damage to each enemy.
-	 */
 	@Override
-	public List<Enemy> getPrioEnemies(List<Enemy> enemyList)
+	public Enemy getPrioEnemy(List<Enemy> enemyList)
 	{
-		List<Enemy> prios = this.getEnemyList();
-		prios.clear();
+		Enemy priority = null;
 		if(enemyList.isEmpty()) {
 			return null;
 		}
+		int closest = (int) Math.sqrt(Math.pow(enemyList.get(enemyList.size()-1).getLoc().getX() - this.getLocation().getX(), 2)
+				            + Math.pow((enemyList.get(enemyList.size()-1).getLoc().getY() - this.getLocation().getY()), 2));
+		if(closest < this.getRange() && enemyList.get(enemyList.size()-1).canBeHit())
+			priority = enemyList.get(enemyList.size()-1);
 		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
-			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - fireLoc.getX(), 2) + Math.pow((enLoc.getY() - fireLoc.getY()), 2));
-			if (dist < this.getRange() && en.canBeHit()) {
-				prios.add(en);
+			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
+			if (dist < this.getRange() && dist < closest && en.canBeHit()) {
+				priority = en;
+				closest = dist;
 			}
 		}
-		return prios;
+
+		return priority;
 	}
 	
 	public boolean canAttack() {
 		return (this.getCurrentEnemy() != null);
 	}
 	
-	
-	/**
-	 * Attacks this tower's target. Since this is an AOE tower, this will
-	 * be a list of enemy entities that we can target and kill.
-	 */
 	@Override
 	public boolean attack() {
-		List<Enemy> ens = this.getEnemyList();
-		if(ens.isEmpty())
+		
+		if (this.getCurrentEnemy() == null)
 			return false;
 		
+		this.getCurrentEnemy().setAttacked(true);
 		shoot();
-		for (Enemy en : ens) {
-			en.setAttacked(true);
-			en.setHel(en.getHel()-this.getDamage());
-		}
+		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
+		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
+		this.setEnemy(null);
 		return true;
 	}
 	
-	public void drawBall() {
-		
-		if(shotIter ==0) {
-			prevBallX = this.getLocation().getX();
-			prevBallY = this.getLocation().getY();
-		}
-	
-		double ballX = (xDist/20) + prevBallX;
-		double ballY = (xDist/20) + prevBallX;
-		
-		this.getGC().drawImage(ball, ballX, ballY, 20, 20);
-		
-		
-		this.getGC().setGlobalAlpha(0.15);
-		this.getGC().setFill(Color.RED);
-		this.getGC().fillOval(fireLoc.getX()-this.getRange(), fireLoc.getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
-		this.getGC().setGlobalAlpha(1.0);
-		this.getGC().setFill(Color.WHITE);
-		
-		prevBallX = ballX;
-		prevBallY = ballY;
-		
-		shotIter++;
-	}
-	
-	
 	@Override
 	public void shoot() {
-		
-		findSpot();
-		
-		xDist = (int)(fireLoc.getX() - this.getLocation().getX());
-		yDist = (int)(fireLoc.getY() - this.getLocation().getY());
+		this.getGC().setStroke(Color.RED);
+		this.getGC().strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
+				getLocation().getX(), getLocation().getY());
 	}
 
-	/**
-	 * Upgrades the tower to the next level if not maxed out
-	 */
 	@Override
 	public boolean levelUp() {
 		if(this.getLevel() >= 3) 
@@ -199,6 +124,12 @@ public class RandomTower extends Tower{
 			return false;
 		}
 	}
+
+	@Override
+	public List<Enemy> getPrioEnemies(List<Enemy> enemyList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	public void show(GraphicsContext gc)
 	{
@@ -216,11 +147,5 @@ public class RandomTower extends Tower{
 			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
 			 
 		}
-	}
-
-	@Override
-	public Enemy getPrioEnemy(List<Enemy> enemyList) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

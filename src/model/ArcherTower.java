@@ -22,9 +22,6 @@ public class ArcherTower extends Tower {
 	//private long start;
 	private long previous;
 	
-	private Image laser = new Image("file:images/laser.png");
-
-	
 	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
@@ -37,7 +34,7 @@ public class ArcherTower extends Tower {
 	 */
 	public ArcherTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Archer", 15, 150, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 15, 100, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
 		
 		AnimationTimer timer = new AnimationTimer(){
