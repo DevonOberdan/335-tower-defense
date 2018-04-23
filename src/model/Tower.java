@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import model.enemy.Enemy;
 
@@ -14,7 +15,7 @@ import model.enemy.Enemy;
  * @author Taite Nazifi
  *
  */
-public abstract class Tower {
+public abstract class Tower extends StackPane{
 	
 	private String   towerName;
 	private int      radius; //range

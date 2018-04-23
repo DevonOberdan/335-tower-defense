@@ -49,6 +49,9 @@ public class Map3 extends Map {
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	private boolean roundMode;
+	private Image dragimg;
+	private boolean dragging;
+	private int dragx, dragy;
 	
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -58,10 +61,9 @@ public class Map3 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map3(Player p, GraphicsContext gc) {
+	public Map3(Player p) {
 		background = new Image("file:images/maps/map3.png");
 		menuBar = new Image("file:images/menu.jpg");
- 		this.gc = gc;
  		player = p;
  		roundMode = true;
 		enemyList = new ArrayList<>();
@@ -75,6 +77,7 @@ public class Map3 extends Map {
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 endZone = new Point (46, 30);
+		 this.dragging = false;
 	}
 	
 	/**
@@ -119,7 +122,6 @@ public class Map3 extends Map {
 			gc.drawImage(menuBar, 0, 0);
 			gc.drawImage(background, 0, 0);
 			player.draw();
-
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
 				toggleRound();
 				endRound();
@@ -128,6 +130,10 @@ public class Map3 extends Map {
 			}
 			
 			updateAndReassignTowers();
+			
+			if(dragging) {
+				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+			}
 			
 			if(roundMode) {
 				return;
@@ -367,6 +373,11 @@ public class Map3 extends Map {
 	}
 
 	@Override
+	public void setGC(GraphicsContext gc)
+	{
+		this.gc = gc;
+	}
+	@Override
 	public boolean getRoundMode() {
 		return this.roundMode;	
 	}
@@ -391,5 +402,13 @@ public class Map3 extends Map {
 		this.timeline = null;
 		this.towerList.clear();
 		this.towerList = null;
+	}
+	
+	@Override
+	public void setDragged(Image img, boolean bool, int x, int y) {
+		this.dragx = x;
+		this.dragy = y;
+		this.dragging = bool;
+		this.dragimg = img;
 	}
 }

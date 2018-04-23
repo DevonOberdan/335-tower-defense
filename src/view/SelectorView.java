@@ -24,7 +24,12 @@ import model.Player;
 import model.Tower;
 
 /**
- * Select a map
+ * This is casual mode. A user can select a sequence of maps (easy, medium, 
+ * hard), and play for as long as they'd like. There are NO WAVE LIMITs for
+ * this mode. The user can play on a map until they grow old and die.
+ * 
+ * Main menu button will destroy everything here and send us back to the homepage.
+ * 
  * @author Taite Nazifi
  *
  */
@@ -43,7 +48,8 @@ public class SelectorView extends StackPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map1(player, gc);
+		this.map = new Map1(player);
+		this.map.setGC(gc);
 		this.x = 0; this.y = 0;
 		nextWave = new Button("Next Wave");
 		nextWave.setMinHeight(20);
@@ -59,8 +65,6 @@ public class SelectorView extends StackPane implements Observer{
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
-		//pane.setPadding(new Insets (10,10,10,10));
-		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
 		Button easy = new Button("Easy");
 		easy.setMinWidth(120);
@@ -68,27 +72,29 @@ public class SelectorView extends StackPane implements Observer{
 		medium.setMinWidth(120);
 		Button hard = new Button("Hard");
 		hard.setMinWidth(120);
-		//gameView = new GameView(theGame);
-		//mapSelector = new MapSelector();
 		grid.add(easy, 11, 18);
 		grid.add(medium, 11, 19);
 		grid.add(hard, 11, 20);
 		grid.add(copyright, 0, 39);
 		this.getChildren().add(grid);
-		//this.setCenter(grid);
 		this.setId("pane");
 		this.getStylesheets().addAll(this.getClass().getResource("welcomView_style.css").toExternalForm());
 		this.setVisible(true);
-		//this.getChildren().add((Node) new MenuView());
+
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
+		//Archer tower image, where the archer tower is drawn and assigned event handlers.
 		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -102,11 +108,15 @@ public class SelectorView extends StackPane implements Observer{
 				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
+		//multi tower image, where the multi tower is drawn and assigned event handlers.
 		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -114,17 +124,21 @@ public class SelectorView extends StackPane implements Observer{
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
+
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) 
+			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		cannonTower = new ImageView("file:images/cannon.png");
 		Image cannonImg = new Image("file:images/cannon.png");
 		cannonTower.setOnMouseReleased(e -> {
-			if(this.map.mapFinished())
+			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
+				this.map.setDragged(null, false, 0, 0);
 				return;
+			}
+			
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -189,21 +203,24 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		easy.setOnAction(e -> {
-			this.map = new Map1(player, gc);
+			this.map = new Map1(player);
+			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
 			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		medium.setOnAction(e -> {
-			this.map = new Map2(player, gc);
+			this.map = new Map2(player);
+			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
 			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		hard.setOnAction(e -> {
-			this.map = new Map3(player, gc);
+			this.map = new Map3(player);
+			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
 			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
