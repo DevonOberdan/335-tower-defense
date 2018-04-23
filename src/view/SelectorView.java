@@ -24,7 +24,11 @@ import model.RandomTower;
 import model.Tower;
 
 /**
- * Select a map
+ * This is casual mode. A user can select a sequence of maps (easy, medium, 
+ * hard), and play for as long as they'd like. There are NO WAVE LIMITs for
+ * this mode. The user can play on a map until they grow old and die.
+ * 
+ * Main menu button will destroy everything here and send us back to the homepage.
  * @author Taite Nazifi
  *
  */

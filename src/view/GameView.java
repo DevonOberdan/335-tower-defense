@@ -24,10 +24,15 @@ import model.RandomTower;
 import model.Tower;
 
 /**
- * Game view
+ * This is the campaign. This will cycle through each map based
+ * on whether or not the player has defeated the current amount of waves for the current
+ * map. If the user defeats all of the waves for all of the maps, 
+ * they are congratulated and sent back to the home page.
+ * 
  * @author Taite Nazifi
  *
  */
+
 public class GameView extends StackPane implements Observer{
 
 	private Map map;
@@ -37,10 +42,13 @@ public class GameView extends StackPane implements Observer{
 	private Player player;
 	private int x, y;
 	private Button nextRound, nextWave;
+	private ImageView archerTower, multiTower, randomTower;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
 	 * map that the player is on once they have won the game. 
+	 * 
+	 * @author Taite Nazifi
 	 */
 	public GameView() {
 		//StackPane pane = new StackPane();
@@ -60,12 +68,13 @@ public class GameView extends StackPane implements Observer{
 		nextRound.setMinWidth(35);
 		nextRound.setTranslateX(250);
 		nextRound.setTranslateY(237);
-		//this.getChildren().add((Node) new MenuView());
+
 		/*
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
-		ImageView archerTower = new ImageView("file:images/archer1.png");
+		//Archer tower image, where the archer tower is drawn and assigned event handlers.
+		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished())
@@ -76,16 +85,15 @@ public class GameView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
 		});
 		archerTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(archerimg, 0, 0, 150, 150, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished())
+				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
-		ImageView multiTower = new ImageView("file:images/MultiTower1.png");
+		//multi tower image, where the multi tower is drawn and assigned event handlers.
+		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished())
@@ -96,13 +104,12 @@ public class GameView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
+
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(multiimg, 0, 0, 60, 80, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished())
+				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		ImageView randomTower = new ImageView("file:images/random.png");
@@ -116,13 +123,11 @@ public class GameView extends StackPane implements Observer{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
+			this.map.setDragged(null, false, 0, 0);
 		});
 		randomTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) {
-				this.x = (int) e.getSceneX();
-				this.y = (int) e.getSceneY();
-				gc.drawImage(randomimg, 0, 0, 150, 125, x-30, y-40, 60, 80);
-			}
+			if(this.map != null && !this.map.mapFinished()) 
+				this.map.setDragged(randomimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		archerTower.setTranslateX(255);
