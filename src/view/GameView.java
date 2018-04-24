@@ -20,7 +20,7 @@ import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
-import model.RandomTower;
+import model.CannonTower;
 import model.Tower;
 
 /**
@@ -126,9 +126,9 @@ public class GameView extends StackPane implements Observer{
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
-		ImageView randomTower = new ImageView("file:images/random.png");
-		Image randomimg = new Image("file:images/random.png");
-		randomTower.setOnMouseReleased(e -> {
+		ImageView cannonTower = new ImageView("file:images/cannon.png");
+		Image cannonImg = new Image("file:images/cannon.png");
+		cannonTower.setOnMouseReleased(e -> {
 			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
 				this.map.setDragged(null, false, 0, 0);
@@ -136,7 +136,7 @@ public class GameView extends StackPane implements Observer{
 			}
 			
 			
-			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
@@ -144,9 +144,9 @@ public class GameView extends StackPane implements Observer{
 			}
 			this.map.setDragged(null, false, 0, 0);
 		});
-		randomTower.setOnMouseDragged(e -> {
+		cannonTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished()) 
-				this.map.setDragged(randomimg, true, (int)e.getSceneX(), (int)e.getSceneY());
+				this.map.setDragged(cannonImg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		archerTower.setTranslateX(255);
@@ -159,12 +159,12 @@ public class GameView extends StackPane implements Observer{
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
 		
-		randomTower.setTranslateX(255);
-		randomTower.setTranslateY(50);
-		randomTower.setFitHeight(80);
-		randomTower.setFitWidth(70);
+		cannonTower.setTranslateX(255);
+		cannonTower.setTranslateY(50);
+		cannonTower.setFitHeight(80);
+		cannonTower.setFitWidth(70);
 		
-		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, randomTower);
+		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, cannonTower);
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
 			if(this.map.getRoundMode()) {

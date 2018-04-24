@@ -14,13 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.ArcherTower;
+import model.CannonTower;
 import model.Map;
 import model.Map1;
 import model.Map2;
 import model.Map3;
 import model.MultiTower;
 import model.Player;
-import model.RandomTower;
 import model.Tower;
 
 /**
@@ -41,7 +41,7 @@ public class SelectorView extends StackPane implements Observer{
 	private Player player;
 	private int x, y;
 	private Button mainMenu, nextWave;
-	private ImageView multiTower, archerTower;
+	private ImageView multiTower, archerTower, cannonTower;
 	
 	public SelectorView() {
 		
@@ -131,15 +131,15 @@ public class SelectorView extends StackPane implements Observer{
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
-		ImageView randomTower = new ImageView("file:images/random.png");
-		Image randomimg = new Image("file:images/random.png");
-		randomTower.setOnMouseReleased(e -> {
+		cannonTower = new ImageView("file:images/cannon.png");
+		Image cannonImg = new Image("file:images/cannon.png");
+		cannonTower.setOnMouseReleased(e -> {
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
 				this.map.setDragged(null, false, 0, 0);
 				return;
 			}
 			
-			Tower t = new RandomTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
@@ -147,9 +147,9 @@ public class SelectorView extends StackPane implements Observer{
 			}
 			this.map.setDragged(null, false, 0, 0);
 		});
-		randomTower.setOnMouseDragged(e -> {
+		cannonTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished())
-				this.map.setDragged(randomimg, true, (int)e.getSceneX(), (int)e.getSceneY());
+				this.map.setDragged(cannonImg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		
 		archerTower.setTranslateX(255);
@@ -162,10 +162,10 @@ public class SelectorView extends StackPane implements Observer{
 		multiTower.setFitHeight(80);
 		multiTower.setFitWidth(60);
 		
-		randomTower.setTranslateX(255);
-		randomTower.setTranslateY(50);
-		randomTower.setFitHeight(80);
-		randomTower.setFitWidth(70);
+		cannonTower.setTranslateX(255);
+		cannonTower.setTranslateY(50);
+		cannonTower.setFitHeight(80);
+		cannonTower.setFitWidth(70);
 		
 		
 		
@@ -207,7 +207,7 @@ public class SelectorView extends StackPane implements Observer{
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		medium.setOnAction(e -> {
@@ -215,7 +215,7 @@ public class SelectorView extends StackPane implements Observer{
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		hard.setOnAction(e -> {
@@ -223,7 +223,7 @@ public class SelectorView extends StackPane implements Observer{
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, randomTower);
+			this.getChildren().addAll(canvas,mainMenu,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		

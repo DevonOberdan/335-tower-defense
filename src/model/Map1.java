@@ -65,6 +65,7 @@ public class Map1 extends Map {
 		background = new Image("file:images/maps/map1.png");
 		menuBar = new Image("file:images/menu.jpg");
  		player = p;
+ 		//roundMode == true means between waves
  		roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
@@ -224,6 +225,7 @@ public class Map1 extends Map {
 	 */
 	public void updateAndReassignTowers() {
 		for (Tower t : player.getTowers()) { 
+			t.giveRoundMode(this.getRoundMode());
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
 				switch(t.getTowerType()) {
@@ -261,6 +263,25 @@ public class Map1 extends Map {
 					if(e != null) {
 						t.setEnemy(e);
 						e.setAttacked(true);
+					}
+					break;
+				case catapult:
+					List<Enemy> enList = t.getPrioEnemies(enemyList);
+					for(Enemy en : enList) {
+						if(en != null && en.getDeathTicker() >= en.deathFrameCount()) {
+							enemyList.remove(en);
+							if(isRunning()) {
+								en = t.getPrioEnemy(enemyList);
+							}
+							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								endMap();
+								return;
+							}
+						}
+						if(en != null) {
+							t.setEnemy(en);
+							en.setAttacked(true);
+						}
 					}
 					break;
 				default:
