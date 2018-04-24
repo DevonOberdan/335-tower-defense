@@ -271,9 +271,12 @@ public abstract class Enemy{
 		}
 		else{ // draw the death frame
 			img = deathImgs[dir];
+			
+			gc.setGlobalAlpha(1-lagTick*0.1);
 
 			gc.drawImage(img, deathTick*(sourceDeathSizes.getX()), 0, sourceDeathSizes.getX(), sourceDeathSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			gc.setGlobalAlpha(1);
 			advanceDeath();
 			return;
 		}

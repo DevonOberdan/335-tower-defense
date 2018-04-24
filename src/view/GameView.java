@@ -43,6 +43,9 @@ public class GameView extends StackPane implements Observer{
 	private int x, y;
 	private Button nextRound, nextWave;
 	private ImageView archerTower, multiTower, randomTower;
+	
+	private Image archerimg, multiimg, cannonImg,
+				  archerGray, multiGray, cannonGray;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
