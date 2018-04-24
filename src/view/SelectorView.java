@@ -13,15 +13,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import model.ArcherTower;
-import model.CannonTower;
 import model.Map;
 import model.Map1;
 import model.Map2;
 import model.Map3;
-import model.MultiTower;
 import model.Player;
-import model.Tower;
+import model.tower.ArcherTower;
+import model.tower.CannonTower;
+import model.tower.MultiTower;
+import model.tower.Tower;
 
 /**
  * This is casual mode. A user can select a sequence of maps (easy, medium, 
@@ -124,8 +124,8 @@ public class SelectorView extends StackPane implements Observer{
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
-
 		});
+		
 		multiTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());

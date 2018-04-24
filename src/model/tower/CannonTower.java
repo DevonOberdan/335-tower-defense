@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 import java.awt.Point;
 import java.io.File;

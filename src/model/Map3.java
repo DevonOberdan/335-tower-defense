@@ -20,6 +20,7 @@ import model.enemy.ElfArcher;
 import model.enemy.ElfWizard;
 import model.enemy.Enemy;
 import model.enemy.Wolf;
+import model.tower.Tower;
 /**
  * TestMap exhibits the nature of an actual game that we might
  * end up playing. Contains several tests including the drawing

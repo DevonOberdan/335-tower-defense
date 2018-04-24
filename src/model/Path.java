@@ -40,6 +40,7 @@ public abstract class Path {
 			this.D = a;
 		}
 		
+		
 
 		public abstract Point checkTurns(Point p, Enemy e);
 }

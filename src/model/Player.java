@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import model.enemy.Enemy;
+import model.tower.Tower;
 
 public class Player extends BorderPane {
 
