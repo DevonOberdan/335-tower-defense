@@ -124,8 +124,8 @@ public class SelectorView extends StackPane implements Observer{
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
-
 		});
+		
 		multiTower.setOnMouseDragged(e -> {
 			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
