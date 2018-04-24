@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import model.Path;
 import model.enemy.Enemy;
+import model.tower.Tower;
 
 
 

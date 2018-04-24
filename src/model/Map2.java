@@ -22,6 +22,7 @@ import model.enemy.Skeleton;
 import model.enemy.TinyWizard;
 import model.enemy.Troll;
 import model.enemy.Wolf;
+import model.tower.Tower;
 /**
  * TestMap exhibits the nature of an actual game that we might
  * end up playing. Contains several tests including the drawing

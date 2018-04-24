@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 import java.awt.Point;
 import java.io.File;
@@ -57,7 +57,6 @@ public class ArcherTower extends Tower {
 		};
 		timer.start();
 	}
-
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList)
 	{

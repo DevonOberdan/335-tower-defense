@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import model.Path;
 import model.Player;
-import model.Tower;
+import model.tower.Tower;
 
 /**
  * Abstract Enemy provides us with a skeleton to use for other types

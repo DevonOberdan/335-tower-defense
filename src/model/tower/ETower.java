@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 //tower type
 public enum ETower {
