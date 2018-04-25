@@ -26,6 +26,7 @@ public class Ghost extends Enemy{
 	
 	private boolean beenSpooky = false;
 	private boolean isSpooky = false;
+	private int iter;
 	
 	private static Point walkDims = new Point(47,73);
 	private static Point deathDims = new Point(56,77);
@@ -36,7 +37,7 @@ public class Ghost extends Enemy{
 	private static String[] dead_ghost = new String[] {"file:images/enemies/ghost/dead_ghost_right.png", 
 											   		   "file:images/enemies/ghost/dead_ghost_left.png"};
 	
-	private final String[] poofImgs = {"file:images/explosion_01", "file:images/explosion_02"};
+	private final String[] poofImgs = {"file:images/explosion_01.png", "file:images/explosion_02.png"};
 	private Image[] poofs;
 	private long animStart = 0;
 	private AnimationTimer spook;
@@ -52,7 +53,7 @@ public class Ghost extends Enemy{
 		this.beenSpooky = false;
 		this.isSpooky = false;
 		this.poofs = new Image[] {new Image(poofImgs[0]),new Image(poofImgs[1])};
-		
+		this.iter=0;
 		spook = new AnimationTimer() {
 
 			@Override
@@ -82,6 +83,14 @@ public class Ghost extends Enemy{
 		if(this.beenSpooky) spook.stop();
 		
 		if(this.isSpooky) {
+			if(iter==0) {
+				gc.drawImage(poofs[0],loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2),imgWidth,imgHeight); 
+				iter++;
+			}
+			else if(iter==1) {
+				gc.drawImage(poofs[1], loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2),imgWidth,imgHeight); 
+				iter++;
+			}
 			gc.setGlobalAlpha(0.2);
 		}
 		int dir = 0;
