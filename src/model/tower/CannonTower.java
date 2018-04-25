@@ -131,8 +131,10 @@ public class CannonTower extends Tower {
 	    
 	    shoot();
 	    for (Enemy en : ens) {
-	      en.setAttacked(true);
-	      en.setHel(en.getHel()-this.getDamage());
+	    		if(en.canBeHit()) {
+	    			en.setAttacked(true);
+	    			en.setHel(en.getHel()-this.getDamage());
+	    		}
 	    }
 	    return true;
 	  }

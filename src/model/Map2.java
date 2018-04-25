@@ -47,7 +47,7 @@ public class Map2 extends Map {
 	
 	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
 	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
-	private List<Enemy> enemyList; //List of enemies
+	//private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
@@ -100,7 +100,7 @@ public class Map2 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new Skeleton(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Ghost(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
 				enemy = new Rider(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
@@ -283,6 +283,7 @@ public class Map2 extends Map {
 			} 
 			t.show(gc);
 		}
+		giveList();
 	}
 	/**********************************************************************/
 	/**

@@ -1,6 +1,8 @@
 package model.enemy;
 
 import java.awt.Point;
+import java.util.ArrayList;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import model.Path;
@@ -56,6 +58,10 @@ public abstract class Enemy{
 	protected int lagFrames;
 	
 	protected int previousDir;
+	
+	protected boolean boosted;
+	
+	protected ArrayList<Enemy> enList;
 	
 	/**
 	 * Abstract Enemy constructor used by all Enemy subclasses. Populates
@@ -119,6 +125,9 @@ public abstract class Enemy{
 		this.previousDir = 0;
 		this.numTurns = 0;
 		this.pathNum = (int) (Math.random()*3);
+		
+		this.enList = new ArrayList<>();
+		this.boosted = false;
 	}
 	
 	/* setters */
@@ -287,6 +296,13 @@ public abstract class Enemy{
 		drawHealthBar(gc);
 		this.turns = this.path.checkTurns(this.loc,this);
 		move();
+	}
+	
+	public ArrayList<Enemy> getEnemyList() {
+		return enList;
+	}
+	public void setList(ArrayList<Enemy> list){
+		this.enList = list;
 	}
 	
 	// abstract method to draw the enemy's health bar, each is positioned a bit different

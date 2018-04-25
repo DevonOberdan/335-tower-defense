@@ -1,6 +1,8 @@
 package model.enemy;
 
 import java.awt.Point;
+import java.util.ArrayList;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import model.Path;
@@ -21,6 +23,10 @@ public class TinyWizard extends Enemy{
 	private final static int damage = 5;
 	private final static int reward = 20;
 	
+	private final static int range = 80;
+	
+	private ArrayList<Enemy> neighborList;
+	
 	private static Point walkDims = new Point(65,90);
 	private static Point deathDims = new Point(75,75);
 	
@@ -38,8 +44,21 @@ public class TinyWizard extends Enemy{
 	public TinyWizard(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 4, 4, tinyWizard, deadTinyWizard, path, start);
+		neighborList = new ArrayList<Enemy>();
 	}	
 	
+	
+	public void getPrioEnemies() {
+		neighborList.clear();
+		
+		for (Enemy en : enList) {
+			Point enLoc = en.getLoc();
+			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLoc().getX(), 2) + Math.pow((enLoc.getY() - this.getLoc().getY()), 2));
+			if (dist < range && en.canBeHit() && !en.equals(this)) {
+				neighborList.add(en);
+			}
+		}
+	}	
 	
 	/**
 	 * Method to draw health bar right above the Enemy.

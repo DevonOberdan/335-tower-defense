@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.Timeline;
@@ -27,6 +28,9 @@ import model.tower.Tower;
 public abstract class Map extends StackPane{
 	// the background image
 	protected final Image gameOver = new Image("file:images/game_over.png");
+	
+	protected ArrayList<Enemy> enemyList; //List of enemies
+	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
 	/**
@@ -143,4 +147,11 @@ public abstract class Map extends StackPane{
 	 * Sets the img that we need to draw to be dragged to this
 	 */
 	public abstract void setDragged(Image img, boolean boo, int x, int y);
+	
+	
+	public void giveList() {
+		for(Enemy en : enemyList) {
+			en.setList(enemyList);
+		}
+	}
 }
