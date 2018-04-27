@@ -20,6 +20,7 @@ public class MultiTower extends Tower{
 	
 	private static boolean first = true;
 	private long previous;
+	private long FIRERATE;
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -29,8 +30,9 @@ public class MultiTower extends Tower{
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 4, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.area);
+		this.FIRERATE = (long) 0.5e9;
 		
 		AnimationTimer timer = new AnimationTimer(){
 			
@@ -40,7 +42,7 @@ public class MultiTower extends Tower{
 					previous = now;
 					first = false;
 				}
-				if((now - previous >= 0.5e9) && canAttack()) {
+				if((now - previous >= FIRERATE) && canAttack()) {
 					previous = now;
 					//System.out.println("one second later");
 					attack();
@@ -102,19 +104,26 @@ public class MultiTower extends Tower{
 		this.getGC().fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
 		this.getGC().setGlobalAlpha(1.0);
 	}
-
+	
+	@Override
+	public int getUpgradeCost() {
+		return 275 * this.getLevel() * (4/5);
+	}
+	
 	@Override
 	public boolean levelUp() {
 		if(this.getLevel() == 3)
 			return false;
-		this.setDamage((int)(this.getDamage() * 1.5));
-		this.setRange((int)(this.getRange() * 1.5));
+		this.setDamage((int)(this.getDamage() - 1));
+		this.setRange((int)(this.getRange() * 1.15));
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
+			this.FIRERATE = (long) 0.3e9;
 			this.setImage(new Image("file:images/MultiTower2.png"));
 			break;
 		case 3:
+			this.FIRERATE = (long) 0.15e9;
 			this.setImage(new Image("file:images/MultiTower3.png"));
 			break;
 		default:

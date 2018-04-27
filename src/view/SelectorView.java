@@ -42,6 +42,7 @@ public class SelectorView extends StackPane implements Observer{
 	private int x, y;
 	private Button mainMenu, nextWave;
 	private ImageView multiTower, archerTower, cannonTower;
+	private Tower ctow;
 	
 	public SelectorView() {
 		
@@ -61,6 +62,7 @@ public class SelectorView extends StackPane implements Observer{
 		mainMenu.setMinWidth(35);
 		mainMenu.setTranslateX(250);
 		mainMenu.setTranslateY(237);
+		this.ctow = null;
 		
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
@@ -243,19 +245,43 @@ public class SelectorView extends StackPane implements Observer{
 					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
 				//NOT in bounds
 				t.setSelected(false);
+				this.ctow = null;
 			} else { //must be in bounds
 				t.setSelected(true);
-				/* hard code the menu for the tower selector menu in the tower's abstract class.
-				 * Get the tower's children when we are selecting it, and add all of the tower's children
-				 * to this stackpane object, since we are drawing this.
-				 * 
-				 * I'm not too sure how to undraw them, or how to remove them.
-				 */
-	//			t.getChildren().add
-				return t;
+				this.ctow = t;
+				break;
 			}
 		}
-		return null;
+		if(this.ctow != null) {
+			createUpgradePanel();
+		} else {
+			destroyUpgradePanel();
+		}
+		return this.ctow;
+	}
+	
+	public void createUpgradePanel() {
+		if(this.ctow != null && this.ctow.getLevel() < 3) {
+			Button upgradebt = new Button("Upgrade!");
+			upgradebt.setMinHeight(20);
+			upgradebt.setMinWidth(35);
+			upgradebt.setTranslateX(250);
+			upgradebt.setTranslateY(165);
+			this.getChildren().add(upgradebt);
+			upgradebt.setOnAction(e -> {
+				if(this.map.getPlayer().withdraw(this.ctow.getUpgradeCost()))
+					this.ctow.levelUp();
+			});
+		}
+	}
+	
+	public void destroyUpgradePanel() {
+		if(this.ctow != null) {
+			this.ctow.setSelected(false);
+			this.ctow = null;
+		}
+			this.getChildren().remove(6, this.getChildren().size());
+			System.out.println(this.getChildren().size());
 	}
 	
 	/**
@@ -265,6 +291,7 @@ public class SelectorView extends StackPane implements Observer{
 		for(Tower t : player.getTowers()) {
 			t.setSelected(false);
 		}
+		this.ctow = null;
 	}
 	
 	@Override

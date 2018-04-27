@@ -82,6 +82,7 @@ public abstract class Tower extends StackPane{
 	public boolean getSold()				{return sold;}
 	public void setSold(boolean boo)		{this.sold = boo;}
 	
+	public abstract int getUpgradeCost();
 	public String getName()					{ return towerName; 	} 	//name of tower
 	public int	  getRange()					{ return radius;       } //range of tower
 	public int    getDamage()				{ return damage;       } //damage of tower

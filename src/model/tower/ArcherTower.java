@@ -135,6 +135,10 @@ public class ArcherTower extends Tower {
 		return null;
 	}
 	
+	@Override
+	public int getUpgradeCost() {
+		return 275 * (this.getLevel()+1) * (4/5);
+	}
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image

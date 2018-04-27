@@ -192,6 +192,11 @@ public class CannonTower extends Tower {
 		}
 	}
 	
+	@Override
+	public int getUpgradeCost() {
+		return 275 * this.getLevel() * (4/5);
+	}
+	
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image
