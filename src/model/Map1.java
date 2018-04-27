@@ -19,6 +19,7 @@ import model.enemy.Enemy;
 import model.enemy.TinyWizard;
 import model.enemy.Troll;
 import model.enemy.Wolf;
+import model.tower.ETower;
 import model.tower.Tower;
 /**
  * TestMap exhibits the nature of an actual game that we might
@@ -58,7 +59,7 @@ public class Map1 extends Map {
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
 	 * background, and the enemies on it.
-	 * 
+	 *  
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
@@ -80,7 +81,7 @@ public class Map1 extends Map {
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
 		 this.dragging = false;
-	}
+	} 
 	
 	/**
 	 * Takes in an integer as a parameter, and adds this many enemies
@@ -142,8 +143,7 @@ public class Map1 extends Map {
 			
 			if(roundMode) {
 				return;
-			}
-			
+			}			
 			
 			for (Enemy e : enemyList) {
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
@@ -231,8 +231,7 @@ public class Map1 extends Map {
 			t.giveRoundMode(this.getRoundMode());
 			if(!enemyList.isEmpty()) {
 				t.setEnemy(null);
-				switch(t.getTowerType()) {
-				case area:
+				if(t.getTowerType() == ETower.area || t.getTowerType() == ETower.catapult) {
 					List<Enemy> es = t.getPrioEnemies(enemyList);
 					for(Enemy e : es) {
 						if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
@@ -250,8 +249,8 @@ public class Map1 extends Map {
 							e.setAttacked(true);
 						}
 					}
-					break;
-				case archer:
+				}
+				else {
 					Enemy e = t.getPrioEnemy(enemyList);
 					if(e != null && e.getDeathTicker() >= e.deathFrameCount()) {
 						enemyList.remove(e);
@@ -267,28 +266,6 @@ public class Map1 extends Map {
 						t.setEnemy(e);
 						e.setAttacked(true);
 					}
-					break;
-				case catapult:
-					List<Enemy> enList = t.getPrioEnemies(enemyList);
-					for(Enemy en : enList) {
-						if(en != null && en.getDeathTicker() >= en.deathFrameCount()) {
-							enemyList.remove(en);
-							if(isRunning()) {
-								en = t.getPrioEnemy(enemyList);
-							}
-							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
-								endMap();
-								return;
-							}
-						}
-						if(en != null) {
-							t.setEnemy(en);
-							en.setAttacked(true);
-						}
-					}
-					break;
-				default:
-					break;
 				}
 			} 
 			t.show(gc);

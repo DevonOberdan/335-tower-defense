@@ -45,7 +45,7 @@ public class Player extends BorderPane {
 			return false;
 		}
 		this.health -= damage;
-		return true;
+		return true; 
 	}
 	/**
 	 * 
@@ -78,10 +78,10 @@ public class Player extends BorderPane {
 			goldC = 0;
 		}
 		gc.setFill(Color.GHOSTWHITE);
-		gc.drawImage(goldImg, 60*goldC, 0, 60, 60, 510, 20, 20, 20);
-		gc.fillText(""+gold, 535, 35);
-		gc.drawImage(healthImg, 60*healthC, 0, 60, 60, 510, 55, 20, 20);
-		gc.fillText(""+health, 535, 70);
+		gc.drawImage(goldImg, 60*goldC, 0, 60, 60, 510, 0.1, 20, 20);
+		gc.fillText(""+gold, 535, 12.5);
+		gc.drawImage(healthImg, 60*healthC, 0, 60, 60, 510, 17.5, 20, 20);
+		gc.fillText(""+health, 535, 33);
 		
 		goldC++;
 		healthC++;

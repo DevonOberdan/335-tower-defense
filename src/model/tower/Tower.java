@@ -31,6 +31,7 @@ public abstract class Tower extends StackPane{
 	private boolean isSelected;
 	private List<Enemy> ens;
 	private Enemy enemy;
+	private boolean sold;
 	
 	protected boolean betweenRounds;
 	
@@ -77,6 +78,9 @@ public abstract class Tower extends StackPane{
 	 * @return
 	 */
 	public abstract boolean levelUp();
+	
+	public boolean getSold()				{return sold;}
+	public void setSold(boolean boo)		{this.sold = boo;}
 	
 	public String getName()					{ return towerName; 	} 	//name of tower
 	public int	  getRange()					{ return radius;       } //range of tower

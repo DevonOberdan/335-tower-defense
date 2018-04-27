@@ -55,7 +55,7 @@ public class SelectorView extends StackPane implements Observer{
 		nextWave.setMinHeight(20);
 		nextWave.setMinWidth(35);
 		nextWave.setTranslateX(250);
-		nextWave.setTranslateY(202);
+		nextWave.setTranslateY(202); 
 		mainMenu = new Button("Main Menu");
 		mainMenu.setMinHeight(20);
 		mainMenu.setMinWidth(35);
@@ -89,12 +89,11 @@ public class SelectorView extends StackPane implements Observer{
 		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
-			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
 				this.map.setDragged(null, false, 0, 0);
 				return;
 			}
-
+			
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
 			{
@@ -153,28 +152,28 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		archerTower.setTranslateX(255);
-		archerTower.setTranslateY(-125);
-		archerTower.setFitHeight(80);
-		archerTower.setFitWidth(70);
+		archerTower.setTranslateY(-165);
+		archerTower.setFitHeight(60);
+		archerTower.setFitWidth(50);
 		
 		multiTower.setTranslateX(252);
-		multiTower.setTranslateY(-33);
-		multiTower.setFitHeight(80);
-		multiTower.setFitWidth(60);
+		multiTower.setTranslateY(-93);
+		multiTower.setFitHeight(60);
+		multiTower.setFitWidth(40);
 		
-		cannonTower.setTranslateX(255);
-		cannonTower.setTranslateY(50);
-		cannonTower.setFitHeight(80);
-		cannonTower.setFitWidth(70);
+		cannonTower.setTranslateX(252);
+		cannonTower.setTranslateY(-20);
+		cannonTower.setFitHeight(60);
+		cannonTower.setFitWidth(50);
 		
 		
 		
 		//this.setCenter(pane);
 		nextWave.setOnAction(e -> {
+			
 			if(this.map.getRoundMode()) {
 				System.out.println("Spawning enemies");
 				this.map.spawnEnemies(map.getWaveCount());
-				//this.map.spawnEnemies((int)(5 * this.map.getWaveCount()) + 3);
 				this.map.incrementWave();
 				this.map.toggleRound();
 			}
@@ -240,12 +239,19 @@ public class SelectorView extends StackPane implements Observer{
 	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
-			if(x < t.getLocation().getX()-30 || x > t.getLocation().getX()+30
-					|| y < t.getLocation().getY()-30 || y > t.getLocation().getY()+30) {
+			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
+					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
 				//NOT in bounds
 				t.setSelected(false);
 			} else { //must be in bounds
 				t.setSelected(true);
+				/* hard code the menu for the tower selector menu in the tower's abstract class.
+				 * Get the tower's children when we are selecting it, and add all of the tower's children
+				 * to this stackpane object, since we are drawing this.
+				 * 
+				 * I'm not too sure how to undraw them, or how to remove them.
+				 */
+	//			t.getChildren().add
 				return t;
 			}
 		}

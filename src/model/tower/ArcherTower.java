@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
@@ -21,6 +22,7 @@ public class ArcherTower extends Tower {
 	private static boolean first = true;
 	//private long start;
 	private long previous;
+	private long FIRERATE;
 	
 	
 	/**
@@ -36,6 +38,7 @@ public class ArcherTower extends Tower {
 		//Type, damage, radius, image, cost, sound, location
 		super("Archer", 15, 100, new Image("file:images/archer1.png"), 50, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.archer);
+		this.FIRERATE = (long) 0.8e9;
 		
 		AnimationTimer timer = new AnimationTimer(){
 			
@@ -48,7 +51,7 @@ public class ArcherTower extends Tower {
 					//attackEnemy();
 					//return;
 				}
-				if((now - previous >= 1.0e9) && canAttack()) {
+				if((now - previous >= FIRERATE) && canAttack()) {
 					previous = now;
 					//System.out.println("one second later");
 					attack();
@@ -114,9 +117,11 @@ public class ArcherTower extends Tower {
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
+			this.FIRERATE = (long) 0.7e9;
 			this.setImage(new Image("file:images/archer2.png"));
 			return true;
 		case 3:
+			this.FIRERATE = (long) 0.5e9;
 			this.setImage(new Image("file:images/archer3.png"));
 			return true;
 		default:
@@ -137,14 +142,15 @@ public class ArcherTower extends Tower {
 			//actual tower image
 			gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 			if(this.getSelected()) {
+				
+				/*
+				 * Drawing the radius of the tower's abilities on the map.
+				 */
 				gc.setGlobalAlpha(0.15);
 				gc.setFill(Color.GHOSTWHITE);
 				gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
 				gc.setGlobalAlpha(1.0);
-			}
-			
-			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
-			 
+			}			 
 		}
 	}
 }
