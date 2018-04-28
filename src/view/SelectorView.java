@@ -20,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 import model.Map;
 import model.Map1;
@@ -260,7 +261,30 @@ public class SelectorView extends StackPane implements Observer{
 			this.getChildren().addAll(canvas,nextWave,archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
-		
+		/*
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * ADD A PLAY/PAUSE BUTTON THAT IS ONLY ONE BUTTON AND CHANGES
+		 * TEXT UPON CLICKING. CLICKING PAUSE SHOULD BRING UP AN ALERT
+		 * ASKING YOU IF YOU WANT TO SAVE THE GAME
+		 * IT SHOULD HAVE TWO OPTIONS, YES AND NO/CANCEL.
+		 * 
+		 * HITTING YES WILL SAVE; ALERT WILL CLOSE.
+		 * HITTING NO/CANCEL WILL NOT SAVE; ALERT WILL CLOSE.
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
 	}
 
 	/**
@@ -335,8 +359,8 @@ public class SelectorView extends StackPane implements Observer{
 				"Current damage: " + this.ctow.getDamage() + "\n" + 
 				"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
 				"PRICE: " + this.ctow.getUpgradeCost()
-				
 			);
+			
 			tooltip.setFont(new Font(20));
 			upgradebt.setTooltip(tooltip);
 		}
