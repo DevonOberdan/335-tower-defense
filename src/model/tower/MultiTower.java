@@ -107,7 +107,7 @@ public class MultiTower extends Tower{
 	
 	@Override
 	public int getUpgradeCost() {
-		return 275 * this.getLevel() * (4/5);
+		return 275 * (this.getLevel());
 	}
 	
 	@Override
@@ -119,11 +119,11 @@ public class MultiTower extends Tower{
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
-			this.FIRERATE = (long) 0.3e9;
+			this.FIRERATE = (long) 0.35e9;
 			this.setImage(new Image("file:images/MultiTower2.png"));
 			break;
 		case 3:
-			this.FIRERATE = (long) 0.15e9;
+			this.FIRERATE = (long) 0.2e9;
 			this.setImage(new Image("file:images/MultiTower3.png"));
 			break;
 		default:

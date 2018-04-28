@@ -1,9 +1,14 @@
 package view;
 
 import java.awt.Point;
+import java.lang.reflect.Field;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.sun.corba.se.impl.ior.GenericTaggedProfile;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,7 +17,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import model.Map;
 import model.Map1;
 import model.Map2;
@@ -41,9 +52,9 @@ public class GameView extends StackPane implements Observer{
 	private int ptr;
 	private Player player;
 	private int x, y;
-	private Button nextRound, nextWave;
+	private Button nextRound;
 	private ImageView archerTower, multiTower, randomTower;
-	
+	private Tower ctow;
 	private Image archerimg, multiimg, cannonImg,
 				  archerGray, multiGray, cannonGray;
 	/**
@@ -61,12 +72,7 @@ public class GameView extends StackPane implements Observer{
 		this.map = new Map1(player);
 		this.map.setGC(gc);
 		this.ptr = 0; this.x = 0; this.y = 0;
-		nextWave = new Button("Next Wave");
-		nextWave.setMinHeight(20);
-		nextWave.setMinWidth(35);
-		nextWave.setTranslateX(250);
-		nextWave.setTranslateY(202);
-		nextRound = new Button("Next Round");
+		nextRound = new Button("Next Wave");
 		nextRound.setMinHeight(20);
 		nextRound.setMinWidth(35);
 		nextRound.setTranslateX(250);
@@ -76,7 +82,11 @@ public class GameView extends StackPane implements Observer{
 		 * Where we define what happens when we click a tower and drag it. This
 		 * is going to be really disgusting and messy. I hate this >:( 
 		 */
-		//Archer tower image, where the archer tower is drawn and assigned event handlers.
+		
+		
+		/*
+		 * ARCHER TOWER IMAGE VIEW
+		 */
 		archerTower = new ImageView("file:images/archer1.png");
 		Image archerimg = new Image("file:images/archer1.png");
 		archerTower.setOnMouseReleased(e -> {
@@ -101,8 +111,14 @@ public class GameView extends StackPane implements Observer{
 			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
-		
-		//multi tower image, where the multi tower is drawn and assigned event handlers.
+		Tooltip att = new Tooltip("Archer\nDamage: 15\nRange:100\n\nPRICE: $150");
+		att.setFont(new Font(20));
+		Tooltip.install(archerTower, att);
+		hackyMcGee(att);
+
+		/*
+		 * MULTI TOWER IMAGE VEIW
+		 */
 		multiTower = new ImageView("file:images/MultiTower1.png");
 		Image multiimg = new Image("file:images/MultiTower1.png");
 		multiTower.setOnMouseReleased(e -> {
@@ -128,7 +144,14 @@ public class GameView extends StackPane implements Observer{
 			if(this.map != null && !this.map.mapFinished())
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
+		Tooltip mtt = new Tooltip("Multi\nDamage: 5\nRange:100\n\nPRICE: $75");
+		mtt.setFont(new Font(20));
+		Tooltip.install(multiTower, mtt);
 		
+		
+		/*
+		 * CANNON TOWER IMAGE VIEW
+		 */
 		ImageView cannonTower = new ImageView("file:images/cannon.png");
 		Image cannonImg = new Image("file:images/cannon.png");
 		cannonTower.setOnMouseReleased(e -> {
@@ -151,34 +174,31 @@ public class GameView extends StackPane implements Observer{
 			if(this.map != null && !this.map.mapFinished()) 
 				this.map.setDragged(cannonImg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
+		Tooltip ctt = new Tooltip("Cannon\nDamage: 100\nRange:80\n\nPRICE: $125");
+		ctt.setFont(new Font(20));
+		Tooltip.install(cannonTower, ctt);
 		
+		/*
+		 * PLACE THE IMAGE VIEWS ON THE PLAYER PANEL
+		 */
 		archerTower.setTranslateX(255);
-		archerTower.setTranslateY(-125);
-		archerTower.setFitHeight(80);
-		archerTower.setFitWidth(70);
+		archerTower.setTranslateY(-165);
+		archerTower.setFitHeight(60);
+		archerTower.setFitWidth(50);
 		
 		multiTower.setTranslateX(252);
-		multiTower.setTranslateY(-33);
-		multiTower.setFitHeight(80);
-		multiTower.setFitWidth(60);
+		multiTower.setTranslateY(-93);
+		multiTower.setFitHeight(60);
+		multiTower.setFitWidth(40);
 		
-		cannonTower.setTranslateX(255);
-		cannonTower.setTranslateY(50);
-		cannonTower.setFitHeight(80);
-		cannonTower.setFitWidth(70);
+		cannonTower.setTranslateX(252);
+		cannonTower.setTranslateY(-20);
+		cannonTower.setFitHeight(60);
+		cannonTower.setFitWidth(50);
 		
-		this.getChildren().addAll(canvas,nextRound,nextWave,archerTower, multiTower, cannonTower);
+		
+		this.getChildren().addAll(canvas,nextRound,archerTower, multiTower, cannonTower);
 		//this.setCenter(pane);
-		nextWave.setOnAction(e -> {
-			if(this.map.getRoundMode()) {
-				System.out.println("Spawning enemies");
-				this.map.spawnEnemies(this.map.getWaveCount());
-				//this.map.spawnEnemies((int)(5 * this.map.getWaveCount()) + 3);
-				this.map.incrementWave();
-				this.map.toggleRound();
-			}
-				
-		});
 		
 		/*
 		 * How we transition to the next cutscene / map. OnClick events will try to understand
@@ -194,11 +214,19 @@ public class GameView extends StackPane implements Observer{
 				this.canvas = null;
 				this.gc = null;
 				this.getChildren().add((Node)(Observer) new WelcomeView());
-				//this.setCenter((Node)(Observer) new WelcomeView());
+				return;
+			}
+			if(this.map.getRoundMode()) {
+				System.out.println("Spawning enemies");
+				this.map.spawnEnemies(this.map.getWaveCount());
+				this.map.incrementWave();
+				this.map.toggleRound();
+				if(this.map.getWaveCount() == this.map.getMaxWaveCount())
+					nextRound.setText("Next map");
 				return;
 			}
 			
-			if(this.map != null && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()){
+			if(this.map != null && this.map.getEnemyList().isEmpty() && !this.map.isRunning() && this.map.getWaveCount() >= this.map.getMaxWaveCount()){
 				switch(ptr) {
 				
 				case 0: //level 2
@@ -212,6 +240,7 @@ public class GameView extends StackPane implements Observer{
 							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
+							nextRound.setText("Next Round");
 						}
 					}
 					
@@ -228,6 +257,7 @@ public class GameView extends StackPane implements Observer{
 							//this.map.spawnEnemies(5);
 							this.map.show();
 							ptr++;
+							nextRound.setText("Next Round");
 						}
 					}
 					
@@ -241,6 +271,8 @@ public class GameView extends StackPane implements Observer{
 							//showOutroCutscene();
 							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;
+							this.getChildren().clear();
+							this.getStylesheets().clear();
 						}
 					}
 					
@@ -258,12 +290,6 @@ public class GameView extends StackPane implements Observer{
 					}
 					break;
 				}
-			} else if(this.map != null){
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setTitle("Enemies inbound!");
-				a.setHeaderText(null);
-				a.setContentText("You must complete all of the waves\nbefore advancing to the next round.\nYou have completed " + this.map.getWaveCount() + " out of " + this.map.getMaxWaveCount() + " rounds.");
-				a.show();
 			}
 		});
 		
@@ -283,20 +309,95 @@ public class GameView extends StackPane implements Observer{
 	 * @param y
 	 * @return
 	 */
-	
 	public Tower selectTower(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
-			if(x < t.getLocation().getX()-20 || x > t.getLocation().getX()+20
-					|| y < t.getLocation().getY()-20 || y > t.getLocation().getY()+20) {
+			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
+					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
 				//NOT in bounds
 				t.setSelected(false);
+				this.ctow = null;
 			} else { //must be in bounds
 				t.setSelected(true);
-				return t;
+				this.ctow = t;
+				break;
 			}
 		}
-		return null;
+		if(this.ctow != null) {
+			createUpgradePanel();
+		} else {
+			destroyUpgradePanel();
+		}
+		return this.ctow;
+	}
+	
+	public void createUpgradePanel() {
+		destroyUpgradePanel();
+		if(this.ctow != null) {
+			Label upgradebt = new Label();
+			upgradebt.setText("HOVER\nFOR\nSTATS!");
+			upgradebt.setTextFill(Color.GHOSTWHITE);
+			upgradebt.setFont(Font.font("Verdana", 20));
+			upgradebt.setTextAlignment(TextAlignment.CENTER);
+			upgradebt.setMinHeight(20);
+			upgradebt.setMinWidth(35);
+			upgradebt.setTranslateX(250);
+			upgradebt.setTranslateY(120);
+			this.getChildren().add(upgradebt);
+			upgradebt.setOnMouseClicked(e -> {
+				if(this.ctow.getLevel() < 3) {
+					if(this.map.getPlayer().withdraw(this.ctow.getUpgradeCost()))
+					{
+						this.ctow.levelUp();
+						createUpgradePanel();
+					}	
+				}
+			});
+			Tooltip tooltip = new Tooltip();
+			tooltip.setAutoHide(false);
+			tooltip.setOnShown(e -> {
+				if(map.getPlayer().getGold() >= ctow.getUpgradeCost())
+					upgradebt.setText("CLICK\nFOR\nLEVEL\nUP");
+				else
+					upgradebt.setText("NEED\nFUNDS");
+					
+				});
+			tooltip.setOnHidden(e -> {
+				upgradebt.setText("HOVER\nFOR\nSTATS!");
+			});
+			tooltip.setText(
+				
+				"\tLEVEL " + this.ctow.getLevel() + "\n" + 
+				"Current range: " + this.ctow.getRange() + "\n" +
+				"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
+				"Current damage: " + this.ctow.getDamage() + "\n" + 
+				"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
+				"PRICE: " + this.ctow.getUpgradeCost()
+				
+			);
+			tooltip.setFont(new Font(20));
+			upgradebt.setTooltip(tooltip);
+		}
+	}
+	
+	public void destroyUpgradePanel() {
+			this.getChildren().remove(5, this.getChildren().size());
+			System.out.println(this.getChildren().size());
+	}
+	
+	public static void hackyMcGee(Tooltip tooltip) {
+	    try {
+	        Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+	        fieldBehavior.setAccessible(true);
+	        Object objBehavior = fieldBehavior.get(tooltip);
+
+	        Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+	        fieldTimer.setAccessible(true);
+	        Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+
+	        objTimer.getKeyFrames().clear();
+	        objTimer.getKeyFrames().add(new KeyFrame(new Duration(1)));
+	    } catch (Exception e) {/*do me*/}
 	}
 	
 	/**
@@ -306,8 +407,8 @@ public class GameView extends StackPane implements Observer{
 		for(Tower t : player.getTowers()) {
 			t.setSelected(false);
 		}
+		this.ctow = null;
 	}
-	
 	public void show() {
 		map.show();
 	}

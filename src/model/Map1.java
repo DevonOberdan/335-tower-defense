@@ -159,7 +159,7 @@ public class Map1 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30, e)));
+			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(200, e)));
 		}
 	}
 	
@@ -221,7 +221,8 @@ public class Map1 extends Map {
 		}
 		else {
 			System.out.println("You're broke");
-		}	}
+		}	
+	} 
 	
 	/**
 	 * updates towers' targets and redraws them on the map

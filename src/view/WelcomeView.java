@@ -58,11 +58,14 @@ public class WelcomeView extends StackPane implements Observer{
 			//((SelectorView)selectorView).show();
 		    newGame.setOnAction(null);
 			System.out.println("Map selector");
-		});
+		}); 
 		instructions.setOnAction(e -> {
 			instructionView = new InstructionView();
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
+		});
+		loadGame.setOnAction(e -> {
+			
 		});
 		this.getChildren().add(grid);
 		//this.setCenter(grid);

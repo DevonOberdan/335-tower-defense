@@ -63,7 +63,7 @@ public class Player extends BorderPane {
 	 * @return
 	 */
 	public boolean withdraw(int amt) {
-		if(this.gold-amt <= 0)
+		if(this.gold-amt < 0)
 			return false;
 		this.gold -= amt;
 		return true;
