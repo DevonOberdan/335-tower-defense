@@ -277,11 +277,18 @@ public class SelectorView extends StackPane implements Observer{
 		 * HITTING NO/CANCEL WILL NOT SAVE; ALERT WILL CLOSE.
 		 * 
 		 * 
+		 * ADD TOOLTIPS FOR ALL BUTTONS. TOOLTIPS FOR LIFE
+		 * TOOLTIPS ARE YOUR FREND
+		 * TOOLTIPS ARE UR
+		 * MAMI
+		 * UR PAPI
+		 * UR DADI
+		 * UR GRANPAPI
+		 * UR GUD DOGGI
 		 * 
 		 * 
 		 * 
-		 * 
-		 * 
+		 * s
 		 * 
 		 * 
 		 */
