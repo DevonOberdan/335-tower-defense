@@ -359,6 +359,7 @@ public class SelectorView extends StackPane implements Observer{
 			tooltip.setOnHidden(e -> {
 				upgradebt.setText("HOVER\nFOR\nSTATS!");
 			});
+			
 			if(this.ctow.getLevel() < 3) {
 				tooltip.setText(
 					

@@ -43,7 +43,7 @@ public class CannonTower extends Tower {
 	 */
 	public CannonTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Catapult", 100, 80, new Image("file:images/cannon.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
 		super.setTowerType(ETower.catapult);
 		findSpot();
 		AnimationTimer shootTimer = new AnimationTimer(){
@@ -182,10 +182,10 @@ public class CannonTower extends Tower {
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
-			this.setImage(new Image("file:images/archer2.png"));
+			this.setImage(new Image("file:images/cannon2.png"));
 			return true;
 		case 3:
-			this.setImage(new Image("file:images/archer3.png"));
+			this.setImage(new Image("file:images/cannon3.png"));
 			return true;
 		default:
 			return false;
