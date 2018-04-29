@@ -50,6 +50,15 @@ public abstract class Map extends StackPane{
 	 * @return 
 	 */
 	public abstract int getWaveCount();
+	
+	/**
+	 * pauses game
+	 */
+	public abstract void pause();
+	/**
+	 * plays game
+	 */
+	public abstract void play();
 	/**
 	 * Places a certain number of enemies. Slightly complex, and waves
 	 * are introduced in this function. It is easier code, and stuff. May

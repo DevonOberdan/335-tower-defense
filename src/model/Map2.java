@@ -190,12 +190,14 @@ public class Map2 extends Map {
 	/**
 	 * Pauses the game.
 	 */
+	@Override
 	public void pause() {
 		this.timeline.pause();
 	}
 	/**
 	 * Resumes the game.
 	 */
+	@Override
 	public void play() {
 		this.timeline.play();
 	}

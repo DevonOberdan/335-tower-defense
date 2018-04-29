@@ -65,7 +65,14 @@ public class WelcomeView extends StackPane implements Observer{
 			System.out.println("Instruction View");
 		});
 		loadGame.setOnAction(e -> {
-			
+			this.getStylesheets().clear();
+		    this.getChildren().clear();
+		    campaign.setOnAction(null);
+		    instructions.setOnAction(null);
+		    newGame.setOnAction(null);
+		//	gameView = new GameView();
+		//	setViewTo(gameView);
+		//	((GameView) gameView).show();
 		});
 		this.getChildren().add(grid);
 		//this.setCenter(grid);

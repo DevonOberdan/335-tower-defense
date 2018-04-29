@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.lang.reflect.Field;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,6 +14,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -158,8 +161,8 @@ public class SelectorView extends StackPane implements Observer{
 		/*
 		 * CANNON TOWER IMAGE VIEW
 		 */
-		ImageView cannonTower = new ImageView("file:images/cannon.png");
-		Image cannonImg = new Image("file:images/cannon.png");
+		ImageView cannonTower = new ImageView("file:images/cannon1.png");
+		Image cannonImg = new Image("file:images/cannon1.png");
 		cannonTower.setOnMouseReleased(e -> {
 			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
@@ -232,8 +235,8 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		this.setOnMouseClicked(e->{
-			selectTower((int)e.getX(), (int)e.getY());
-
+			if(this.getStylesheets().isEmpty())
+				selectTower((int)e.getX(), (int)e.getY());
 		});
 		
 		easy.setOnAction(e -> {
@@ -241,23 +244,25 @@ public class SelectorView extends StackPane implements Observer{
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,nextWave,archerTower, multiTower, cannonTower);
+			this.getChildren().addAll(canvas, nextWave, archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
+		
 		medium.setOnAction(e -> {
 			this.map = new Map2(player);
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,nextWave,archerTower, multiTower, cannonTower);
+			this.getChildren().addAll(canvas, nextWave, archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
+		
 		hard.setOnAction(e -> {
 			this.map = new Map3(player);
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
-			this.getChildren().addAll(canvas,nextWave,archerTower, multiTower, cannonTower);
+			this.getChildren().addAll(canvas, nextWave, archerTower, multiTower, cannonTower);
 			this.map.show();
 		});
 		/*
@@ -386,8 +391,10 @@ public class SelectorView extends StackPane implements Observer{
 	}
 	
 	public void destroyUpgradePanel() {
-			this.getChildren().remove(5, this.getChildren().size());
+		if(this.map != null) {
+			this.getChildren().remove(6, this.getChildren().size());
 			System.out.println(this.getChildren().size());
+		}
 	}
 	
 	public static void hackyMcGee(Tooltip tooltip) {

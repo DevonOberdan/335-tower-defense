@@ -35,7 +35,7 @@ public class TowerDefenseGUI extends Application{
 
 	
 	private StackPane pane; // pane will represent the scene
-	private final static String persistedFileName = "listOfTowers";
+	private final static String persistedFileName = "state/listOfTowers";
 	
 	public static void main (String [] args)
 	{

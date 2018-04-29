@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.lang.reflect.Field;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 import com.sun.corba.se.impl.ior.GenericTaggedProfile;
 
@@ -17,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
@@ -152,8 +154,8 @@ public class GameView extends StackPane implements Observer{
 		/*
 		 * CANNON TOWER IMAGE VIEW
 		 */
-		ImageView cannonTower = new ImageView("file:images/cannon.png");
-		Image cannonImg = new Image("file:images/cannon.png");
+		ImageView cannonTower = new ImageView("file:images/cannon1.png");
+		Image cannonImg = new Image("file:images/cannon1.png");
 		cannonTower.setOnMouseReleased(e -> {
 			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {
@@ -196,8 +198,32 @@ public class GameView extends StackPane implements Observer{
 		cannonTower.setFitHeight(60);
 		cannonTower.setFitWidth(50);
 		
+		Button playpause = new Button("Pause");
+		playpause.setTranslateX(0);
+		playpause.setTranslateY(-237.5);
+		playpause.setMinWidth(30);
+		playpause.setOnAction(e -> {
+			if(playpause.getText().equals("Pause")) {
+				this.map.pause();
+				playpause.setText("Unpause");
+				Alert a = new Alert(AlertType.CONFIRMATION);
+				a.setTitle("Save Game?");
+				a.setHeaderText("Press 'OK' to save your game.");
+				a.setContentText("Press 'CANCEL' to remain paused.");
+				Optional<ButtonType> result = a.showAndWait();
+				if(result.get() == ButtonType.OK) {
+					//THIS IS WHERE WE SAVE
+				} else {
+					
+				}
+			} else {
+				this.map.play();
+				playpause.setText("Pause");
+			}
+		});
 		
-		this.getChildren().addAll(canvas,nextRound,archerTower, multiTower, cannonTower);
+		
+		this.getChildren().addAll(canvas,nextRound,archerTower, multiTower, cannonTower, playpause);
 		//this.setCenter(pane);
 		
 		/*
@@ -381,7 +407,7 @@ public class GameView extends StackPane implements Observer{
 	}
 	
 	public void destroyUpgradePanel() {
-			this.getChildren().remove(5, this.getChildren().size());
+			this.getChildren().remove(6, this.getChildren().size());
 			System.out.println(this.getChildren().size());
 	}
 	

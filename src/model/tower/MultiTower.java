@@ -114,16 +114,16 @@ public class MultiTower extends Tower{
 	public boolean levelUp() {
 		if(this.getLevel() == 3)
 			return false;
-		this.setDamage((int)(this.getDamage() - 1));
-		this.setRange((int)(this.getRange() * 1.15));
+		this.setDamage((int)(this.getDamage() * 1.5));
+		this.setRange((int)(this.getRange() * 1.5));
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
-			this.FIRERATE = (long) 0.35e9;
+			this.FIRERATE = (long) 0.65e9;
 			this.setImage(new Image("file:images/MultiTower2.png"));
 			break;
 		case 3:
-			this.FIRERATE = (long) 0.2e9;
+			this.FIRERATE = (long) 0.1e9;
 			this.setImage(new Image("file:images/MultiTower3.png"));
 			break;
 		default:
