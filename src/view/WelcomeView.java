@@ -17,9 +17,7 @@ import javafx.scene.layout.StackPane;
  */
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView, selectorView;
-	private boolean persistence;
-	public WelcomeView(boolean persistence) {
-		this.persistence = persistence;
+	public WelcomeView() {
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -45,7 +43,7 @@ public class WelcomeView extends StackPane implements Observer{
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
 		    newGame.setOnAction(null);
-			gameView = new GameView(this.persistence);
+			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
@@ -53,7 +51,7 @@ public class WelcomeView extends StackPane implements Observer{
 		newGame.setOnAction(e -> {
 			this.getStylesheets().clear();
 		    this.getChildren().clear();
-		    campaign.setOnAction(null);
+		    campaign.setOnAction(null);  
 		    instructions.setOnAction(null);
 		    //this.setCenter(null); // set the center of pane to null
 		    this.getChildren().add((Node) new SelectorView());
@@ -62,7 +60,7 @@ public class WelcomeView extends StackPane implements Observer{
 			System.out.println("Map selector");
 		}); 
 		instructions.setOnAction(e -> {
-			instructionView = new InstructionView(this.persistence);
+			instructionView = new InstructionView();
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
 		});
@@ -72,9 +70,8 @@ public class WelcomeView extends StackPane implements Observer{
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
 		    newGame.setOnAction(null);
-		    this.persistence = true;
-			gameView = new GameView(this.persistence);
-			setViewTo(gameView);
+			gameView = new GameView(); 
+			setViewTo(gameView); 
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
 		});

@@ -13,8 +13,7 @@ public class InstructionView extends BorderPane implements Observer{
 			+" click and drag a tower to the location\nyou see best fit the map circumstances. Once you are done placing your towers, the round will begin.\n"
 			+ "Once the round begins, fight off the enemies! Once an enemy reaches\nyour base, you will take a certain amount of damage and eventually die, causing you to\nlose the game. If you defeat all of the enemies within each wave, you will win!\n\nHappy defending.\n\n - The Team";
 	private boolean persistence;
-	public InstructionView(boolean persistence) {
-		this.persistence = persistence;
+	public InstructionView() {
 		TextArea text = new TextArea();
 		text.setEditable(false);
 		text.setText(instructions);
@@ -24,7 +23,7 @@ public class InstructionView extends BorderPane implements Observer{
 		butt.setMinWidth(580);
 		butt.setOnAction(e -> {
 			this.setBottom(null);
-			this.setCenter(new WelcomeView(this.persistence));
+			this.setCenter(new WelcomeView());
 		});
 		BorderPane pane2 = new BorderPane();
 		pane2.setCenter(butt);

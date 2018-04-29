@@ -42,7 +42,6 @@ public abstract class Map extends StackPane{
 	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
-	protected boolean persistence;
 	private final static String persistedFileName = "listOfTowers";
 	/**
 	 * @return Gets the number of enemies left in the game
@@ -174,15 +173,7 @@ public abstract class Map extends StackPane{
 			en.setList(enemyList);
 		}
 	}
-	/**
-	 * for debugging persistence
-	 */
-	public boolean getPersistence() {
-		if (this.persistence)
-			System.out.println("Persistence is turned on.");
-		return this.persistence;
-	}
-	
+
 	public void writePersistentListOfTowers() {
 	    try {
 	    	System.out.println("Writing persistence...");

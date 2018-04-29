@@ -62,8 +62,7 @@ public class Map3 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map3(Player p, boolean persistence) {
-		this.persistence = persistence;
+	public Map3(Player p) {
 		background = new Image("file:images/maps/map3.png");
 		menuBar = new Image("file:images/menu.jpg");
  		player = p;
