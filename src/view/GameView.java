@@ -223,7 +223,7 @@ public class GameView extends StackPane implements Observer{
 				a.setContentText("Press 'CANCEL' to remain paused.");
 				Optional<ButtonType> result = a.showAndWait();
 				if(result.get() == ButtonType.OK) {
-					this.map.writePersistentListOfTowers();;
+					//this.map.writePersistentListOfTowers();;
 				}
 			} else {
 				this.map.play();

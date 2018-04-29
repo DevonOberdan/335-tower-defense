@@ -191,6 +191,7 @@ public class Map1 extends Map {
 		alert.setHeaderText(null);
 		alert.setContentText("Round " + waveCount + " complete!");
 		alert.show();
+		this.playVectorySong("Capture.mp3");
 	}
 	
 	
