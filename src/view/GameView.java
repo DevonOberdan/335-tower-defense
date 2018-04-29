@@ -291,6 +291,7 @@ public class GameView extends StackPane implements Observer{
 					
 				case 2: //You've won! Play the outro scene.
 					if(this.map != null) {
+						nextRound.setText("Main Menu");
 						if(!this.map.isRunning()) {
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
@@ -299,6 +300,11 @@ public class GameView extends StackPane implements Observer{
 							ptr++;
 							this.getChildren().clear();
 							this.getStylesheets().clear();
+							this.setOnMouseClicked(null);
+							this.map = null;
+							this.canvas = null;
+							this.gc = null;
+							this.getChildren().add((Node)(Observer) new WelcomeView());
 						}
 					}
 					
