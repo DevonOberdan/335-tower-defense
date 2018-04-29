@@ -51,7 +51,7 @@ public class CannonTower extends Tower {
 	 */
 	public CannonTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.catapult);
 		findSpot();
 		AnimationTimer shootTimer = new AnimationTimer(){
@@ -137,8 +137,8 @@ public class CannonTower extends Tower {
 	    List<Enemy> ens = this.getEnemyList();
 	    if(ens.isEmpty())
 	      return false;
+	    this.playEffect();
 	    
-	   // shoot();
 	    for (Enemy en : ens) {
 	    		if(en.canBeHit()) {
 	    			en.setAttacked(true);

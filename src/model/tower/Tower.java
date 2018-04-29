@@ -1,6 +1,7 @@
  package model.tower;
 
 import java.awt.Point;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import model.enemy.Enemy;
 
 /**
@@ -41,6 +43,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	protected boolean betweenRounds;
 	
 	private GraphicsContext gc;
+	private String songName;
 	
 	//protected final Image testing = new Image("file:images/testing.png") ;
 	
@@ -55,7 +58,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	 * @param soundeff the sound effects of this tower
 	 * @param location the location on the scene of this tower.
 	 */
-	public Tower (String name, int damage, int radius, Image image, int cost, Media soundeff, Point location) {
+	public Tower (String name, int damage, int radius, Image image, int cost, Media soundeff, Point location, String songName) {
 		this.towerName = name;
 		this.radius = radius;
 		this.damage = damage;
@@ -67,6 +70,7 @@ public abstract class Tower extends StackPane implements Serializable{
 		this.enemy = null;
 		this.isSelected = false;
 		ens = new ArrayList<>();
+		this.songName = songName;
 	}
 	/**
 	 * To be implemented later... I have a few ideas for this.
@@ -151,5 +155,23 @@ public abstract class Tower extends StackPane implements Serializable{
 	}
 	public void giveRoundMode(boolean mode) {
 		betweenRounds = mode;
+	}
+	public void playEffect() {
+		System.out.println("sound effect");
+		File dir = new File("sounds/"+songName);
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
+
+				@Override
+				public void run() {
+					
+					System.out.println(songName+"stoped playing");
+					player.stop();
+				}
+				  
+			  });
 	}
 }

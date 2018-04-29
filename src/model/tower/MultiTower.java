@@ -30,7 +30,7 @@ public class MultiTower extends Tower{
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.area);
 		this.FIRERATE = (long) 0.5e9;
 		
@@ -88,7 +88,7 @@ public class MultiTower extends Tower{
 		List<Enemy> ens = this.getEnemyList();
 		if(ens.isEmpty())
 			return false;
-		
+		this.playEffect();
 		shoot();
 		for (Enemy en : ens) {
 			en.setAttacked(true);
