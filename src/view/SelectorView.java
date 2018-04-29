@@ -80,8 +80,8 @@ public class SelectorView extends StackPane implements Observer{
 		medium.setMinWidth(60);
 		Button hard = new Button("Hard");
 		hard.setMinWidth(40);
-		grid.add(easy, 19, 19);
-		grid.add(medium, 7, 36);
+		grid.add(easy, 18, 19);
+		grid.add(medium, 8, 25);
 		grid.add(hard, 2, 6);
 		grid.add(copyright, 0, 39);
 		this.getChildren().add(grid);
@@ -128,8 +128,8 @@ public class SelectorView extends StackPane implements Observer{
 		/*
 		 * MULTI TOWER IMAGE VEIW
 		 */
-		multiTower = new ImageView("file:images/MultiTower1.png");
-		Image multiimg = new Image("file:images/MultiTower1.png");
+		multiTower = new ImageView("file:images/multi1.png");
+		Image multiimg = new Image("file:images/multi1.png");
 		multiTower.setOnMouseReleased(e -> {
 			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {

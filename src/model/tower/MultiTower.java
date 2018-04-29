@@ -119,12 +119,12 @@ public class MultiTower extends Tower{
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
-			this.FIRERATE = (long) 0.65e9;
-			this.setImage(new Image("file:images/MultiTower2.png"));
+			this.FIRERATE = (long) 0.4e9;
+			this.setImage(new Image("file:images/multi2.png"));
 			break;
 		case 3:
-			this.FIRERATE = (long) 0.1e9;
-			this.setImage(new Image("file:images/MultiTower3.png"));
+			this.FIRERATE = (long) 0.25e9;
+			this.setImage(new Image("file:images/multi3.png"));
 			break;
 		default:
 			//NO LEVEL FOR U

@@ -123,8 +123,8 @@ public class GameView extends StackPane implements Observer{
 		/*
 		 * MULTI TOWER IMAGE VEIW
 		 */
-		multiTower = new ImageView("file:images/MultiTower1.png");
-		Image multiimg = new Image("file:images/MultiTower1.png");
+		multiTower = new ImageView("file:images/multi1.png");
+		Image multiimg = new Image("file:images/multi1.png");
 		multiTower.setOnMouseReleased(e -> {
 			
 			if(this.map.mapFinished() || (e.getSceneX() >= 470 || e.getSceneX() <= 25 || e.getSceneY() >= 470 || e.getSceneY() <= 25)) {

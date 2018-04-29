@@ -24,13 +24,21 @@ public class CannonTower extends Tower {
 	private long previous;
 	private int shotIter = 0;
 	
+	private int explosionIter = -1;
+	private int explSize = 120;
+	
 	private long prev;
 	private double prevBallX;
 	private double prevBallY;
 	private int yDist;
 	private Point fireLoc;
 	private Image ball = new Image("file:images/cannon_ball.png");
+	private Image explosion = new Image("file:images/explosions/cannon-explosion.png");
+	private final int explSrcSize = 250;
 	private int xDist;
+	
+	private AnimationTimer shootTimer;
+	private AnimationTimer timer;
 	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
@@ -125,6 +133,7 @@ public class CannonTower extends Tower {
 	   */
 	  @Override
 	  public boolean attack() {
+		this.explosionIter=0;
 	    List<Enemy> ens = this.getEnemyList();
 	    if(ens.isEmpty())
 	      return false;
@@ -148,8 +157,15 @@ public class CannonTower extends Tower {
 		  
 		    double ballX = (xDist/20) + prevBallX;
 		    double ballY = (yDist/20) + prevBallY;
+		//    double ballX = 2 + prevBallX;
+		//    double ballY = 2 + prevBallY;
 		    
-		    this.getGC().drawImage(ball, ballX, ballY, 20, 20);
+		    if(this.shotIter<10) {
+		    		this.getGC().drawImage(ball, ballX, ballY, 20+2*shotIter, 20+2*shotIter);
+		    }
+		    else {
+	    			this.getGC().drawImage(ball, ballX, ballY, 38-2*(shotIter%10), 38-2*(shotIter%10));
+		    }
 		    
 		    
 		    this.getGC().setGlobalAlpha(0.15);
@@ -197,22 +213,24 @@ public class CannonTower extends Tower {
 		return 275 * (this.getLevel());
 	}
 	
-	public void show(GraphicsContext gc)
-	{
-		//actual tower image
-		{
-			//actual tower image
-			gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
-			if(this.getSelected()) {
-				gc.setGlobalAlpha(0.15);
-				gc.setFill(Color.GHOSTWHITE);
-				gc.fillRect(0, 0, 500, 500);
-				//gc.fillOval(0,0, 540, 540);
-				gc.setGlobalAlpha(1.0);
-			}
+	public void show(GraphicsContext gc) {
+		
+		if(this.explosionIter>=0) {
 			
-			//gc.drawImage(testing, this.getLocation().getX(), this.getLocation().getY());
-			 
+			gc.drawImage(explosion, (explosionIter%5)*explSrcSize, (explosionIter/5)*explSrcSize,explSrcSize,
+						explSrcSize, fireLoc.getX()-(explSize/2), fireLoc.getY()-(explSize/2), explSize, explSize);
+			this.explosionIter++;
+		}
+		if(this.explosionIter > 14) this.explosionIter = -1;
+		
+		//actual tower image
+		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		if(this.getSelected()) {
+			gc.setGlobalAlpha(0.15);
+			gc.setFill(Color.GHOSTWHITE);
+			gc.fillRect(0, 0, 500, 500);
+			//gc.fillOval(0,0, 540, 540);
+			gc.setGlobalAlpha(1.0);
 		}
 	}
 
