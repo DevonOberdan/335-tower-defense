@@ -1,6 +1,7 @@
 package model;
 
  
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,12 @@ import javafx.scene.paint.Color;
 import model.enemy.Enemy;
 import model.tower.Tower;
 
-public class Player extends BorderPane {
+public class Player extends BorderPane implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7037476952942757131L;
 	private int health;
 	private int gold;
 	private List <Tower> towerList;
