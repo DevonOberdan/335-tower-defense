@@ -1,14 +1,23 @@
 package model;
 
 import java.awt.Point;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.stage.WindowEvent;
 import model.Path;
 import model.enemy.Enemy;
 import model.tower.Tower;
@@ -34,6 +43,7 @@ public abstract class Map extends StackPane{
 	// the end-zone where the enemies are headed
 	protected Point endZone;
 	protected boolean persistence;
+	private final static String persistedFileName = "listOfTowers";
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
@@ -172,4 +182,25 @@ public abstract class Map extends StackPane{
 			System.out.println("Persistence is turned on.");
 		return this.persistence;
 	}
+	
+	public void writePersistentListOfTowers() {
+	    try {
+	    	System.out.println("Writing persistence...");
+	      FileOutputStream fileOutput = new FileOutputStream(persistedFileName);
+	      ObjectOutputStream out = new ObjectOutputStream(fileOutput);
+	      ArrayList<Tower> list = new ArrayList<Tower>();
+	      System.out.println("Towers to be saved: " + towerList.size());
+	      for (Tower t : towerList) {
+	    	  list.add(t);
+	      }
+	      out.writeObject(list);
+	      out.close();
+	    
+	    
+	      System.out.println("Done.");
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	  }
+	
 }
