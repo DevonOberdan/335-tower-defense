@@ -1,5 +1,8 @@
 package view;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 /**
  * Main menu! This view is for welcoming our players to a bunch of options
  * that they can choose to get the game going. Casual is where you can pick from the three maps, easy medium and hard.
@@ -17,15 +22,17 @@ import javafx.scene.layout.StackPane;
  */
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView, selectorView;
+	public List<MediaPlayer> players = new ArrayList<>();
 	public WelcomeView() {
+		playSong();
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
 		//pane.setPadding(new Insets (10,10,10,10));
 		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
-		Button newGame = new Button("Casual");
-		newGame.setMinWidth(120);
+		Button casual = new Button("Casual");
+		casual.setMinWidth(120);
 		Button loadGame = new Button("Load Game");
 		loadGame.setMinWidth(120);
 		Button instructions = new Button("Instructions");
@@ -33,7 +40,7 @@ public class WelcomeView extends StackPane implements Observer{
 		Button campaign = new Button("Campaign");
 		campaign.setMinWidth(120);
 		grid.add(campaign, 11, 18);
-		grid.add(newGame, 11, 19);
+		grid.add(casual, 11, 19);
 		grid.add(loadGame, 11, 20);
 		grid.add(instructions, 11, 21);
 		grid.add(copyright, 0, 39);
@@ -42,38 +49,41 @@ public class WelcomeView extends StackPane implements Observer{
 		    this.getChildren().clear();
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
-		    newGame.setOnAction(null);
+		    casual.setOnAction(null);
 			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
+			players.get(0).stop();
 		});
-		newGame.setOnAction(e -> {
+		casual.setOnAction(e -> {
 			this.getStylesheets().clear();
 		    this.getChildren().clear();
 		    campaign.setOnAction(null);  
 		    instructions.setOnAction(null);
 		    //this.setCenter(null); // set the center of pane to null
-		    this.getChildren().add((Node) new SelectorView());
+		    this.getChildren().add((Node) new SelectorView(this));
 			//((SelectorView)selectorView).show();
-		    newGame.setOnAction(null);
+		    casual.setOnAction(null);
 			System.out.println("Map selector");
 		}); 
 		instructions.setOnAction(e -> {
 			instructionView = new InstructionView();
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
+			
 		});
 		loadGame.setOnAction(e -> {
 			this.getStylesheets().clear();
 		    this.getChildren().clear();
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
-		    newGame.setOnAction(null);
+		    casual.setOnAction(null);
 			gameView = new GameView(); 
 			setViewTo(gameView); 
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
+			players.get(0).stop();
 		});
 		this.getChildren().add(grid);
 		//this.setCenter(grid);
@@ -102,6 +112,26 @@ public class WelcomeView extends StackPane implements Observer{
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		
+	}
+	public void playSong() {
+		System.out.println("play song");
+		File dir = new File("sounds/main_menu.mp3");
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		players.add(player);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
+
+				@Override
+				public void run() {
+					
+					System.out.println("main_menu.mp3 stoped playing");
+					player.stop();
+					player.play();
+				}
+				  
+			  });
 	}
 	  
 }
