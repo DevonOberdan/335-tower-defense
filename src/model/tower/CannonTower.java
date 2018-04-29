@@ -138,7 +138,7 @@ public class CannonTower extends Tower {
 	    if(ens.isEmpty())
 	      return false;
 	    
-	    shoot();
+	   // shoot();
 	    for (Enemy en : ens) {
 	    		if(en.canBeHit()) {
 	    			en.setAttacked(true);
