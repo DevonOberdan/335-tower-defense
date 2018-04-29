@@ -23,7 +23,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7634604858784137066L;
 	private String   towerName;
 	private int      radius; //range
 	private int      damage;

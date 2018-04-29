@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,12 @@ import model.tower.Tower;
  * @author Taite Nazifi
  *
  */
-public abstract class Map extends StackPane{
+public abstract class Map extends StackPane implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1737204017909926601L;
+
 	// the background image
 	protected final Image gameOver = new Image("file:images/game_over.png");
 	

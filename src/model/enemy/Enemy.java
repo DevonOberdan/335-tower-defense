@@ -1,6 +1,7 @@
 package model.enemy;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -16,8 +17,12 @@ import model.tower.Tower;
  *
  * @author Devon Oberdan
  */
-public abstract class Enemy{
+public abstract class Enemy implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1955527335489047490L;
 	// the many fields shared by all Enemy types
 	protected int speed;
 	protected int health;

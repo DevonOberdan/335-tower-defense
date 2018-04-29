@@ -1,7 +1,12 @@
 package view;
 
 import java.awt.Point;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -223,7 +228,34 @@ public class GameView extends StackPane implements Observer{
 				a.setContentText("Press 'CANCEL' to remain paused.");
 				Optional<ButtonType> result = a.showAndWait();
 				if(result.get() == ButtonType.OK) {
-					//this.map.writePersistentListOfTowers();;
+					try {
+				    	File towerfile = new File("state/towers");
+				    	File mapfile = new File("state/map");
+				    	File playerfile = new File("state/player");
+				    	towerfile.createNewFile();
+				    	mapfile.createNewFile();
+				    	playerfile.createNewFile();
+				        FileOutputStream towerstream = new FileOutputStream(towerfile);
+				        FileOutputStream mapstream = new FileOutputStream(mapfile);        
+				        FileOutputStream playerstream = new FileOutputStream(playerfile);
+				        ObjectOutputStream towerout = new ObjectOutputStream(towerstream);
+				        ObjectOutputStream mapout = new ObjectOutputStream(mapstream);
+				        ObjectOutputStream playerout = new ObjectOutputStream(playerstream);
+				        ArrayList<Tower> towers = new ArrayList<Tower>();
+				        for (Tower t : this.player.getTowers()) {
+				        	towers.add(t);
+				        }
+				        towerout.writeObject(towers);
+				        mapout.writeObject(this.map);
+				        playerout.writeObject(this.player);
+				        
+				        towerout.close();
+				        mapout.close();
+				        playerout.close();
+				        
+					 } catch (IOException e1) {
+					      e1.printStackTrace();
+					 }
 				}
 			} else {
 				this.map.play();
@@ -460,4 +492,3 @@ public class GameView extends StackPane implements Observer{
 
 
 }
-
