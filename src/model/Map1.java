@@ -63,7 +63,7 @@ public class Map1 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map1(Player p) {
+	public Map1(Player p, boolean presistence) {
 		background = new Image("file:images/maps/map1.png");
 		menuBar = new Image("file:images/menu.jpg");
  		player = p;

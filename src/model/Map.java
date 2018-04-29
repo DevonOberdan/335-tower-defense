@@ -33,6 +33,7 @@ public abstract class Map extends StackPane{
 	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
+	protected boolean presistence;
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */

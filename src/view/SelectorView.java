@@ -60,7 +60,7 @@ public class SelectorView extends StackPane implements Observer{
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map1(player);
+		this.map = new Map1(player, false);
 		this.map.setGC(gc);
 		this.x = 0; this.y = 0;
 		nextWave = new Button("Next Wave");
@@ -240,7 +240,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		easy.setOnAction(e -> {
-			this.map = new Map1(player);
+			this.map = new Map1(player, false);
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
@@ -249,7 +249,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		medium.setOnAction(e -> {
-			this.map = new Map2(player);
+			this.map = new Map2(player, false);
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
@@ -258,7 +258,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		hard.setOnAction(e -> {
-			this.map = new Map3(player);
+			this.map = new Map3(player, false);
 			this.map.setGC(gc);
 			this.getChildren().clear();
 			this.getStylesheets().clear();
