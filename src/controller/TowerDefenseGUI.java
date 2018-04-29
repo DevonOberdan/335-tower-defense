@@ -35,8 +35,6 @@ public class TowerDefenseGUI extends Application{
 
 	
 	private StackPane pane; // pane will represent the scene
-	private final static String persistedFileName = "state/listOfTowers";
-	
 	public static void main (String [] args)
 	{
 		launch(args);
@@ -54,94 +52,13 @@ public class TowerDefenseGUI extends Application{
 		stage.setTitle("Tower Defense");
 		pane = new StackPane();
 		Scene scene = new Scene (pane, 580,500);
-		
-		initializeTowers(); 
-		
 		Observer welcome = new WelcomeView();
 		pane.getChildren().add((Node) welcome);
 		//pane.setCenter((Node) welcome);
 		stage.setScene(scene);
 		stage.show();
-		stage.setOnCloseRequest(new WritePersistentObjectOrNot());
 	}
 	
-	private void initializeTowers() {
-	    Alert alert = new Alert(AlertType.CONFIRMATION);
-	    alert.setTitle("Start up Option");
-	    alert.setHeaderText("Press ok to read persistent object(s)");
-	    alert.setContentText("Press cancel while system testing.");
-	    Optional<ButtonType> result = alert.showAndWait();
-	    if (result.get() == ButtonType.OK) {
-	      readPersistentListOfStrings();
-	    } else {
-	     // setupDefaultList();
-	    }
-	  }
 	
-	  private void readPersistentListOfStrings() {
-		    try {
-		      FileInputStream fileOutput = new FileInputStream(persistedFileName);
-		      ObjectInputStream in = new ObjectInputStream(fileOutput);
-		      // TODO 9: Read the object from a disk file, assuming it is present
-		      // FXCollections.observableList(List<E>) is not Serializable
-		      // so we have to store all elements into a List of some sort
-		      @SuppressWarnings("unchecked")
-		      ArrayList<String> list = (ArrayList<String>) in.readObject();
-		      for (String name : list) {
-		    	  //observableList.add(name);
-		      }
-		      in.close();
-		    
-		    
-		    
-		    
-		    } catch (FileNotFoundException e) {
-		      e.printStackTrace();
-		    } catch (IOException e) {
-		      e.printStackTrace();
-		    } catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  }
-	  private class WritePersistentObjectOrNot implements EventHandler<WindowEvent> {
-
-		    @Override
-		    public void handle(WindowEvent event) {
-		      Alert alert = new Alert(AlertType.CONFIRMATION);
-		      alert.setTitle("Shut Down Option");
-		      alert.setHeaderText("Press ok to write persistent object(s)");
-		      alert.setContentText("Press cancel while system testing.");
-		      Optional<ButtonType> result = alert.showAndWait();
-
-		      if (result.get() == ButtonType.OK) {
-		        writePersistentListOfStrings();
-		      }
-		    }
-		  }
-
-
-	  public void writePersistentListOfStrings() {
-		    try {
-		      FileOutputStream fileOutput = new FileOutputStream(persistedFileName);
-		      ObjectOutputStream out = new ObjectOutputStream(fileOutput);
-		      // FXCollections.observableList(List<E>) is not Serializable
-		      // so we have to store all elements into a List of some sort
-		      
-		      // TODO 8: Write the list of string to a disk file
-		      ArrayList<String> list = new ArrayList<String>();
-		     /* for (String name : observableList) {
-		    	  list.add(name);
-		      }*/
-		      out.writeObject(list);
-		      out.close();
-		    
-		    
-		    
-		    } catch (IOException e) {
-		      e.printStackTrace();
-		    }
-		  }
-
 
 }
