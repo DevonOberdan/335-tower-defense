@@ -108,8 +108,6 @@ public class Map1 extends Map {
 				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
-		
-		giveList();
 	}
 	
 	/*
@@ -273,7 +271,6 @@ public class Map1 extends Map {
 			} 
 			t.show(gc);
 		}
-		giveList();
 	}
 	/**********************************************************************/
 	/**

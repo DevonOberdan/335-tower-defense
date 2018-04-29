@@ -168,30 +168,4 @@ public abstract class Map extends StackPane{
 	public abstract void setDragged(Image img, boolean boo, int x, int y);
 	
 	
-	public void giveList() {
-		for(Enemy en : enemyList) {
-			en.setList(enemyList);
-		}
-	}
-
-	public void writePersistentListOfTowers() {
-	    try {
-	    	System.out.println("Writing persistence...");
-	      FileOutputStream fileOutput = new FileOutputStream(persistedFileName);
-	      ObjectOutputStream out = new ObjectOutputStream(fileOutput);
-	      ArrayList<Tower> list = new ArrayList<Tower>();
-	      System.out.println("Towers to be saved: " + towerList.size());
-	      for (Tower t : towerList) {
-	    	  list.add(t);
-	      }
-	      out.writeObject(list);
-	      out.close();
-	    
-	    
-	      System.out.println("Done.");
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }
-	  }
-	
 }
