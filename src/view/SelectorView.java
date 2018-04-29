@@ -20,7 +20,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 import model.Map;
 import model.Map1;
@@ -288,7 +287,7 @@ public class SelectorView extends StackPane implements Observer{
 		 * 
 		 * 
 		 * 
-		 * s
+		 * 
 		 * 
 		 * 
 		 */
@@ -346,28 +345,40 @@ public class SelectorView extends StackPane implements Observer{
 					}	
 				}
 			});
+			
 			Tooltip tooltip = new Tooltip();
 			tooltip.setAutoHide(false);
 			tooltip.setOnShown(e -> {
-				if(map.getPlayer().getGold() >= ctow.getUpgradeCost())
+				if(map.getPlayer().getGold() >= ctow.getUpgradeCost() && this.ctow.getLevel() < 3)
 					upgradebt.setText("CLICK\nFOR\nLEVEL\nUP");
-				else
+				else if(this.ctow.getLevel() < 3)
 					upgradebt.setText("NEED\nFUNDS");
-					
+				else
+					upgradebt.setText("MAX\nLEVEL");
 				});
 			tooltip.setOnHidden(e -> {
 				upgradebt.setText("HOVER\nFOR\nSTATS!");
 			});
-			tooltip.setText(
-				
+			if(this.ctow.getLevel() < 3) {
+				tooltip.setText(
+					
+					"\tLEVEL " + this.ctow.getLevel() + "\n" + 
+					"Current range: " + this.ctow.getRange() + "\n" +
+					"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
+					"Current damage: " + this.ctow.getDamage() + "\n" + 
+					"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
+					"PRICE: " + this.ctow.getUpgradeCost()
+				);
+			} else
+			{
+				tooltip.setText(
 				"\tLEVEL " + this.ctow.getLevel() + "\n" + 
 				"Current range: " + this.ctow.getRange() + "\n" +
 				"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
 				"Current damage: " + this.ctow.getDamage() + "\n" + 
 				"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
-				"PRICE: " + this.ctow.getUpgradeCost()
-			);
-			
+				"MAX LEVEL");
+			}
 			tooltip.setFont(new Font(20));
 			upgradebt.setTooltip(tooltip);
 		}
