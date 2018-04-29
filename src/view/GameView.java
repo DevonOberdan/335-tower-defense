@@ -59,7 +59,6 @@ public class GameView extends StackPane implements Observer{
 	private Tower ctow;
 	private Image archerimg, multiimg, cannonImg,
 				  archerGray, multiGray, cannonGray;
-	private boolean presistence;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
@@ -67,8 +66,18 @@ public class GameView extends StackPane implements Observer{
 	 * 
 	 * @author Taite Nazifi
 	 */
-	public GameView(boolean presistence) {
-		this.presistence = presistence;
+	public GameView(int ptr, Player player, Map map) {
+		
+	}
+	
+	/**
+	 * Creates a new gameView. This is the entirety of our towerdefense. 
+	 * The idea behind this class is to create a dynamic view that updates the
+	 * map that the player is on once they have won the game. 
+	 * 
+	 * @author Taite Nazifi
+	 */
+	public GameView() {
 		//StackPane pane = new StackPane();
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
@@ -214,9 +223,7 @@ public class GameView extends StackPane implements Observer{
 				a.setContentText("Press 'CANCEL' to remain paused.");
 				Optional<ButtonType> result = a.showAndWait();
 				if(result.get() == ButtonType.OK) {
-					//THIS IS WHERE WE SAVE
-				} else {
-					
+					this.map.writePersistentListOfTowers();;
 				}
 			} else {
 				this.map.play();
@@ -241,7 +248,7 @@ public class GameView extends StackPane implements Observer{
 				this.map = null;
 				this.canvas = null;
 				this.gc = null;
-				this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+				this.getChildren().add((Node)(Observer) new WelcomeView());
 				return;
 			}
 			if(this.map.getRoundMode()) {
@@ -306,7 +313,7 @@ public class GameView extends StackPane implements Observer{
 							this.map = null;
 							this.canvas = null;
 							this.gc = null;
-							this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+							this.getChildren().add((Node)(Observer) new WelcomeView());
 						}
 					}
 					
@@ -320,7 +327,7 @@ public class GameView extends StackPane implements Observer{
 						this.map = null;
 						this.canvas = null;
 						this.gc = null;
-						this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+						this.getChildren().add((Node)(Observer) new WelcomeView());
 					}
 					break;
 				}

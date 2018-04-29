@@ -1,6 +1,7 @@
  package model.tower;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,12 @@ import model.enemy.Enemy;
  * @author Taite Nazifi
  *
  */
-public abstract class Tower extends StackPane{
+public abstract class Tower extends StackPane implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String   towerName;
 	private int      radius; //range
 	private int      damage;

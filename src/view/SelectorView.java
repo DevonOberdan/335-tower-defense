@@ -220,7 +220,7 @@ public class SelectorView extends StackPane implements Observer{
 				this.player=null;
 				this.canvas = null;
 				this.gc = null;
-				this.getChildren().add((Node)(Observer) new WelcomeView(false));
+				this.getChildren().add((Node)(Observer) new WelcomeView());
 				return;
 			}
 			

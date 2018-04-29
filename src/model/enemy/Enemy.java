@@ -298,13 +298,6 @@ public abstract class Enemy{
 		move();
 	}
 	
-	public ArrayList<Enemy> getEnemyList() {
-		return enList;
-	}
-	public void setList(ArrayList<Enemy> list){
-		this.enList = list;
-	}
-	
 	// abstract method to draw the enemy's health bar, each is positioned a bit different
 	public abstract void drawHealthBar(GraphicsContext gc);
 }

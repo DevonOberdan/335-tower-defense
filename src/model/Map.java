@@ -1,14 +1,23 @@
 package model;
 
 import java.awt.Point;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.stage.WindowEvent;
 import model.Path;
 import model.enemy.Enemy;
 import model.tower.Tower;
@@ -33,6 +42,7 @@ public abstract class Map extends StackPane{
 	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
+	private final static String persistedFileName = "listOfTowers";
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
@@ -158,9 +168,4 @@ public abstract class Map extends StackPane{
 	public abstract void setDragged(Image img, boolean boo, int x, int y);
 	
 	
-	public void giveList() {
-		for(Enemy en : enemyList) {
-			en.setList(enemyList);
-		}
-	}
 }
