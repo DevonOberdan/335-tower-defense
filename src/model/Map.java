@@ -33,7 +33,7 @@ public abstract class Map extends StackPane{
 	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
-	protected boolean presistence;
+	protected boolean persistence;
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
@@ -163,5 +163,13 @@ public abstract class Map extends StackPane{
 		for(Enemy en : enemyList) {
 			en.setList(enemyList);
 		}
+	}
+	/**
+	 * for debugging persistence
+	 */
+	public boolean getPersistence() {
+		if (this.persistence)
+			System.out.println("Persistence is turned on.");
+		return this.persistence;
 	}
 }

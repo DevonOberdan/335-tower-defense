@@ -59,7 +59,7 @@ public class GameView extends StackPane implements Observer{
 	private Tower ctow;
 	private Image archerimg, multiimg, cannonImg,
 				  archerGray, multiGray, cannonGray;
-	private boolean presistence;
+	private boolean persistence;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
@@ -67,13 +67,13 @@ public class GameView extends StackPane implements Observer{
 	 * 
 	 * @author Taite Nazifi
 	 */
-	public GameView(boolean presistence) {
-		this.presistence = presistence;
+	public GameView(boolean persistence) {
+		this.persistence = persistence;
 		//StackPane pane = new StackPane();
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
 		player = new Player(this.gc, 100, 500);
-		this.map = new Map1(player, this.presistence);
+		this.map = new Map1(player, this.persistence);
 		this.map.setGC(gc);
 		this.ptr = 0; this.x = 0; this.y = 0;
 		nextRound = new Button("Next Wave");
@@ -241,7 +241,7 @@ public class GameView extends StackPane implements Observer{
 				this.map = null;
 				this.canvas = null;
 				this.gc = null;
-				this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+				this.getChildren().add((Node)(Observer) new WelcomeView(this.persistence));
 				return;
 			}
 			if(this.map.getRoundMode()) {
@@ -263,7 +263,7 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showFirstCutscene();
-							this.map = new Map2(player, this.presistence);
+							this.map = new Map2(player, this.persistence);
 							this.map.setGC(gc);
 							//this.map.spawnEnemies(5);
 							this.map.show();
@@ -280,7 +280,7 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showSecondCutscene();
-							this.map = new Map3(player, this.presistence);
+							this.map = new Map3(player, this.persistence);
 							this.map.setGC(gc);
 							//this.map.spawnEnemies(5);
 							this.map.show();
@@ -306,7 +306,7 @@ public class GameView extends StackPane implements Observer{
 							this.map = null;
 							this.canvas = null;
 							this.gc = null;
-							this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+							this.getChildren().add((Node)(Observer) new WelcomeView(this.persistence));
 						}
 					}
 					
@@ -320,7 +320,7 @@ public class GameView extends StackPane implements Observer{
 						this.map = null;
 						this.canvas = null;
 						this.gc = null;
-						this.getChildren().add((Node)(Observer) new WelcomeView(this.presistence));
+						this.getChildren().add((Node)(Observer) new WelcomeView(this.persistence));
 					}
 					break;
 				}

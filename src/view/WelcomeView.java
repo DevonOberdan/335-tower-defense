@@ -17,9 +17,9 @@ import javafx.scene.layout.StackPane;
  */
 public class WelcomeView extends StackPane implements Observer{
 	private Observer gameView, instructionView, currentView, selectorView;
-	private boolean presistence;
-	public WelcomeView(boolean presistence) {
-		this.presistence = presistence;
+	private boolean persistence;
+	public WelcomeView(boolean persistence) {
+		this.persistence = persistence;
 		GridPane grid = new GridPane();
 		grid.setVgap(10);
 		grid.setHgap(10);
@@ -45,7 +45,7 @@ public class WelcomeView extends StackPane implements Observer{
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
 		    newGame.setOnAction(null);
-			gameView = new GameView(this.presistence);
+			gameView = new GameView(this.persistence);
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
@@ -62,7 +62,7 @@ public class WelcomeView extends StackPane implements Observer{
 			System.out.println("Map selector");
 		}); 
 		instructions.setOnAction(e -> {
-			instructionView = new InstructionView(this.presistence);
+			instructionView = new InstructionView(this.persistence);
 			setViewTo(instructionView);
 			System.out.println("Instruction View");
 		});
@@ -72,8 +72,8 @@ public class WelcomeView extends StackPane implements Observer{
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
 		    newGame.setOnAction(null);
-		    this.presistence = true;
-			gameView = new GameView(this.presistence);
+		    this.persistence = true;
+			gameView = new GameView(this.persistence);
 			setViewTo(gameView);
 			((GameView) gameView).show();
 			System.out.println("Game View"); 
