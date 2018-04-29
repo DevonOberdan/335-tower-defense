@@ -52,7 +52,7 @@ public class TowerDefenseGUI extends Application{
 		stage.setTitle("Tower Defense");
 		pane = new StackPane();
 		Scene scene = new Scene (pane, 580,500);
-		Observer welcome = new WelcomeView();
+		Observer welcome = new WelcomeView(false);
 		pane.getChildren().add((Node) welcome);
 		//pane.setCenter((Node) welcome);
 		stage.setScene(scene);
