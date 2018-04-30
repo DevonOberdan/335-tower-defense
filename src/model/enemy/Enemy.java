@@ -134,7 +134,6 @@ public abstract class Enemy implements Serializable{
 		this.pathNum = r.nextInt(3);
 		
 		this.enList = new ArrayList<>();
-		this.boosted = false;
 	}
 	
 	/* setters */
@@ -146,6 +145,11 @@ public abstract class Enemy implements Serializable{
 	public void updateNumTurns()			{ this.numTurns++;       	}
 	public void setAttackPlayer()        { this.attackedPlayer =true;	}
 	public void setDead()				{ this.dead = true; 			}
+	
+	public void setEnList(ArrayList<Enemy> list) {
+		this.enList = list;
+	}
+	
 	/* getters */
 	public Image getImage()				{ return this.img;				}
 	public int getReward()				{ return this.reward;			}

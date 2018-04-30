@@ -119,7 +119,7 @@ public class WelcomeView extends StackPane implements Observer{
         playerin.close();
         gameView = new GameView();
         GameView gv = (GameView) gameView;
-        gv
+        //gv
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	

@@ -75,7 +75,6 @@ public class Map1 extends Map {
                 new AnimateStarter1())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 40);
-		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
@@ -144,6 +143,7 @@ public class Map1 extends Map {
 			}			
 			
 			for (Enemy e : enemyList) {
+				e.setEnList(enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}
@@ -372,7 +372,6 @@ public class Map1 extends Map {
 		this.enemyList.clear();
 		this.enemyList = null;
 		this.gc = null;
-		this.menuBar = null;
 		this.player = null;
 		this.start = null;
 		this.timeline.stop();

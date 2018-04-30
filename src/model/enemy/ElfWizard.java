@@ -69,7 +69,6 @@ public class ElfWizard extends Enemy{
 		getPrioEnemies();
 		healNeighbors();
 		System.out.println(neighborList.size());
-		gc.drawImage(spell[spellIter], this.getLoc().getX()-range, this.getLoc().getY()-range, range*2,range*2);
 
 		if(neighborList.size() != 0) {
 			//actual tower image
@@ -77,7 +76,7 @@ public class ElfWizard extends Enemy{
 //				gc.setFill(Color.LIMEGREEN);
 //				gc.fillOval(this.getLoc().getX()-range, this.getLoc().getY()-range, range*2, range*2);
 //				gc.setGlobalAlpha(1.0);
-			gc.drawImage(spell[spellIter], this.getLoc().getX()-40, this.getLoc().getY()-40, 100,100);
+			gc.drawImage(spell[spellIter], this.getLoc().getX()-range, this.getLoc().getY()-range, range*2,range*2);
 		}
 		spellIter++;
 		if(spellIter==3) spellIter=0;

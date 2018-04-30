@@ -140,6 +140,7 @@ public class Map3 extends Map {
 			
 			
 			for (Enemy e : enemyList) {
+				e.setEnList(enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}

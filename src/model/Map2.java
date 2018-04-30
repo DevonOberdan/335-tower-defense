@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import model.enemy.Enemy;
 import model.enemy.Ghost;
 import model.enemy.Rider;
+import model.enemy.Skeleton;
 import model.tower.Tower;
 /**
  * TestMap exhibits the nature of an actual game that we might
@@ -71,7 +72,6 @@ public class Map2 extends Map {
 				   new AnimateStarter2())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 395);
-		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 endZone = new Point (469, 469);
@@ -95,7 +95,7 @@ public class Map2 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new Ghost(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Skeleton(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
 				enemy = new Rider(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
@@ -139,6 +139,7 @@ public class Map2 extends Map {
 			
 			
 			for (Enemy e : enemyList) {
+				e.setEnList(enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}
@@ -380,7 +381,6 @@ public class Map2 extends Map {
 		this.enemyList.clear();
 		this.enemyList = null;
 		this.gc = null;
-		this.menuBar = null;
 		this.player = null;
 		this.start = null;
 		this.timeline.stop();
