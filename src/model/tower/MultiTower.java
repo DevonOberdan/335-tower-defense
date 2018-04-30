@@ -60,7 +60,7 @@ public class MultiTower extends Tower implements Serializable{
 		timer.start();
 	}
 	
-	public MultiTower(Point location) {
+	public MultiTower(Point location) { 
 		super("Multi", 5, 100, new Image("file:images/multi1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.area);
 		this.FIRERATE = (long) 0.5e9;
