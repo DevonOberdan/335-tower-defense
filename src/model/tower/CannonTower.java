@@ -145,6 +145,8 @@ public class CannonTower extends Tower implements Serializable{
 	public List<Enemy> getPrioEnemies(List<Enemy> enemyList)
 	{
 		List<Enemy> prios = this.getEnemyList();
+		if(prios == null)
+			return enemyList;
 		prios.clear();
 		if(enemyList.isEmpty()) {
 			return null;

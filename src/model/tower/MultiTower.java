@@ -92,7 +92,10 @@ public class MultiTower extends Tower implements Serializable{
 	{
 		List<Enemy> prios = this.getEnemyList();
 		if(enemyList.isEmpty()) {
-			return null;
+			return enemyList;
+		}
+		if(prios == null) {
+			return enemyList;
 		}
 		prios.clear();
 		for (Enemy en : enemyList) {
@@ -117,6 +120,8 @@ public class MultiTower extends Tower implements Serializable{
 	@Override
 	public boolean attack() {
 		List<Enemy> ens = this.getEnemyList();
+		if(ens == null)
+			return false;
 		if(ens.isEmpty())
 			return false;
 		this.playEffect();

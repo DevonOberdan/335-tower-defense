@@ -179,7 +179,7 @@ public class ArcherTower extends Tower implements Serializable{
 		//actual tower image
 		{
 			//actual tower image
-			this.getGC().drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+			this.getGC().drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-80, 60, 80);
 			if(this.getSelected()) {
 				
 				/*
