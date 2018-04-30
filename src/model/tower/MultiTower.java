@@ -21,6 +21,7 @@ public class MultiTower extends Tower{
 	private static boolean first = true;
 	private long previous;
 	private long FIRERATE;
+	AnimationTimer timer;
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -30,11 +31,11 @@ public class MultiTower extends Tower{
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
 	public MultiTower(Point location) {
-		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
+		super("Multi", 5, 100, new Image("file:images/multi1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.area);
 		this.FIRERATE = (long) 0.5e9;
 		
-		AnimationTimer timer = new AnimationTimer(){
+		timer = new AnimationTimer(){
 			
 			@Override
 			public void handle (long now) {
@@ -150,6 +151,9 @@ public class MultiTower extends Tower{
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {
 		return null;
 	}
+	
+	@Override
+	public void endTimers() { timer.stop(); }
 }
 
 

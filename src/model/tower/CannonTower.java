@@ -54,7 +54,7 @@ public class CannonTower extends Tower {
 		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.catapult);
 		findSpot();
-		AnimationTimer shootTimer = new AnimationTimer(){
+		shootTimer = new AnimationTimer(){
 				
 			@Override
 			public void handle (long now) {
@@ -65,16 +65,14 @@ public class CannonTower extends Tower {
 			}
 		};
 			
-		AnimationTimer timer = new AnimationTimer() {
+		timer = new AnimationTimer() {
 			@Override
 			public void handle (long now) {
 				if(first) {
-					System.out.println("dyooooooo");
 					previous = now;
 					first = false;
 				}
 				if((now - previous >= 5.0e9) && !betweenRounds) {
-					System.out.println("dffdfd");
 					previous = now;
 					shootTimer.start();
 					shoot();
@@ -157,8 +155,6 @@ public class CannonTower extends Tower {
 		  
 		    double ballX = (xDist/20) + prevBallX;
 		    double ballY = (yDist/20) + prevBallY;
-		//    double ballX = 2 + prevBallX;
-		//    double ballY = 2 + prevBallY;
 		    
 		    if(this.shotIter<10) {
 		    		this.getGC().drawImage(ball, ballX, ballY, 20+2*shotIter, 20+2*shotIter);
@@ -234,6 +230,11 @@ public class CannonTower extends Tower {
 		}
 	}
 
+	@Override
+	public void endTimers() { 
+		timer.stop();
+		shootTimer.stop();
+	}
 
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {

@@ -8,10 +8,10 @@ public abstract class Path {
 		private boolean L, R, U, D;
 		
 		public Path() {
-			L = false;
-			R = false;
-			U = false;
-			D = false;
+			this.L = false;
+			this.R = false;
+			this.U = false;
+			this.D = false;
 		}
 		
 		public boolean getL() {

@@ -49,7 +49,6 @@ public class Map2 extends Map {
 	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
 	//private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
-	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	private boolean roundMode;
 	private Image dragimg;
@@ -72,10 +71,9 @@ public class Map2 extends Map {
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(100),
-                new AnimateStarter2())); 
+				   new AnimateStarter2())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 395);
-		 this.path = new Map2_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
@@ -100,11 +98,11 @@ public class Map2 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new Ghost(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Ghost(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
-				enemy = new Rider(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Rider(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
-				enemy = new Ghost(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Ghost(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
@@ -294,14 +292,6 @@ public class Map2 extends Map {
 		timeline.play();
 	}
 	
-	/**
-	 * Gets the current path for this map for the enemies to follow.
-	 */
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
-	}
-	
 	@Override
 	public void setGC(GraphicsContext gc)
 	{
@@ -401,12 +391,13 @@ public class Map2 extends Map {
 		this.enemyList = null;
 		this.gc = null;
 		this.menuBar = null;
-		this.path = null;
 		this.player = null;
 		this.start = null;
 		this.timeline.stop();
 		this.timeline = null;
 		this.towerList.clear();
+		for(Tower tow: player.getTowers()) { tow.endTimers(); }
+		this.getPlayer().getTowers().clear();
 		this.towerList = null;
 	}
 	

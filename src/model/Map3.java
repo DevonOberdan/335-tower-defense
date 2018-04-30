@@ -98,11 +98,11 @@ public class Map3 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(0, (i*75));
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new ElfWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new ElfWizard(new Map3_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
-				enemy = new ElfArcher(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new ElfArcher(new Map3_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
-				enemy = new BlueKnight(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new BlueKnight(new Map3_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
@@ -404,6 +404,8 @@ public class Map3 extends Map {
 		this.timeline.stop();
 		this.timeline = null;
 		this.towerList.clear();
+		for(Tower tow: player.getTowers()) { tow.endTimers(); }
+		this.getPlayer().getTowers().clear();
 		this.towerList = null;
 	}
 	

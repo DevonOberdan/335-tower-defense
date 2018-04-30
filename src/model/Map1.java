@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import model.enemy.ElfWizard;
 import model.enemy.Enemy;
 import model.enemy.TinyWizard;
 import model.enemy.Troll;
@@ -47,7 +48,6 @@ public class Map1 extends Map {
 	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
 //	private List<Enemy> enemyList; //List of enemies
 //	private List<Tower> towerList; //List of towers
-	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	//private Point endZone;
 	private boolean roundMode;
@@ -75,7 +75,6 @@ public class Map1 extends Map {
                 new AnimateStarter1())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 40);
-		 this.path = new Map1_Path();
 		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
@@ -101,11 +100,11 @@ public class Map1 extends Map {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
 			if (enemyCount == 0 || enemyCount == 1)
-				enemy = new TinyWizard(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
-				enemy = new Troll(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
-				enemy = new Wolf(path, new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Wolf(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
 		}
 	}
@@ -191,7 +190,6 @@ public class Map1 extends Map {
 		alert.setHeaderText(null);
 		alert.setContentText("Round " + waveCount + " complete!");
 		alert.show();
-		this.playVectorySong("Capture.mp3");
 	}
 	
 	
@@ -214,7 +212,6 @@ public class Map1 extends Map {
 	 * Adds a new archerTower onto the screen at position p.
 	 */
 	public void addTower(Tower t) {
-		System.out.println("Tower added @"+t.getLocation().toString());
 		if (t.getCost()<=player.getGold()) {
 			player.withdraw(t.getCost());
 			player.addTower(t);
@@ -241,8 +238,9 @@ public class Map1 extends Map {
 							if(isRunning()) {
 								e = t.getPrioEnemy(enemyList);
 							}
-							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							else if(mapFinished()) {
 								endMap();
+								destroyitall();
 								return;
 							}
 						}
@@ -284,10 +282,6 @@ public class Map1 extends Map {
 	/**
 	 * Gets the current path for this map for the enemies to follow.
 	 */
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
-	}
 	/**
 	 * Gets the number of enemies left to be killed.
 	 */
@@ -384,12 +378,13 @@ public class Map1 extends Map {
 		this.enemyList = null;
 		this.gc = null;
 		this.menuBar = null;
-		this.path = null;
 		this.player = null;
 		this.start = null;
 		this.timeline.stop();
 		this.timeline = null;
 		this.towerList.clear();
+		for(Tower tow: player.getTowers()) { tow.endTimers(); }
+		this.getPlayer().getTowers().clear();
 		this.towerList = null;
 	}
 	

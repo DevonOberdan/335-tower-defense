@@ -3,6 +3,7 @@ package model.enemy;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -32,13 +33,13 @@ public abstract class Enemy implements Serializable{
 	protected final int imgWidth  = 60;
 	protected final int imgHeight = 60;
 	
-	protected Path path;
+	private Path path;
 	protected Point loc;
 	
 	protected int reward;
 	protected int damage;
 	
-	protected Point turns;
+	private Point turns;
 	protected boolean attacked;	 
 	private int numTurns;
 	private int pathNum;
@@ -48,7 +49,7 @@ public abstract class Enemy implements Serializable{
 	protected Image[] walkImgs  = new Image[2];
 	protected Image[] deathImgs = new Image[2];
 	
-	protected Image img;
+	private Image img;
 	
 	protected Point sourceWalkSizes  = new Point(0,0);
 	protected Point sourceDeathSizes = new Point(0,0);
@@ -129,35 +130,38 @@ public abstract class Enemy implements Serializable{
 		
 		this.previousDir = 0;
 		this.numTurns = 0;
-		this.pathNum = (int) (Math.random()*3);
+		Random r = new Random();
+		this.pathNum = r.nextInt(3);
 		
 		this.enList = new ArrayList<>();
 		this.boosted = false;
 	}
 	
 	/* setters */
-	public void setLoc(Point p)			{ loc = p;          		}
-	public void setHel(int newHealth)	{ health = newHealth; 	}
-	public void setTurns(Point p)		{ this.turns = p;    	}
-	public void setSpeed(int s)			{ this.speed = s;   		}
-	public void updateNumTurns()			{ numTurns++;       		}
-	public void setAttackPlayer()        { attackedPlayer = true;}
-	public void setDead()		{ this.dead = true; }
+	public void setImage(Image im)		{ this.img    = im;			}
+	public void setLoc(Point p)			{ this.loc    = p;          	}
+	public void setHel(int newHealth)	{ this.health = newHealth; 	}
+	public void setTurns(Point p)		{ this.turns  = p;    		}
+	public void setSpeed(int s)			{ this.speed  = s;  			}
+	public void updateNumTurns()			{ this.numTurns++;       	}
+	public void setAttackPlayer()        { this.attackedPlayer =true;	}
+	public void setDead()				{ this.dead = true; 			}
 	/* getters */
-	public int getReward()		{ return this.reward;}
-	public boolean getDead()	{ return this.dead; }
-	public int   getSpeed()     { return speed;     }
-	public Path  getPath()      { return path;      }
-	public Point getTurns()     { return turns;     }
-	public Point getLoc()       { return loc;       }
-	public int   getHel()       { return health;    }
-	public int   getImgWidth()  { return imgWidth;  }
-	public int   getImgHeight() { return imgHeight; }
-	public int   getNumTurns()  { return numTurns;  }
-	public int 	 getPathNum()   { return pathNum;   }
-	public boolean getAttackedPlayer() {return attackedPlayer;}
-	public int getDeathTicker() { return deathTick; }
-	public int deathFrameCount() { return deathFrames; }
+	public Image getImage()				{ return this.img;				}
+	public int getReward()				{ return this.reward;			}
+	public boolean getDead()	    			{ return this.dead; 				}
+	public int   getSpeed()   		 	{ return this.speed;     		}
+	public Path  getPath()      			{ return this.path;      		}
+	public Point getTurns()     			{ return this.turns;     		}
+	public Point getLoc()       			{ return this.loc;       		}
+	public int   getHel()       			{ return this.health;    		}
+	public int   getImgWidth()  			{ return this.imgWidth;  		}
+	public int   getImgHeight()	 		{ return this.imgHeight; 		}
+	public int   getNumTurns()  			{ return this.numTurns;  		}
+	public int 	 getPathNum()   			{ return this.pathNum;   		}
+	public boolean getAttackedPlayer()	{ return this.attackedPlayer;	}
+	public int getDeathTicker() 			{ return this.deathTick; 		}
+	public int deathFrameCount() 		{ return this.deathFrames;		}
 	
 	
 	/**
@@ -205,21 +209,21 @@ public abstract class Enemy implements Serializable{
 	 *  @author Devon Oberdan
 	 */
 	public void move() {
-		this.loc = (new Point((int)(loc.getX() + speed*turns.getX()),
-				(int)(loc.getY() + speed*turns.getY())));
+		this.loc = (new Point((int)(this.loc.getX() + this.speed*this.turns.getX()),
+				(int)(this.loc.getY() + this.speed*this.turns.getY())));
 	}
 	
 	/**
 	 *  Updates attacked variable.
 	 *  @author Devon Oberdan
 	 */
-	public void setAttacked(boolean v) { attacked = v; }
+	public void setAttacked(boolean v) { this.attacked = v; }
 	
 	/**
 	 *  Updates walkTick to wrap around the spritesheet.
 	 *  @author Devon Oberdan
 	 */
-	public void advanceWalk() { walkTick = (walkTick+1)%walkFrames; }
+	public void advanceWalk() { this.walkTick = (this.walkTick+1)%this.walkFrames; }
 	
 	/**
 	 *  Updates the turns list at current frame.
@@ -267,29 +271,27 @@ public abstract class Enemy implements Serializable{
 		int dir = 0;
 		
 		// if statements to determine which direction enemy should face
-		if((path.getD() || path.getU()) && !path.getL() && !path.getR()) {
-			dir = previousDir;
+		if(this.getPath().getR()) {
+			dir = 0;
 		}
-		if(path.getR()) {
-			dir = 0; previousDir = 0;
+		else if(this.getPath().getL()) {
+			dir = 1;
 		}
-		if(path.getL()) {
-			dir = 1; previousDir = 1;
-		}
+		else dir= this.previousDir;
 		
-		if(!dead){ // draw the walking frame
-			img = walkImgs[dir];
-			gc.drawImage(img, walkTick*(sourceWalkSizes.getX()), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
-					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+		if(!this.dead){ // draw the walking frame
+			this.setImage(walkImgs[dir]);
+			gc.drawImage(this.getImage(), walkTick*(sourceWalkSizes.getX()), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
+					     this.loc.getX()-(imgWidth/2), this.loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else{ // draw the death frame
-			img = deathImgs[dir];
+			this.setImage(deathImgs[dir]);
 			
 			gc.setGlobalAlpha(1-lagTick*0.1);
 
-			gc.drawImage(img, deathTick*(sourceDeathSizes.getX()), 0, sourceDeathSizes.getX(), sourceDeathSizes.getY(),
-					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			gc.drawImage(this.getImage(), deathTick*(sourceDeathSizes.getX()), 0, sourceDeathSizes.getX(), sourceDeathSizes.getY(),
+					     this.loc.getX()-(imgWidth/2), this.loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			gc.setGlobalAlpha(1);
 			advanceDeath();
 			return;
@@ -298,8 +300,10 @@ public abstract class Enemy implements Serializable{
 		// determine if alive/how enemy should look
 		checkStatus();
 		
+		this.previousDir = dir;
+		
 		drawHealthBar(gc);
-		this.turns = this.path.checkTurns(this.loc,this);
+		this.setTurns(this.getPath().checkTurns(this.loc,this));
 		move();
 	}
 	

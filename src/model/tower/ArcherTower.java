@@ -23,6 +23,7 @@ public class ArcherTower extends Tower {
 	//private long start;
 	private long previous;
 	private long FIRERATE;
+	AnimationTimer timer;
 	
 	
 	/**
@@ -40,20 +41,18 @@ public class ArcherTower extends Tower {
 		super.setTowerType(ETower.archer);
 		this.FIRERATE = (long) 0.8e9;
 		
-		AnimationTimer timer = new AnimationTimer(){
+		timer = new AnimationTimer(){
 			
 			@Override
 			public void handle (long now) {
 				if(first) {
 					previous = now;
 					first = false;
-					//System.out.println("First call");
 					//attackEnemy();
 					//return;
 				}
 				if((now - previous >= FIRERATE) && canAttack()) {
 					previous = now;
-					//System.out.println("one second later");
 					attack();
 				}
 			}
@@ -95,7 +94,6 @@ public class ArcherTower extends Tower {
 		this.playEffect();
 		this.getCurrentEnemy().setAttacked(true);
 		shoot();
-		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
 		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
 		this.setEnemy(null);
 		return true;
@@ -157,4 +155,7 @@ public class ArcherTower extends Tower {
 			}			 
 		}
 	}
+	
+	@Override
+	public void endTimers() { timer.stop(); }
 }
