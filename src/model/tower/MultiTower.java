@@ -91,10 +91,10 @@ public class MultiTower extends Tower implements Serializable{
 	public List<Enemy> getPrioEnemies(List<Enemy> enemyList)
 	{
 		List<Enemy> prios = this.getEnemyList();
-		prios.clear();
 		if(enemyList.isEmpty()) {
 			return null;
 		}
+		prios.clear();
 		for (Enemy en : enemyList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLocation().getX(), 2) + Math.pow((enLoc.getY() - this.getLocation().getY()), 2));
