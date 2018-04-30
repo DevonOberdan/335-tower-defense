@@ -299,9 +299,8 @@ public class Map3 extends Map {
 	/**
 	 * Gets the current path for this map for the enemies to follow.
 	 */
-	public Path getPath() {
-		System.out.println("Map: returned path");
-		return this.path;
+	public Path getPath () {
+		return new Map3_Path();
 	}
 	/**
 	 * Gets the number of enemies left to be killed.

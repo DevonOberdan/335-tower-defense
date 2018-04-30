@@ -38,8 +38,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import model.Map;
 import model.Map1;
+import model.Map1_Path;
 import model.Map2;
 import model.Map3;
+import model.Path;
 import model.Player;
 import model.enemy.Enemy;
 import model.tower.ArcherTower;
@@ -117,8 +119,13 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
 			
-			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
+			if (!tmpPath.canPlace(newLoc))
+				return;
+			
+			Tower t = new ArcherTower(newLoc);
 			
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
@@ -129,7 +136,9 @@ public class GameView extends StackPane implements Observer{
 			this.map.setDragged(null, false, 0, 0);
 		});
 		archerTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished())
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
+			if(this.map != null && !this.map.mapFinished() && tmpPath.canPlace(newLoc)) 
 				this.map.setDragged(archerimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		Tooltip att = new Tooltip("Archer\nDamage: 15\nRange:100\n\nPRICE: $150");
@@ -148,7 +157,11 @@ public class GameView extends StackPane implements Observer{
 				this.map.setDragged(null, false, 0, 0);
 				return;
 			}
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
 			
+			if (!tmpPath.canPlace(newLoc))
+				return;
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
@@ -161,7 +174,9 @@ public class GameView extends StackPane implements Observer{
 
 		});
 		multiTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished())
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
+			if(this.map != null && !this.map.mapFinished() && tmpPath.canPlace(newLoc)) 
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		Tooltip mtt = new Tooltip("Multi\nDamage: 5\nRange:100\n\nPRICE: $75");
@@ -181,6 +196,11 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
+			
+			if (!tmpPath.canPlace(newLoc))
+				return;
 			
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
@@ -191,7 +211,9 @@ public class GameView extends StackPane implements Observer{
 			this.map.setDragged(null, false, 0, 0);
 		});
 		cannonTower.setOnMouseDragged(e -> {
-			if(this.map != null && !this.map.mapFinished()) 
+			Path tmpPath = map.getPath();
+			Point newLoc = new Point((int)e.getSceneX(), (int)e.getSceneY());
+			if(this.map != null && !this.map.mapFinished() && tmpPath.canPlace(newLoc)) 
 				this.map.setDragged(cannonImg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		Tooltip ctt = new Tooltip("Cannon\nDamage: 100\nRange:80\n\nPRICE: $125");

@@ -438,5 +438,9 @@ public class Map2 extends Map {
 		this.dragging = bool;
 		this.dragimg = img;
 	}
+	@Override
+	public Path getPath () {
+		return new Map2_Path();
+	}
 	
 }

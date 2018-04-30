@@ -45,7 +45,7 @@ public abstract class Path implements Serializable {
 			this.D = a;
 		}
 		
-		
+		public abstract boolean canPlace(Point p);
 
 		public abstract Point checkTurns(Point p, Enemy e);
 }

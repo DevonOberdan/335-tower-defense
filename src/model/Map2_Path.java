@@ -123,5 +123,10 @@ public class Map2_Path extends Path{
 		// return a new point with the x and y values
 		return new Point(x,y);
 	}
+	@Override
+	public boolean canPlace(Point p) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }

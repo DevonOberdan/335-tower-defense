@@ -205,5 +205,10 @@ public class Map3_Path extends Path{
 				break;
 		}
 	}
+	@Override
+	public boolean canPlace(Point p) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }

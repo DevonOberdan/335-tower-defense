@@ -129,5 +129,25 @@ public class Map1_Path extends Path{
 		// return a new point with the x and y values
 		return new Point(x,y);
 	}
+	@Override
+	public boolean canPlace(Point p) {
+		int x=(int) p.getX(), y=(int) p.getY();
+		
+		if (y>=33 && y<=70)
+			if (x>=0 && x<=126)
+				return false;
+		
+		if (y>=70 && y<=155)
+			if (x>=90 && x<=126)
+				return false;
+		
+		if (y>=116 && y<=158)
+			if (x>=126 && x<=236)
+				return false;
+
+		
+		
+		return true;
+	}
 
 }

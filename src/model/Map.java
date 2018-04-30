@@ -222,5 +222,6 @@ public abstract class Map extends StackPane implements Serializable{
 				  
 		});
 	}
+	public abstract Path getPath();
 
 }

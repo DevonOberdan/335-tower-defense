@@ -438,4 +438,8 @@ public class Map1 extends Map {
 		this.dragging = bool;
 		this.dragimg = img;
 	}
+	@Override
+	public Path getPath () {
+		return new Map1_Path();
+	}
 }
