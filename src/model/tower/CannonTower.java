@@ -38,16 +38,50 @@ public class CannonTower extends Tower implements Serializable{
 	private int yDist;
 	private Point fireLoc;
 	private transient Image ball = new Image("file:images/cannon_ball.png");
-	private Image explosion = new Image("file:images/explosions/cannon-explosion.png");
+	private transient Image explosion = new Image("file:images/explosions/cannon-explosion.png");
 	private final int explSrcSize = 250;
 	private int xDist;
 	
-	private AnimationTimer shootTimer;
-	private AnimationTimer timer;
+	private transient AnimationTimer shootTimer;
+	private transient AnimationTimer timer;
 	
 	@Override
 	public void reset() {
+		super.setImage(new Image("file:images/cannon1.png"));
 		ball = new Image("file:images/cannon_ball.png");
+		explosion = new Image("file:images/explosions/cannon-explosion.png");
+		shootTimer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if((now - prev >= 0.05e9)) {
+					prev = now;
+					drawBall();
+				}
+			}
+		};
+			
+		timer = new AnimationTimer() {
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+				}
+				if((now - previous >= 5.0e9) && !betweenRounds) {
+					previous = now;
+					shootTimer.start();
+					shoot();
+					drawBall();
+				}
+				if(shotIter == 20) {
+					attack();
+					shootTimer.stop();
+					shotIter=0;
+				}
+			}
+		};
+		timer.start();
 	}
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
@@ -58,6 +92,7 @@ public class CannonTower extends Tower implements Serializable{
 	 * Health: it needs health.
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
+	
 	public CannonTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
 		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
@@ -142,7 +177,7 @@ public class CannonTower extends Tower implements Serializable{
 	  public boolean attack() {
 		this.explosionIter=0;
 	    List<Enemy> ens = this.getEnemyList();
-	    if(ens.isEmpty())
+	    if(ens == null || ens.isEmpty())
 	      return false;
 	    this.playEffect();
 	    

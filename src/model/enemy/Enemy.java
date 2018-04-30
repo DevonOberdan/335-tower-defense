@@ -179,7 +179,7 @@ public abstract class Enemy implements Serializable{
 		else lagTick++;
 	}
 	
-	public boolean doWeRemove() { return lagTick >= lagFrames; }
+	public boolean doWeRemove() { return getHel() <= 0 || lagTick >= lagFrames; } 
 	
 	/**
 	 *  Checks if this Enemy is contained within the range of the

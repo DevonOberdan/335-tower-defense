@@ -26,7 +26,7 @@ public class MultiTower extends Tower implements Serializable{
 	private static boolean first = true;
 	private long previous;
 	private long FIRERATE;
-	private AnimationTimer timer;
+	private transient AnimationTimer timer;
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -39,6 +39,22 @@ public class MultiTower extends Tower implements Serializable{
 	public void reset() {
 		super.setImage(new Image("file:images/multi1.png"));
 		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
+		timer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+				}
+				if((now - previous >= FIRERATE) && canAttack()) {
+					previous = now;
+					//System.out.println("one second later");
+					attack();
+				}
+			}
+		};
+		timer.start();
 	}
 	
 	public MultiTower(Point location) {
@@ -164,7 +180,7 @@ public class MultiTower extends Tower implements Serializable{
 	}
 	
 	@Override
-	public void endTimers() { timer.stop(); }
+	public void endTimers() { if(timer != null) timer.stop(); }
 }
 
 

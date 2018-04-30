@@ -153,6 +153,7 @@ public class Map1 extends Map {
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
 						e.setAttackPlayer();
 						e.setDead();
+						e.setHel(0);
 					}
 				}
 				checkGameOver(player);
@@ -389,7 +390,7 @@ public class Map1 extends Map {
 	
 	@Override
 	public void resetBackground() {
-		this.background = new Image("file:images/maps/maps1.png");
+		this.background = new Image("file:images/maps/map1.png");
 	}
 	
 	@Override

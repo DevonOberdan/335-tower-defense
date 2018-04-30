@@ -397,7 +397,7 @@ public class Map2 extends Map {
 	
 	@Override
 	public void resetBackground() {
-		this.background = new Image("file:images/maps/maps1.png");
+		this.background = new Image("file:images/maps/map2.png");
 	}
 	
 	@Override

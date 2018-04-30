@@ -59,7 +59,7 @@ public class ElfWizard extends Enemy{
 		for (Enemy en : enList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLoc().getX(), 2) + Math.pow((enLoc.getY() - this.getLoc().getY()), 2));
-			System.out.println(dist+" die");
+			//System.out.println(dist+" die");
 			if (dist < range && en.canBeHit() && !en.equals(this)) neighborList.add(en);
 		}
 	}
