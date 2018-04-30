@@ -42,6 +42,11 @@ public class Ghost extends Enemy{
 	private long animStart = 0;
 	private AnimationTimer spook;
 	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -53,6 +58,7 @@ public class Ghost extends Enemy{
 		this.beenSpooky = false;
 		this.isSpooky = false;
 		this.selected = false;
+		name = "Ghost";
 		this.poofs = new Image[] {new Image(poofImgs[0]),new Image(poofImgs[1])};
 		this.iter=0;
 		spook = new AnimationTimer() {

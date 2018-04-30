@@ -31,7 +31,11 @@ public class BlueKnight extends Enemy{
 	
 	private static String[] dead_knight = new String[] {"file:images/enemies/blueKnight/dead_blue_knight_right.png", 
 											   		   "file:images/enemies/blueKnight/dead_blue_knight_left.png"};
-
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -41,6 +45,7 @@ public class BlueKnight extends Enemy{
 		//speed, health, damage, reward, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 10, 9, knight, dead_knight, path, start);
 		this.selected = false;
+		this.name = "Blue Knight";
 	}
 	
 

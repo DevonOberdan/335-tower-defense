@@ -43,6 +43,11 @@ public class ElfWizard extends Enemy{
 	private Image[] spell = new Image[] {new Image("file:images/spell/spellhealth-spell.png"),new Image("file:images/spell/health-spell1.png"),
 										new Image("file:images/spell/health-spell2.png"),new Image("file:images/spell/health-spell3.png")};
 	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -53,6 +58,7 @@ public class ElfWizard extends Enemy{
 		super(speed, health, damage, reward, walkDims, deathDims, 5, 5, elfWizard, deadElfWizard, path, start);
 		neighborList = new ArrayList<Enemy>();
 		this.selected = false;
+		this.name = "Elf Wizard";
 	}	
 	
 	public void getPrioEnemies() {

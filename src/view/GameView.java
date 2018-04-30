@@ -385,6 +385,7 @@ public class GameView extends StackPane implements Observer{
 	 */
 	public boolean selectEntity(int x, int y) {
 		unselectTowers();
+		unselectEnemies();
 		for(Tower t : player.getTowers()) {
 			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
 					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
@@ -417,12 +418,42 @@ public class GameView extends StackPane implements Observer{
 			}
 		}
 		if(this.cen != null) {
-			//createEnemyPanel();
+			createEnemyPanel();
 			return true;
 		} else {
-			//destroyEnemyPanel();
+			destroyEnemyPanel();
 		}
 		return false;
+	}
+	public void destroyEnemyPanel() {
+		this.getChildren().remove(6, this.getChildren().size());
+		System.out.println(this.getChildren().size());
+	}
+	public void createEnemyPanel() {
+		destroyUpgradePanel();
+		if(this.cen != null) {
+			Label upgradebt = new Label();
+			upgradebt.setText("HOVER\nFOR\nSTATS!");
+			upgradebt.setTextFill(Color.GHOSTWHITE);
+			upgradebt.setFont(Font.font("Verdana", 20));
+			upgradebt.setTextAlignment(TextAlignment.CENTER);
+			upgradebt.setTranslateX(250);
+			upgradebt.setTranslateY(120);
+			this.getChildren().add(upgradebt);
+			Tooltip tooltip = new Tooltip();
+			tooltip.setAutoHide(false);
+			tooltip.setText(
+				
+				this.cen.getName() + "\n" + 
+				"SPEED: " + this.cen.getSpeed() + "\n" +
+				"HEALTH: " + this.cen.getHel() + "\n" + 
+				"DAMAGE: " + this.cen.getDamage() + "\n" + 
+				"REWARD: " + this.cen.getReward() + "\n\n"				
+			);
+			tooltip.setTextAlignment(TextAlignment.CENTER);
+			tooltip.setFont(new Font(20));
+			upgradebt.setTooltip(tooltip);
+		}
 	}
 	
 	public void createUpgradePanel() {
@@ -539,6 +570,13 @@ public class GameView extends StackPane implements Observer{
 			t.setSelected(false);
 		}
 		this.ctow = null;
+	}
+	
+	public void unselectEnemies() {
+		for(Enemy e : this.map.getEnemyList()) {
+			e.setSelected(false);
+		}
+		this.cen = null;
 	}
 	public void show() {
 		map.show();

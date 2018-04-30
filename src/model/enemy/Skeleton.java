@@ -30,6 +30,11 @@ public class Skeleton extends Enemy{
 	private static String[] dead_skeleton = new String[] {"file:images/enemies/skeleton/dead_skeleton_right.png", 
 											   		   "file:images/enemies/skeleton/dead_skeleton_left.png"};
 	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -39,6 +44,7 @@ public class Skeleton extends Enemy{
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 6, 6, skeleton, dead_skeleton, path, start);
 		this.selected = false;
+		this.name = "Skeleton";
 	}	
 	
 	/**

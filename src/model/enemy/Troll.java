@@ -30,6 +30,12 @@ public class Troll extends Enemy{
 	private static String[] dead_troll = new String[] {"file:images/enemies/troll/dead_troll_right.png", 
 											   		   "file:images/enemies/troll/dead_troll_left.png"};
 	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -39,7 +45,9 @@ public class Troll extends Enemy{
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 7, 6, troll, dead_troll, path, start);
 		this.selected = false;
+		this.name = "Troll";
 	}	
+	
 	
 	/**
 	 * Method to draw health bar right above the Enemy.

@@ -40,6 +40,12 @@ public class Wolf extends Enemy {
 	private static String[] dead_wolf = new String[] {"file:images/enemies/wolf/dead_wolf_right.png", 
 													 "file:images/enemies/wolf/dead_wolf_left.png"};
 	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * 
@@ -62,6 +68,7 @@ public class Wolf extends Enemy {
 		this.stallTick = 0;
 		
 		this.enraged  = false;
+		this.name = "Wolf";
 	}
  
 	/**

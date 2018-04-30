@@ -69,6 +69,7 @@ public abstract class Enemy implements Serializable{
 	
 	protected ArrayList<Enemy> enList;
 	
+	
 	/**
 	 * Abstract Enemy constructor used by all Enemy subclasses. Populates
 	 * fields and data structures that all Enemy types share.
@@ -151,6 +152,7 @@ public abstract class Enemy implements Serializable{
 	}
 	
 	/* getters */
+	public int getDamage()				{return damage;				}
 	public Image getImage()				{ return this.img;				}
 	public int getReward()				{ return this.reward;			}
 	public boolean getDead()	    			{ return this.dead; 				}
@@ -167,7 +169,7 @@ public abstract class Enemy implements Serializable{
 	public int getDeathTicker() 			{ return this.deathTick; 		}
 	public int deathFrameCount() 		{ return this.deathFrames;		}
 	public abstract void setSelected(boolean bool);
-	
+	public abstract String getName();
 	/**
 	 *  Advances deathTick until we have fully iterated through the
 	 *  death spritesheet, and then it iterates lagTick, which is
