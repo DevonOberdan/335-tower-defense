@@ -152,7 +152,6 @@ public class Map1 extends Map {
 			}
 			
 			for (Enemy e : enemyList) {
-				System.out.println(e.getLoc().getX() + " " + e.getLoc().getY());
 				e.setEnList((ArrayList<Enemy>) enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);

@@ -67,7 +67,7 @@ public class Map2 extends Map {
  		roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
-		timeline = new Timeline(new KeyFrame(Duration.millis(100),
+		timeline = new Timeline(new KeyFrame(Duration.millis(50),
 				   new AnimateStarter2())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 395);
@@ -154,7 +154,7 @@ public class Map2 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30, e)));
+			enemyList.removeIf(e ->  e.getLoc().equals(new Point(357, 470)) || (e.doWeRemove() && player.deposit(30, e)));
 		}
 	}
 	
