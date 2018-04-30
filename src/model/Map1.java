@@ -215,8 +215,8 @@ public class Map1 extends Map {
 	 * Adds a new archerTower onto the screen at position p.
 	 */
 	public void addTower(Tower t) {
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
+		if (t.getBaseCost()<=player.getGold()) {
+			player.withdraw(t.getBaseCost());
 			player.addTower(t);
 			t.setGC(gc); 
 		}
