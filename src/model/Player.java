@@ -23,10 +23,15 @@ public class Player extends BorderPane implements Serializable{
 	private List <Tower> towerList;
 	private transient GraphicsContext gc;
 	private int healthC = 0, goldC = 0;
-	private final transient Image heart = new Image("file:images/menu/heart_sprite.png");
-	private final transient Image coin = new Image("file:images/menu/coin_sprite.png");
+	private transient Image heart = new Image("file:images/menu/heart_sprite.png");
+	private transient Image coin = new Image("file:images/menu/coin_sprite.png");
 	
-	public Player(GraphicsContext gc,int health, int gold)
+	public void reset() {
+		heart = new Image("file:images/menu/heart_sprite.png");
+		coin = new Image("file:images/menu/coin_sprite.png");
+	}
+	
+	public Player(GraphicsContext gc,int health, int gold) 
 	{
 		this.health = health;
 		this.gold = gold;

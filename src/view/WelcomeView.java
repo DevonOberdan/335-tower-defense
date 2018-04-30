@@ -138,6 +138,7 @@ public class WelcomeView extends StackPane implements Observer{
 			t.setGC(gv.getgc());
 			t.reset();
 		}
+		player.reset();
 		player.setGC(gv.getgc());
 		map.setPlayer(player);
 		((GameView) gameView).show();

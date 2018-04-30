@@ -151,6 +151,7 @@ public class Map1 extends Map {
 			}
 			
 			for (Enemy e : enemyList) {
+				System.out.println(e.getLoc().getX() + " " + e.getLoc().getY());
 				e.setEnList((ArrayList<Enemy>) enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
@@ -166,7 +167,7 @@ public class Map1 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(200, e)));
+			enemyList.removeIf(e -> e.getLoc().equals(new Point(495, 410)) || (e.doWeRemove() && player.deposit(200, e)));
 		}
 	}
 	

@@ -166,7 +166,7 @@ public abstract class Enemy implements Serializable{
 	public boolean getAttackedPlayer()	{ return this.attackedPlayer;	}
 	public int getDeathTicker() 			{ return this.deathTick; 		}
 	public int deathFrameCount() 		{ return this.deathFrames;		}
-	
+	public abstract void setSelected(boolean bool);
 	
 	/**
 	 *  Advances deathTick until we have fully iterated through the

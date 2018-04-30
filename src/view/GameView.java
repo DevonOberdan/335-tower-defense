@@ -62,6 +62,7 @@ public class GameView extends StackPane implements Observer{
 	private Button nextRound;
 	private ImageView archerTower, multiTower, cannonTower;
 	private Tower ctow;
+	private Enemy cen;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
@@ -113,9 +114,9 @@ public class GameView extends StackPane implements Observer{
 			
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			
@@ -144,9 +145,9 @@ public class GameView extends StackPane implements Observer{
 			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			
@@ -176,9 +177,9 @@ public class GameView extends StackPane implements Observer{
 			
 			
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
@@ -370,10 +371,7 @@ public class GameView extends StackPane implements Observer{
 		});
 		
 		this.setOnMouseClicked(e->{
-			Tower t = selectTower((int)e.getX(), (int)e.getY());
-			if(t != null) {
-				//add upgrade / sell obj
-			}
+			selectEntity((int)e.getX(), (int)e.getY());
 		});
 	}
 	
@@ -385,7 +383,7 @@ public class GameView extends StackPane implements Observer{
 	 * @param y
 	 * @return
 	 */
-	public Tower selectTower(int x, int y) {
+	public boolean selectEntity(int x, int y) {
 		unselectTowers();
 		for(Tower t : player.getTowers()) {
 			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
@@ -401,10 +399,30 @@ public class GameView extends StackPane implements Observer{
 		}
 		if(this.ctow != null) {
 			createUpgradePanel();
+			return true;
 		} else {
 			destroyUpgradePanel();
 		}
-		return this.ctow;
+
+		for(Enemy e : this.map.getEnemyList()) {
+			if(x < e.getLoc().getX()-25 || x > e.getLoc().getX()+25 || y < e.getLoc().getY()-25 || y > e.getLoc().getY()+25) {
+				//not in bounds.
+				this.cen = null;
+				e.setSelected(false);
+			}
+			else {
+				this.cen = e;
+				e.setSelected(true);
+				break;
+			}
+		}
+		if(this.cen != null) {
+			//createEnemyPanel();
+			return true;
+		} else {
+			//destroyEnemyPanel();
+		}
+		return false;
 	}
 	
 	public void createUpgradePanel() {
