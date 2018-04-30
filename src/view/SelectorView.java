@@ -29,6 +29,7 @@ import model.Map1;
 import model.Map2;
 import model.Map3;
 import model.Player;
+import model.enemy.Enemy;
 import model.tower.ArcherTower;
 import model.tower.CannonTower;
 import model.tower.MultiTower;
@@ -54,6 +55,7 @@ public class SelectorView extends StackPane implements Observer{
 	private Button nextWave;
 	private ImageView multiTower, archerTower, cannonTower;
 	private Tower ctow;
+	private Enemy cen;
 	
 	public SelectorView( WelcomeView welcomeView) {
 		
@@ -69,6 +71,7 @@ public class SelectorView extends StackPane implements Observer{
 		nextWave.setTranslateX(250);
 		nextWave.setTranslateY(237);
 		this.ctow = null;
+		this.cen = null;
 		
 		GridPane grid = new GridPane();
 		grid.setVgap(10); 
@@ -108,7 +111,7 @@ public class SelectorView extends StackPane implements Observer{
 			
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
@@ -140,7 +143,7 @@ public class SelectorView extends StackPane implements Observer{
 			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
@@ -172,7 +175,7 @@ public class SelectorView extends StackPane implements Observer{
 			
 			
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
 				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
@@ -236,8 +239,7 @@ public class SelectorView extends StackPane implements Observer{
 		
 		this.setOnMouseClicked(e->{
 			if(this.getStylesheets().isEmpty())
-				selectTower((int)e.getX(), (int)e.getY());
-			System.out.println(e.getX() + " " + e.getY());
+				selectEntity((int)e.getX(), (int)e.getY());
 		});
 		
 		easy.setOnAction(e -> {
@@ -302,160 +304,214 @@ public class SelectorView extends StackPane implements Observer{
 		 */
 	}
 
-	/**
-	 * Attempts to select a given tower at x y on the map
-	 * if there are no towers there, it returns false. if it
-	 * successfully selects a tower, it returns true.
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	public Tower selectTower(int x, int y) {
-		unselectTowers();
-		for(Tower t : player.getTowers()) {
-			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
-					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
-				//NOT in bounds
-				t.setSelected(false);
-				this.ctow = null;
-			} else { //must be in bounds
-				t.setSelected(true);
-				this.ctow = t;
-				break;
-			}
-		}
-		if(this.ctow != null) {
-			createUpgradePanel();
-		} else {
-			destroyUpgradePanel();
-		}
-		return this.ctow;
-	}
-	
-	public void createUpgradePanel() {
-		destroyUpgradePanel();
-		if(this.ctow != null) {
-			Label upgradebt = new Label();
-			upgradebt.setText("HOVER\nFOR\nSTATS!");
-			upgradebt.setTextFill(Color.GHOSTWHITE);
-			upgradebt.setFont(Font.font("Verdana", 20));
-			upgradebt.setTextAlignment(TextAlignment.CENTER);
-			upgradebt.setTranslateX(250);
-			upgradebt.setTranslateY(120);
-			this.getChildren().add(upgradebt);
-			upgradebt.setOnMouseClicked(e -> {
-				if(this.ctow.getLevel() < 3) {
-					if(this.map.getPlayer().withdraw(this.ctow.getUpgradeCost()))
-					{
-						this.ctow.levelUp();
-						createUpgradePanel();
-					}	
-				}
-			});
-			Tooltip tooltip = new Tooltip();
-			tooltip.setAutoHide(false);
-			tooltip.setOnShown(e -> {
-				if(map.getPlayer().getGold() >= ctow.getUpgradeCost())
-					upgradebt.setText("CLICK\nFOR\nLEVEL\nUP");
-				else
-					upgradebt.setText("NEED\nFUNDS");
-					
-				});
-			tooltip.setOnHidden(e -> {
-				upgradebt.setText("HOVER\nFOR\nSTATS!");
-			});
-			tooltip.setText(
-				
-				"\tLEVEL " + this.ctow.getLevel() + "\n" + 
-				"Current range: " + this.ctow.getRange() + "\n" +
-				"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
-				"Current damage: " + this.ctow.getDamage() + "\n" + 
-				"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
-				"PRICE: " + this.ctow.getUpgradeCost()
-				
-			);
-			tooltip.setFont(new Font(20));
-			upgradebt.setTooltip(tooltip);
-			
-			
-			/*
-			 * create sell label
-			 */
-			
-			Label sellbt = new Label();
-			sellbt.setText("Sell");
-			sellbt.setTextFill(Color.GHOSTWHITE);
-			sellbt.setFont(Font.font("Verdana", 20));
-			sellbt.setTextAlignment(TextAlignment.CENTER);
-			sellbt.setTranslateX(250);
-			sellbt.setTranslateY(200);
-			this.getChildren().add(sellbt);
-			sellbt.setOnMouseClicked(e -> {
-				this.player.deposit((int)(this.ctow.getCost()*0.5), null);
-				this.player.getTowers().remove(ctow);
-				this.map.getTowerList().remove(ctow);
-			});
-			Tooltip selltt = new Tooltip();
-			selltt.setAutoHide(false);
-			selltt.setText(
-				"Sell for: " + (int)(this.ctow.getCost()*0.5)
-			);
-			selltt.setFont(new Font(20));
-			sellbt.setTooltip(selltt);
-			
-		}
-	}
-	
-	public void destroyUpgradePanel() {
-		if(this.map != null) {
-			this.getChildren().remove(5, this.getChildren().size());
-			System.out.println(this.getChildren().size());
-		}
-	}
-	
-	public static void hackyMcGee(Tooltip tooltip) {
-	    try {
-	        Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
-	        fieldBehavior.setAccessible(true);
-	        Object objBehavior = fieldBehavior.get(tooltip);
-
-	        Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
-	        fieldTimer.setAccessible(true);
-	        Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
-
-	        objTimer.getKeyFrames().clear();
-	        objTimer.getKeyFrames().add(new KeyFrame(new Duration(1)));
-	    } catch (Exception e) {/*do me*/}
-	}
-	
-	/**
-	 * unselects all towers on the map.
-	 */
-	public void unselectTowers() {
-		for(Tower t : player.getTowers()) {
+/**
+ * Attempts to select a given tower at x y on the map
+ * if there are no towers there, it returns false. if it
+ * successfully selects a tower, it returns true.
+ * @param x
+ * @param y
+ * @return
+ */
+public boolean selectEntity(int x, int y) {
+	unselectTowers();
+	unselectEnemies();
+	for(Tower t : player.getTowers()) {
+		if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
+				|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
+			//NOT in bounds
 			t.setSelected(false);
+			this.ctow = null;
+		} else { //must be in bounds
+			t.setSelected(true);
+			this.ctow = t;
+			break;
 		}
-		this.ctow = null;
 	}
-	public void show() {
-		map.show();
+	if(this.ctow != null) {
+		createUpgradePanel();
+		return true;
+	} else {
+		destroyUpgradePanel();
 	}
-	@Override
-	public void update(Observable o, Object arg) {
+
+	for(Enemy e : this.map.getEnemyList()) {
+		if(x < e.getLoc().getX()-25 || x > e.getLoc().getX()+25 || y < e.getLoc().getY()-25 || y > e.getLoc().getY()+25) {
+			//not in bounds.
+			this.cen = null;
+			e.setSelected(false);
+		}
+		else {
+			this.cen = e;
+			e.setSelected(true);
+			break;
+		}
+	}
+	if(this.cen != null) {
+		createEnemyPanel();
+		return true;
+	} else {
+		destroyEnemyPanel();
+	}
+	return false;
+}
+public void destroyEnemyPanel() {
+	this.getChildren().remove(6, this.getChildren().size());
+	System.out.println(this.getChildren().size());
+}
+public void createEnemyPanel() {
+	destroyUpgradePanel();
+	if(this.cen != null) {
+		Label upgradebt = new Label();
+		upgradebt.setText("HOVER\nFOR\nSTATS!");
+		upgradebt.setTextFill(Color.GHOSTWHITE);
+		upgradebt.setFont(Font.font("Verdana", 20));
+		upgradebt.setTextAlignment(TextAlignment.CENTER);
+		upgradebt.setTranslateX(250);
+		upgradebt.setTranslateY(120);
+		this.getChildren().add(upgradebt);
+		Tooltip tooltip = new Tooltip();
+		tooltip.setAutoHide(false);
+		tooltip.setText(
+			
+			this.cen.getName() + "\n" + 
+			"SPEED: " + this.cen.getSpeed() + "\n" +
+			"HEALTH: " + this.cen.getHel() + "\n" + 
+			"DAMAGE: " + this.cen.getDamage() + "\n" + 
+			"REWARD: " + this.cen.getReward() + "\n\n"				
+		);
+		tooltip.setTextAlignment(TextAlignment.CENTER);
+		tooltip.setFont(new Font(20));
+		upgradebt.setTooltip(tooltip);
+	}
+}
+
+public void createUpgradePanel() {
+	destroyUpgradePanel();
+	if(this.ctow != null) {
+		Label upgradebt = new Label();
+		upgradebt.setText("HOVER\nFOR\nSTATS!");
+		upgradebt.setTextFill(Color.GHOSTWHITE);
+		upgradebt.setFont(Font.font("Verdana", 20));
+		upgradebt.setTextAlignment(TextAlignment.CENTER);
+		upgradebt.setTranslateX(250);
+		upgradebt.setTranslateY(120);
+		this.getChildren().add(upgradebt);
+		upgradebt.setOnMouseClicked(e -> {
+			if(this.ctow.getLevel() < 3) {
+				if(this.map.getPlayer().withdraw(this.ctow.getUpgradeCost()))
+				{
+					this.ctow.levelUp();
+					createUpgradePanel();
+				}	
+			}
+		});
+		Tooltip tooltip = new Tooltip();
+		tooltip.setAutoHide(false);
+		tooltip.setOnShown(e -> {
+			if(map.getPlayer().getGold() >= ctow.getUpgradeCost())
+				upgradebt.setText("CLICK\nFOR\nLEVEL\nUP");
+			else
+				upgradebt.setText("NEED\nFUNDS");
+				
+			});
+		tooltip.setOnHidden(e -> {
+			upgradebt.setText("HOVER\nFOR\nSTATS!");
+		});
+		tooltip.setText(
+			
+			"\tLEVEL " + this.ctow.getLevel() + "\n" + 
+			"Current range: " + this.ctow.getRange() + "\n" +
+			"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
+			"Current damage: " + this.ctow.getDamage() + "\n" + 
+			"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
+			"PRICE: " + this.ctow.getUpgradeCost()
+			
+		);
+		tooltip.setFont(new Font(20));
+		upgradebt.setTooltip(tooltip);
+		
+		
+		/*
+		 * create sell label
+		 */
+		
+		Label sellbt = new Label();
+		sellbt.setText("Sell");
+		sellbt.setTextFill(Color.GHOSTWHITE);
+		sellbt.setFont(Font.font("Verdana", 20));
+		sellbt.setTextAlignment(TextAlignment.CENTER);
+		sellbt.setTranslateX(250);
+		sellbt.setTranslateY(200);
+		this.getChildren().add(sellbt);
+		sellbt.setOnMouseClicked(e -> {
+			this.player.deposit((int)(this.ctow.getCost()*0.5), null);
+			this.player.getTowers().remove(ctow);
+			this.map.getTowerList().remove(ctow);
+		});
+		Tooltip selltt = new Tooltip();
+		selltt.setAutoHide(false);
+		selltt.setText(
+			"Sell for: " + (int)(this.ctow.getCost()*0.5)
+		);
+		selltt.setFont(new Font(20));
+		sellbt.setTooltip(selltt);
 		
 	}
+}
 
-	public GraphicsContext getgc() {
-		return this.gc; 
+public void destroyUpgradePanel() {
+		this.getChildren().remove(6, this.getChildren().size());
+		System.out.println(this.getChildren().size());
+}
+
+public static void hackyMcGee(Tooltip tooltip) {
+    try {
+        Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+        fieldBehavior.setAccessible(true);
+        Object objBehavior = fieldBehavior.get(tooltip);
+
+        Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+        fieldTimer.setAccessible(true);
+        Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+
+        objTimer.getKeyFrames().clear();
+        objTimer.getKeyFrames().add(new KeyFrame(new Duration(1)));
+    } catch (Exception e) {/*do me*/}
+}
+
+ 
+public void setPlayer(Player p) {
+	this.player = p;
+}
+
+public void setMap(Map m) {
+	this.map = m;
+}
+
+public GraphicsContext getgc() {
+	return this.gc; 
+}
+/**
+ * unselects all towers on the map.
+ */
+public void unselectTowers() {
+	for(Tower t : player.getTowers()) {
+		t.setSelected(false);
 	}
-	 
-	public void setPlayer(Player p) {
-		this.player = p;
+	this.ctow = null;
+}
+
+public void unselectEnemies() {
+	for(Enemy e : this.map.getEnemyList()) {
+		e.setSelected(false);
 	}
+	this.cen = null;
+}
+public void show() {
+	map.show();
+}
+@Override
+public void update(Observable o, Object arg) {
 	
-	public void setMap(Map m) {
-		this.map = m;
-	}
-	
-	
+}
 }

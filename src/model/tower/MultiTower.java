@@ -39,6 +39,7 @@ public class MultiTower extends Tower implements Serializable{
 	 */
 	@Override
 	public void reset() {
+		super.setTowerType(ETower.area);
 		super.setImage(new Image("file:images/multi1.png"));
 		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
 		timer = new AnimationTimer(){

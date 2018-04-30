@@ -49,6 +49,7 @@ public class CannonTower extends Tower implements Serializable{
 	
 	@Override
 	public void reset() {
+		super.setTowerType(ETower.catapult);
 		super.setImage(new Image("file:images/cannon1.png"));
 		ball = new Image("file:images/cannon_ball.png");
 		explosion = new Image("file:images/explosions/cannon-explosion.png");

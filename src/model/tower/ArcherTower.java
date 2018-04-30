@@ -30,6 +30,7 @@ public class ArcherTower extends Tower implements Serializable{
 	
 	@Override
 	public void reset() {
+		super.setTowerType(ETower.archer);
 		super.setImage(new Image("file:images/archer1.png"));
 		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
 		timer = new AnimationTimer(){
