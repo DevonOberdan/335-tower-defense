@@ -43,7 +43,7 @@ public abstract class Map extends StackPane implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -1737204017909926601L;
-
+	public List<MediaPlayer> players = new ArrayList<>();
 	// the end-zone where the enemies are headed
 	protected Point endZone;
 	/**
@@ -186,7 +186,7 @@ public abstract class Map extends StackPane implements Serializable{
 	 * @param songName
 	 */
 	public abstract void setRoundMode(boolean bool);
-	public void playVectorySong(String songName) {
+	public void playSong(String songName) {
 		File dir = new File("sounds/"+songName);
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
@@ -201,6 +201,22 @@ public abstract class Map extends StackPane implements Serializable{
 				  
 			  });
 	}
-	
-	
+	public void playSong() {
+		System.out.println("play song");
+		File dir = new File("sounds/L_.mp3");
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		players.add(player);
+		 
+		 player.setOnEndOfMedia(new Runnable () {
+
+				@Override
+				public void run() {
+					player.stop();
+					player.play();
+				}
+				  
+			  });
+	}
+
 }
