@@ -68,7 +68,6 @@ public class WelcomeView extends StackPane implements Observer{
 			gameView = new GameView();
 			setViewTo(gameView);
 			((GameView) gameView).show();
-			System.out.println("Game View"); 
 			players.get(0).stop();
 		});
 		casual.setOnAction(e -> {
@@ -80,12 +79,10 @@ public class WelcomeView extends StackPane implements Observer{
 		    this.getChildren().add((Node) new SelectorView(this));
 			//((SelectorView)selectorView).show();
 		    casual.setOnAction(null);
-			System.out.println("Map selector");
 		}); 
 		instructions.setOnAction(e -> {
 			instructionView = new InstructionView();
 			setViewTo(instructionView);
-			System.out.println("Instruction View");
 			
 		});
 		loadGame.setOnAction(e -> {

@@ -113,7 +113,7 @@ public class SelectorView extends StackPane implements Observer{
 			
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+			//	System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
 			
@@ -145,7 +145,7 @@ public class SelectorView extends StackPane implements Observer{
 			
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
 			
@@ -177,7 +177,7 @@ public class SelectorView extends StackPane implements Observer{
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
@@ -356,8 +356,6 @@ public boolean selectEntity(int x, int y) {
 }
 public void destroyEnemyPanel() {
 	this.getChildren().remove(5, this.getChildren().size());
-
-	System.out.println(this.getChildren().size());
 }
 public void createEnemyPanel() {
 	destroyUpgradePanel();
@@ -462,7 +460,7 @@ public void createUpgradePanel() {
 
 public void destroyUpgradePanel() {
 		this.getChildren().remove(5, this.getChildren().size());
-		System.out.println(this.getChildren().size());
+		//System.out.println(this.getChildren().size());
 }
 
 public static void hackyMcGee(Tooltip tooltip) {

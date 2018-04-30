@@ -322,7 +322,6 @@ public abstract class Enemy implements Serializable{
 	// abstract method to draw the enemy's health bar, each is positioned a bit different
 	public abstract void drawHealthBar(GraphicsContext gc);
 	public void playDeadEffect() {
-		System.out.println("dying.mp3");
 		File dir = new File("sounds/dying.mp3");
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
