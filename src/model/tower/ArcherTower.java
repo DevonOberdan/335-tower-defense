@@ -38,7 +38,7 @@ public class ArcherTower extends Tower implements Serializable{
 	 */
 	public ArcherTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Archer", 15, 100, new Image("file:images/archer1.png"), 150, new Media(new File("sounds/Capture.mp3").toURI().toString()), location);
+		super("Archer", 15, 100, new Image("file:images/archer1.png"), 150, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "laser.mp3");
 		super.setTowerType(ETower.archer);
 		this.FIRERATE = (long) 0.8e9;
 		
@@ -94,7 +94,7 @@ public class ArcherTower extends Tower implements Serializable{
 		
 		if (this.getCurrentEnemy() == null)
 			return false;
-		
+		this.playEffect();
 		this.getCurrentEnemy().setAttacked(true);
 		shoot();
 		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());

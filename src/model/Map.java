@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -18,6 +19,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.WindowEvent;
 import model.Path;
 import model.enemy.Enemy;
@@ -164,6 +167,25 @@ public abstract class Map extends StackPane implements Serializable{
 	 * Sets the img that we need to draw to be dragged to this
 	 */
 	public abstract void setDragged(Image img, boolean boo, int x, int y);
+	
+	public void playVectorySong(String songName) {
+		System.out.println("play song");
+		File dir = new File("sounds/"+songName);
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
+
+				@Override
+				public void run() {
+					
+					System.out.println(songName+"stoped playing");
+					player.stop();
+				}
+				  
+			  });
+	}
 	
 	
 }

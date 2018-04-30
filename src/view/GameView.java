@@ -488,4 +488,3 @@ public class GameView extends StackPane implements Observer{
 
 
 }
-
