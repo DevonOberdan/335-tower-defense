@@ -152,7 +152,7 @@ public class Map2 extends Map {
 					e.show(gc);
 					e.setAttacked(false);
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
-						destroyitall();
+						//destroyitall();
 						e.setAttackPlayer();
 						e.setDead();
 					}
