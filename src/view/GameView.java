@@ -244,6 +244,10 @@ public class GameView extends StackPane implements Observer{
 		playpause.setMinWidth(30);
 		playpause.setOnAction(e -> {
 			if(playpause.getText().equals("Pause")) {
+				for(Tower t : this.player.getTowers()) {
+					if(t.isAnimating())	
+						t.endTimers();
+				}
 				this.map.pause();
 				playpause.setText("Unpause");
 				Alert a = new Alert(AlertType.CONFIRMATION);
@@ -269,7 +273,7 @@ public class GameView extends StackPane implements Observer{
 				        for (Tower t : this.player.getTowers()) {
 				        	towers.add(t);
 				        }
-				        towerout.writeObject(towers);
+				       // towerout.writeObject(towers);
 			        	List<Enemy> enlis = new ArrayList<>();
 				        if(this.map.getEnemyCount() > 0) {
 				        	for(Enemy en : this.map.getEnemyList()) {
@@ -316,7 +320,6 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			if(this.map.getRoundMode()) {
-				System.out.println("Spawning enemies");
 				this.map.spawnEnemies(this.map.getWaveCount());
 				this.map.incrementWave();
 				this.map.toggleRound();
@@ -331,6 +334,10 @@ public class GameView extends StackPane implements Observer{
 				case 0: //level 2
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
+							for(Tower t : this.player.getTowers()) {
+								if(t.isAnimating())	
+									t.endTimers();
+							}
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showFirstCutscene();
@@ -348,6 +355,10 @@ public class GameView extends StackPane implements Observer{
 				case 1: //Level 3
 					if(this.map != null) {
 						if(!this.map.isRunning()) {
+							for(Tower t : this.player.getTowers()) {
+								if(t.isAnimating())	
+									t.endTimers();
+							}
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showSecondCutscene();
@@ -366,10 +377,13 @@ public class GameView extends StackPane implements Observer{
 					if(this.map != null) {
 						nextRound.setText("Main Menu");
 						if(!this.map.isRunning()) {
+							for(Tower t : this.player.getTowers()) {
+								if(t.isAnimating())	
+									t.endTimers();
+							}
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showOutroCutscene();
-							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;
 							this.getChildren().clear();
 							this.getStylesheets().clear();
@@ -455,7 +469,6 @@ public class GameView extends StackPane implements Observer{
 	}
 	public void destroyEnemyPanel() {
 		this.getChildren().remove(6, this.getChildren().size());
-		System.out.println(this.getChildren().size());
 	}
 	public void createEnemyPanel() {
 		destroyUpgradePanel();
@@ -560,7 +573,6 @@ public class GameView extends StackPane implements Observer{
 	
 	public void destroyUpgradePanel() {
 			this.getChildren().remove(6, this.getChildren().size());
-			System.out.println(this.getChildren().size());
 	}
 	
 	public static void hackyMcGee(Tooltip tooltip) {
@@ -615,7 +627,6 @@ public class GameView extends StackPane implements Observer{
 	}
 
 	public void playSong() {
-		System.out.println("play song");
 		File dir = new File("sounds/L_.mp3");
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
@@ -626,7 +637,6 @@ public class GameView extends StackPane implements Observer{
 				@Override
 				public void run() {
 					
-					System.out.println("L_ stoped playing");
 					player.stop();
 					player.play();
 				}

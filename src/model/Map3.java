@@ -150,6 +150,7 @@ public class Map3 extends Map {
 					e.show(gc);
 					e.setAttacked(false);
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
+						destroyitall();
 						e.setAttackPlayer();
 						e.setDead();
 					}
@@ -235,6 +236,7 @@ public class Map3 extends Map {
 								e = t.getPrioEnemy(enemyList);
 							}
 							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								destroyitall(); 
 								endMap();
 								return;
 							}
@@ -253,6 +255,7 @@ public class Map3 extends Map {
 							e = t.getPrioEnemy(enemyList);
 						}
 						else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							destroyitall();
 							endMap();
 							return;
 						}
@@ -271,6 +274,7 @@ public class Map3 extends Map {
 								en = t.getPrioEnemy(enemyList);
 							}
 							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								destroyitall();
 								endMap();
 								return;
 							}

@@ -148,12 +148,14 @@ public class Map2 extends Map {
 					e.show(gc);
 					e.setAttacked(false);
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
+						destroyitall();
 						e.setAttackPlayer();
 						e.setDead();
 					}
 				}
 				checkGameOver(player);
 			}
+			// why is this commented out???
 			//enemyList.removeIf(e ->  (e.getLoc().getX()  )equals(new Point(357, 470 || (e.doWeRemove() && player.deposit(30, e)));
 		}
 	}
@@ -233,6 +235,7 @@ public class Map2 extends Map {
 								e = t.getPrioEnemy(enemyList);
 							}
 							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								destroyitall();
 								endMap();
 								return;
 							}
@@ -251,6 +254,7 @@ public class Map2 extends Map {
 							e = t.getPrioEnemy(enemyList);
 						}
 						else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							destroyitall();
 							endMap();
 							return;
 						}
@@ -269,6 +273,7 @@ public class Map2 extends Map {
 								en = t.getPrioEnemy(enemyList);
 							}
 							else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+								destroyitall();
 								endMap();
 								return;
 							}
