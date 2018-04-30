@@ -28,6 +28,7 @@ public class ArcherTower extends Tower implements Serializable{
 	private long FIRERATE;
 	private String proj = "file:images/laser.png";
 	private transient AnimationTimer timer;
+	private boolean animating;
 	
 	@Override
 	public void reset() {
