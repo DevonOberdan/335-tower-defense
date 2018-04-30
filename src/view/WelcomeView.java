@@ -19,6 +19,8 @@ import model.Player;
 import model.tower.Tower;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 
 /**
@@ -39,6 +41,10 @@ public class WelcomeView extends StackPane implements Observer{
 		//pane.setPadding(new Insets (10,10,10,10));
 		//gc.drawImage(background, 0, 0);
 		Label copyright = new Label ("  copyright The Team\n");
+		Text title = new Text("  The\nGame™");
+		title.setStyle("-fx-font: 42 arial;");
+		title.setStroke(Color.WHITE);
+		title.setFill(Color.WHITE);
 		Button casual = new Button("Casual");
 		casual.setMinWidth(120);
 		Button loadGame = new Button("Load Game");
@@ -47,6 +53,7 @@ public class WelcomeView extends StackPane implements Observer{
 		instructions.setMinWidth(120);
 		Button campaign = new Button("Campaign");
 		campaign.setMinWidth(120);
+		grid.add(title, 11, 12);
 		grid.add(campaign, 11, 18);
 		grid.add(casual, 11, 19);
 		grid.add(loadGame, 11, 20);
