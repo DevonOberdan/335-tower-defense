@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -95,9 +96,12 @@ public class Map2 extends Map {
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
-			if (enemyCount == 0 || enemyCount == 1)
+			Random r = new Random();
+			int rand = r.nextInt(3);
+			
+			if (rand == 0 )
 				enemy = new Skeleton(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
-			else if (enemyCount == 2 || enemyCount == 3)
+			else if (rand == 1)
 				enemy = new Rider(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
 				enemy = new Ghost(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));

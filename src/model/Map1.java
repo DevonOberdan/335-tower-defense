@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -99,12 +100,22 @@ public class Map1 extends Map {
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
 			Point offset = new Point(((i*75)), 0);
+			Random r = new Random();
+			int rand = r.nextInt(3);
+			if (rand==0)
+				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			else if (rand == 1 )
+				enemy = new Troll(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			else
+				enemy = new Wolf(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+			/*
 			if (enemyCount == 0 || enemyCount == 1)
 				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
 				enemy = new Troll(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
 				enemy = new Wolf(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				*/
 			enemyList.add(enemy);
 		}
 	}
