@@ -154,7 +154,7 @@ public class Map2 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e ->  e.getLoc().equals(new Point(357, 470)) || (e.doWeRemove() && player.deposit(30, e)));
+			//enemyList.removeIf(e ->  (e.getLoc().getX()  )equals(new Point(357, 470 || (e.doWeRemove() && player.deposit(30, e)));
 		}
 	}
 	
