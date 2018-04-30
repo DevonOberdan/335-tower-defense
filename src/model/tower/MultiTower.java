@@ -26,7 +26,9 @@ public class MultiTower extends Tower implements Serializable{
 	private static boolean first = true;
 	private long previous;
 	private long FIRERATE;
-	AnimationTimer timer;
+	private transient AnimationTimer timer;
+	private boolean animating;
+
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -35,7 +37,30 @@ public class MultiTower extends Tower implements Serializable{
 	 * Range: 200
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
-	public MultiTower(Point location) {
+	@Override
+	public void reset() {
+		super.setTowerType(ETower.area);
+		super.setImage(new Image("file:images/multi1.png"));
+		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
+		timer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+				}
+				if((now - previous >= FIRERATE) && canAttack()) {
+					previous = now;
+					//System.out.println("one second later");
+					attack();
+				}
+			}
+		};
+		timer.start();
+	}
+	
+	public MultiTower(Point location) { 
 		super("Multi", 5, 100, new Image("file:images/multi1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.area);
 		this.FIRERATE = (long) 0.5e9;
@@ -141,7 +166,7 @@ public class MultiTower extends Tower implements Serializable{
 	public void show(GraphicsContext gc)
 	{
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-70, 60, 80);
 		if(this.getSelected()) {
 			gc.setGlobalAlpha(0.15);
 			gc.setFill(Color.GHOSTWHITE);
@@ -158,7 +183,18 @@ public class MultiTower extends Tower implements Serializable{
 	}
 	
 	@Override
-	public void endTimers() { timer.stop(); }
+	public void startTimers() { if(timer != null) timer.start(); animating = true;}
+	@Override
+	public void endTimers() { if(timer != null) timer.stop(); animating = false;}
+	@Override
+	public boolean isAnimating() {
+		return animating;
+	}
+	
+	@Override
+	public AnimationTimer getTimer() {
+		return this.timer;
+	}
 }
 
 

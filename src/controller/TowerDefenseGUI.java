@@ -19,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import view.IntroView;
 import view.WelcomeView;
 
 /**
@@ -52,11 +53,18 @@ public class TowerDefenseGUI extends Application{
 		stage.setTitle("Tower Defense");
 		pane = new StackPane();
 		Scene scene = new Scene (pane, 580,500);
-		Observer welcome = new WelcomeView();
-		pane.getChildren().add((Node) welcome);
+		//Observer welcome = new WelcomeView();
+		Observer intro = new IntroView(this);
+		pane.getChildren().add((Node) intro);
+		((IntroView) intro).play();
 		//pane.setCenter((Node) welcome);
 		stage.setScene(scene);
 		stage.show();
+	}
+	public void next() {
+		Observer welcome = new WelcomeView();
+		pane.getChildren().remove(0);
+		pane.getChildren().add((Node) welcome);
 	}
 	
 	

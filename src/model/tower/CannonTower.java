@@ -37,14 +37,55 @@ public class CannonTower extends Tower implements Serializable{
 	private double prevBallY;
 	private int yDist;
 	private Point fireLoc;
-	private Image ball = new Image("file:images/cannon_ball.png");
-	private Image explosion = new Image("file:images/explosions/cannon-explosion.png");
+	private transient Image ball = new Image("file:images/cannon_ball.png");
+	private transient Image explosion = new Image("file:images/explosions/cannon-explosion.png");
 	private final int explSrcSize = 250;
 	private int xDist;
+	private boolean animating;
+
 	
-	private AnimationTimer shootTimer;
-	private AnimationTimer timer;
+	private transient AnimationTimer shootTimer;
+	private transient AnimationTimer timer;
 	
+	@Override
+	public void reset() {
+		super.setTowerType(ETower.catapult);
+		super.setImage(new Image("file:images/cannon1.png"));
+		ball = new Image("file:images/cannon_ball.png");
+		explosion = new Image("file:images/explosions/cannon-explosion.png");
+		shootTimer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if((now - prev >= 0.05e9)) {
+					prev = now;
+					drawBall();
+				}
+			}
+		};
+			
+		timer = new AnimationTimer() {
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+				}
+				if((now - previous >= 5.0e9) && !betweenRounds) {
+					previous = now;
+					shootTimer.start();
+					shoot();
+					drawBall();
+				}
+				if(shotIter == 20) {
+					attack();
+					shootTimer.stop();
+					shotIter=0;
+				}
+			}
+		};
+		timer.start();
+	}
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
 	 * giving this tower a projectile.
@@ -54,9 +95,10 @@ public class CannonTower extends Tower implements Serializable{
 	 * Health: it needs health.
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
+	
 	public CannonTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
+		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "explosion_1.mp3");
 		super.setTowerType(ETower.catapult);
 		findSpot();
 		shootTimer = new AnimationTimer(){
@@ -125,7 +167,6 @@ public class CannonTower extends Tower implements Serializable{
 		
 		int x = this.getRange()+r.nextInt(500 - this.getRange());
 		int y = this.getRange()+r.nextInt(500 - this.getRange());
-		
 		fireLoc = new Point(x,y);
 	}
 	
@@ -136,23 +177,25 @@ public class CannonTower extends Tower implements Serializable{
 	   */
 	  @Override
 	  public boolean attack() {
+		  
 		this.explosionIter=0;
 	    List<Enemy> ens = this.getEnemyList();
-	    if(ens.isEmpty())
+	    if(ens == null || ens.isEmpty())
 	      return false;
-	    this.playEffect();
 	    
 	    for (Enemy en : ens) {
 	    		if(en.canBeHit()) {
 	    			en.setAttacked(true);
 	    			en.setHel(en.getHel()-this.getDamage());
+	    			this.playEffect();
 	    		}
 	    }
 	    return true;
 	  }
 	
 	  public void drawBall() {
-		    
+		  if(this.getGC() == null)
+			  return;
 		    if(shotIter ==0) {
 		      prevBallX = this.getLocation().getX();
 		      prevBallY = this.getLocation().getY();
@@ -185,7 +228,6 @@ public class CannonTower extends Tower implements Serializable{
 	  public void shoot() {
 	    
 	    findSpot();
-	    
 	    xDist = (int)(fireLoc.getX() - this.getLocation().getX());
 	    yDist = (int)(fireLoc.getY() - this.getLocation().getY());
 	  }
@@ -225,7 +267,7 @@ public class CannonTower extends Tower implements Serializable{
 		if(this.explosionIter > 14) this.explosionIter = -1;
 		
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-70, 60, 80);
 		if(this.getSelected()) {
 			gc.setGlobalAlpha(0.15);
 			gc.setFill(Color.GHOSTWHITE);
@@ -236,11 +278,18 @@ public class CannonTower extends Tower implements Serializable{
 	}
 
 	@Override
-	public void endTimers() { 
-		timer.stop();
-		shootTimer.stop();
+	public void startTimers() { if(timer != null) timer.start(); shootTimer.start(); animating = true;}
+	@Override
+	public void endTimers() { if(timer != null) timer.stop(); shootTimer.stop(); animating = false; }
+	@Override
+	public boolean isAnimating() {
+		return animating;
 	}
-
+	@Override
+	public AnimationTimer getTimer() {
+		return this.timer;
+	}
+	
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {
 		// TODO Auto-generated method stub

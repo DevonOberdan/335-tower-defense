@@ -45,8 +45,9 @@ public class Map1 extends Map {
 	private Player player;
 //	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
 	private transient GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
-//	private List<Enemy> enemyList; //List of enemies
-//	private List<Tower> towerList; //List of towers
+	private List<Enemy> enemyList; //List of enemies
+	private List<Tower> towerList; //List of towers
+	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	//private Point endZone;
 	private boolean roundMode;
@@ -55,8 +56,6 @@ public class Map1 extends Map {
 	private int dragx, dragy;
 	private transient Image menu = new Image("file:images/menu.jpg");
 	private transient Image background = new Image("file:images/maps/map1.png");
-	private transient Image gameOver = new Image("file:images/game_over.png");
-
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -79,6 +78,7 @@ public class Map1 extends Map {
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
 		 this.dragging = false;
+		 playSong();
 	} 
 	
 	/**
@@ -94,6 +94,7 @@ public class Map1 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
+		players.get(0).play();
 		//int type1=(int) (Math.random()*enemyCount), type2=0, type3;
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
@@ -101,7 +102,7 @@ public class Map1 extends Map {
 			if (enemyCount == 0 || enemyCount == 1)
 				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
-				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Troll(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
 				enemy = new Wolf(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
@@ -124,7 +125,7 @@ public class Map1 extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menu, 0, 0);
 			gc.drawImage(background, 0, 0);
-			player.draw();
+			player.draw(); 
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
 				toggleRound();
 				endRound();
@@ -135,36 +136,47 @@ public class Map1 extends Map {
 			updateAndReassignTowers();
 			
 			if(dragging) {
-				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+				gc.drawImage(dragimg, dragx-30, dragy-70, 60, 80);
 			}
 			
 			if(roundMode) {
+				for(Tower t : player.getTowers()) {
+					t.endTimers();
+				}
 				return;
-			}			
+			} else {
+				for(Tower t : player.getTowers()) {
+					if(!t.isAnimating())
+						t.startTimers();
+				}
+			}
 			
 			for (Enemy e : enemyList) {
-				e.setEnList(enemyList);
+				e.setEnList((ArrayList<Enemy>) enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}
 				if(e != null) {
+					
 					e.show(gc);
 					e.setAttacked(false);
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
 						e.setAttackPlayer();
 						e.setDead();
+						e.setHel(0);
 					}
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(200, e)));
+			enemyList.removeIf(e -> e.getLoc().equals(new Point(495, 410)) || (e.doWeRemove() && player.deposit(200, e)));
 		}
 	}
 	
 	/**
 	 * Ends the round.
 	 */
-	public void endMap() {
+	public void endMap() { 
+		players.get(0).stop();
 		timeline.stop();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");
@@ -193,6 +205,7 @@ public class Map1 extends Map {
 		alert.setHeaderText(null);
 		alert.setContentText("Round " + waveCount + " complete!");
 		alert.show();
+		//this.playVectorySong("L.mp3");
 	}
 	
 	
@@ -215,8 +228,8 @@ public class Map1 extends Map {
 	 * Adds a new archerTower onto the screen at position p.
 	 */
 	public void addTower(Tower t) {
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
+		if (t.getBaseCost()<=player.getGold()) {
+			player.withdraw(t.getBaseCost());
 			player.addTower(t);
 			t.setGC(gc); 
 		}
@@ -330,7 +343,7 @@ public class Map1 extends Map {
 	public boolean checkGameOver(Player p) {
 		if (p.getHealth()<1) {
 			timeline.stop();
-			gc.drawImage(gameOver, 0, 0);
+			gc.drawImage(new Image("file:images/game_over.png"), 0, 0);
 			return true;
 		}
 		return false;
@@ -382,6 +395,38 @@ public class Map1 extends Map {
 		this.towerList = null;
 	}
 	
+	@Override
+	public void resetMenu() {
+		this.menu = new Image("file:images/menu.jpg");
+	}
+	
+	@Override
+	public void resetBackground() {
+		this.background = new Image("file:images/maps/map1.png");
+	}
+	
+	@Override
+	public void decrementWave() {
+		this.waveCount--;
+	}
+	
+	@Override
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+	@Override
+	public int getMapID() {
+		return 1;
+	}
+	
+	@Override
+	public void resetTimeline() {
+		this.timeline = new Timeline(new KeyFrame(Duration.millis(100),
+                new AnimateStarter1())); 
+		 this.timeline.setCycleCount(Animation.INDEFINITE);
+	}
+	
+	@Override
 	public void setRoundMode(boolean bool) {
 		this.roundMode = bool;
 	}

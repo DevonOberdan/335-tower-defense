@@ -43,7 +43,7 @@ public class Map3 extends Map {
 	private Player player;
 	
 	private transient GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
-	//private List<Enemy> enemyList; //List of enemies
+	private List<Enemy> enemyList; //List of enemies
 	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
@@ -53,7 +53,6 @@ public class Map3 extends Map {
 	private int dragx, dragy;
 	private transient Image menu = new Image("file:images/menu.jpg");
 	private transient Image background = new Image("file:images/maps/map3.png");
-	private transient Image gameOver = new Image("file:images/game_over.png");
 
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
@@ -68,7 +67,7 @@ public class Map3 extends Map {
  		roundMode = true;
 		enemyList = new ArrayList<>();
 		towerList = new ArrayList<>();
-		timeline = new Timeline(new KeyFrame(Duration.millis(100),
+		timeline = new Timeline(new KeyFrame(Duration.millis(50),
                 new AnimateStarter3())); 
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(367, -30);
@@ -77,6 +76,7 @@ public class Map3 extends Map {
 		 this.waveCount = 0;
 		 endZone = new Point (46, 30);
 		 this.dragging = false;
+		 playSong();
 	}
 	
 	/**
@@ -92,6 +92,7 @@ public class Map3 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
+		players.get(0).play();
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
 			Point offset = new Point(0, (i*75));
@@ -131,7 +132,7 @@ public class Map3 extends Map {
 			updateAndReassignTowers();
 			
 			if(dragging) {
-				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+				gc.drawImage(dragimg, dragx-30, dragy-70, 60, 80);
 			}
 			
 			if(roundMode) {
@@ -140,7 +141,7 @@ public class Map3 extends Map {
 			
 			
 			for (Enemy e : enemyList) {
-				e.setEnList(enemyList);
+				e.setEnList((ArrayList<Enemy>) enemyList);
 				if(e.getDeathTicker() >= e.deathFrameCount()) {
 					e = enemyList.get(0);
 				}
@@ -154,7 +155,7 @@ public class Map3 extends Map {
 				}
 				checkGameOver(player);
 			}
-			enemyList.removeIf(e -> (e.doWeRemove() && player.deposit(30, e)));
+			enemyList.removeIf(e ->  e.getLoc().equals(new Point(42, 25)) || e.getLoc().equals(new Point(37, 25)) || (e.doWeRemove() && player.deposit(30, e)));
 		}
 	}
 	
@@ -162,6 +163,7 @@ public class Map3 extends Map {
 	 * Ends the round.
 	 */
 	public void endMap() {
+		players.get(0).stop();
 		timeline.stop();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");
@@ -341,11 +343,24 @@ public class Map3 extends Map {
 	public List<Tower> getTowerList() {
 		return towerList;
 	}
+	
+	@Override
+	public void resetMenu() {
+		this.menu = new Image("file:images/menu.jpg");
+	}
+	
+	@Override
+	public void resetBackground() {
+		this.background = new Image("file:images/maps/map3.png");
+	}
+	
+	
+	
 	@Override
 	public boolean checkGameOver(Player p) {
 		if (p.getHealth()<1) {
 			timeline.stop();
-			gc.drawImage(gameOver, 0, 0);
+			gc.drawImage(new Image("file:images/game_over.png"), 0, 0);
 			return true;
 		}
 		return false;
@@ -401,6 +416,30 @@ public class Map3 extends Map {
 		this.towerList = null;
 	}
 	
+	
+	@Override
+	public int getMapID() {
+		return 3;
+	}
+	
+	@Override
+	public void resetTimeline() {
+		this.timeline = new Timeline(new KeyFrame(Duration.millis(100),
+                new AnimateStarter3())); 
+		 this.timeline.setCycleCount(Animation.INDEFINITE);
+	}
+	
+	@Override
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+	
+	@Override
+	public void decrementWave() {
+		this.waveCount--;
+	}
+	
+	@Override
 	public void setRoundMode(boolean bool) {
 		this.roundMode = bool;
 	}

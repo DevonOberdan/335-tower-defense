@@ -42,7 +42,12 @@ public class ElfWizard extends Enemy{
 	
 	private Image[] spell = new Image[] {new Image("file:images/spell/spellhealth-spell.png"),new Image("file:images/spell/health-spell1.png"),
 										new Image("file:images/spell/health-spell2.png"),new Image("file:images/spell/health-spell3.png")};
-	
+	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -52,6 +57,8 @@ public class ElfWizard extends Enemy{
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 5, 5, elfWizard, deadElfWizard, path, start);
 		neighborList = new ArrayList<Enemy>();
+		this.selected = false;
+		this.name = "Elf Wizard";
 	}	
 	
 	public void getPrioEnemies() {
@@ -59,7 +66,7 @@ public class ElfWizard extends Enemy{
 		for (Enemy en : enList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLoc().getX(), 2) + Math.pow((enLoc.getY() - this.getLoc().getY()), 2));
-			System.out.println(dist+" die");
+			//System.out.println(dist+" die");
 			if (dist < range && en.canBeHit() && !en.equals(this)) neighborList.add(en);
 		}
 	}
@@ -108,5 +115,16 @@ public class ElfWizard extends Enemy{
 		// draw border to show the full health amount
 		gc.setStroke(Color.BLACK);		
 		gc.strokeRect(loc.getX()-(imgWidth/2)+xShift, loc.getY()-(imgHeight/2)-5, imgWidth*0.6, 4);
+		if(this.selected) {
+			gc.setGlobalAlpha(0.15);
+			gc.setFill(Color.GHOSTWHITE);
+			gc.fillOval(this.getLoc().getX()-imgHeight, this.getLoc().getY()-imgHeight, imgHeight*2, imgHeight*2);
+			gc.setGlobalAlpha(1.0);
+		}
+	}
+	
+	@Override
+	public void setSelected(boolean bool) {
+		this.selected = bool;
 	}
 }

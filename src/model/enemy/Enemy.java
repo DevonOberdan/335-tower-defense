@@ -1,12 +1,15 @@
 package model.enemy;
 
 import java.awt.Point;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import model.Path;
 import model.Player;
 import model.tower.Tower;
@@ -68,6 +71,7 @@ public abstract class Enemy implements Serializable{
 	protected boolean boosted;
 	
 	protected ArrayList<Enemy> enList;
+	
 	
 	/**
 	 * Abstract Enemy constructor used by all Enemy subclasses. Populates
@@ -139,7 +143,10 @@ public abstract class Enemy implements Serializable{
 	/* setters */
 	public void setImage(Image im)		{ this.img    = im;			}
 	public void setLoc(Point p)			{ this.loc    = p;          	}
-	public void setHel(int newHealth)	{ this.health = newHealth; 	}
+	public void setHel(int newHealth)	{ this.health = newHealth;
+	if (this.health < 1)
+		this.playDeadEffect();
+	}
 	public void setTurns(Point p)		{ this.turns  = p;    		}
 	public void setSpeed(int s)			{ this.speed  = s;  			}
 	public void updateNumTurns()			{ this.numTurns++;       	}
@@ -151,6 +158,7 @@ public abstract class Enemy implements Serializable{
 	}
 	
 	/* getters */
+	public int getDamage()				{return damage;				}
 	public Image getImage()				{ return this.img;				}
 	public int getReward()				{ return this.reward;			}
 	public boolean getDead()	    			{ return this.dead; 				}
@@ -166,8 +174,8 @@ public abstract class Enemy implements Serializable{
 	public boolean getAttackedPlayer()	{ return this.attackedPlayer;	}
 	public int getDeathTicker() 			{ return this.deathTick; 		}
 	public int deathFrameCount() 		{ return this.deathFrames;		}
-	
-	
+	public abstract void setSelected(boolean bool);
+	public abstract String getName();
 	/**
 	 *  Advances deathTick until we have fully iterated through the
 	 *  death spritesheet, and then it iterates lagTick, which is
@@ -179,7 +187,7 @@ public abstract class Enemy implements Serializable{
 		else lagTick++;
 	}
 	
-	public boolean doWeRemove() { return lagTick >= lagFrames; }
+	public boolean doWeRemove() { return getHel() <= 0 || lagTick >= lagFrames; } 
 	
 	/**
 	 *  Checks if this Enemy is contained within the range of the
@@ -273,7 +281,6 @@ public abstract class Enemy implements Serializable{
 	 */
 	public void show(GraphicsContext gc) {
 		int dir = 0;
-		
 		// if statements to determine which direction enemy should face
 		if(this.getPath().getR()) {
 			dir = 0;
@@ -298,6 +305,7 @@ public abstract class Enemy implements Serializable{
 					     this.loc.getX()-(imgWidth/2), this.loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			gc.setGlobalAlpha(1);
 			advanceDeath();
+			
 			return;
 		}
 		
@@ -313,4 +321,20 @@ public abstract class Enemy implements Serializable{
 	
 	// abstract method to draw the enemy's health bar, each is positioned a bit different
 	public abstract void drawHealthBar(GraphicsContext gc);
+	public void playDeadEffect() {
+		System.out.println("dying.mp3");
+		File dir = new File("sounds/dying.mp3");
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
+
+				@Override
+				public void run() {
+					player.stop();
+				}
+				  
+			  });
+	}
 }

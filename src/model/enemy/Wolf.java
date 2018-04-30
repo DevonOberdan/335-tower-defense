@@ -39,6 +39,13 @@ public class Wolf extends Enemy {
 	
 	private static String[] dead_wolf = new String[] {"file:images/enemies/wolf/dead_wolf_right.png", 
 													 "file:images/enemies/wolf/dead_wolf_left.png"};
+	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * 
@@ -49,7 +56,7 @@ public class Wolf extends Enemy {
 	public Wolf(Path path, Point start) {
 		//speed, health, damage, reward, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(startSpeed, wolfHealth, damage, reward, walkDims, deadDims, 4, 8, wolf, dead_wolf, path, start);		
-		
+		this.selected = false;
 		crazy_wolf    = new Image[2];
 		crazy_wolf[0] = new Image("file:images/enemies/wolf/crazy_wolf_right.png");
 		crazy_wolf[1] = new Image("file:images/enemies/wolf/crazy_wolf_left.png");
@@ -61,6 +68,7 @@ public class Wolf extends Enemy {
 		this.stallTick = 0;
 		
 		this.enraged  = false;
+		this.name = "Wolf";
 	}
  
 	/**
@@ -134,6 +142,17 @@ public class Wolf extends Enemy {
 		// draw border to show the full health amount
 		gc.setStroke(Color.BLACK);		
 		gc.strokeRect(loc.getX()-(imgWidth/2)+xShift, loc.getY()-(imgHeight/2), imgWidth*0.6, 4);
+		if(this.selected) {
+			gc.setGlobalAlpha(0.15);
+			gc.setFill(Color.GHOSTWHITE);
+			gc.fillOval(this.getLoc().getX()-imgHeight, this.getLoc().getY()-imgHeight, imgHeight*2, imgHeight*2);
+			gc.setGlobalAlpha(1.0);
+		}
+	}
+	
+	@Override
+	public void setSelected(boolean bool) {
+		this.selected = bool;
 	}
 	
 	/**

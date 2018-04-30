@@ -7,9 +7,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.function.BiFunction;
+
+import com.sun.javafx.tk.Toolkit.Task;
+import com.sun.media.jfxmedia.AudioClip;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,6 +30,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -34,6 +41,7 @@ import model.Map1;
 import model.Map2;
 import model.Map3;
 import model.Player;
+import model.enemy.Enemy;
 import model.tower.ArcherTower;
 import model.tower.CannonTower;
 import model.tower.MultiTower;
@@ -60,6 +68,7 @@ public class GameView extends StackPane implements Observer{
 	private Button nextRound;
 	private ImageView archerTower, multiTower, cannonTower;
 	private Tower ctow;
+	private Enemy cen;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
@@ -67,13 +76,6 @@ public class GameView extends StackPane implements Observer{
 	 * 
 	 * @author Taite Nazifi
 	 */
-
-	public void setPlayer(Player p) {
-		this.player = p;
-	}
-	public void setMap(Map m) {
-		this.map = m;
-	}
 	
 	
 	/**
@@ -118,9 +120,9 @@ public class GameView extends StackPane implements Observer{
 			
 			Tower t = new ArcherTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			
@@ -149,9 +151,9 @@ public class GameView extends StackPane implements Observer{
 			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			
@@ -181,9 +183,9 @@ public class GameView extends StackPane implements Observer{
 			
 			
 			Tower t = new CannonTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
-			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
+			if(!selectEntity((int)e.getSceneX(), (int)e.getSceneY()))
 			{
-				System.out.println((int)e.getSceneX() + " " +(int)e.getSceneY());
+				//if(this.map.inBounds((int)e.getScenex(), (int)e.getSceneY()))
 				map.addTower(t);
 			}
 			this.map.setDragged(null, false, 0, 0);
@@ -246,8 +248,11 @@ public class GameView extends StackPane implements Observer{
 				        	towers.add(t);
 				        }
 				        towerout.writeObject(towers);
+			        	List<Enemy> enlis = new ArrayList<>();
 				        if(this.map.getEnemyCount() > 0) {
-				        	//List<Enemy>
+				        	for(Enemy en : this.map.getEnemyList()) {
+				        		enlis.add(en);
+				        	}
 				        	this.map.getEnemyList().clear();
 				        }
 				        mapout.writeObject(this.map);
@@ -256,6 +261,8 @@ public class GameView extends StackPane implements Observer{
 				        towerout.close();
 				        mapout.close();
 				        playerout.close();
+				        
+				        this.map.getEnemyList().addAll(enlis);
 				        
 					 } catch (IOException e1) {
 					      e1.printStackTrace();
@@ -370,10 +377,7 @@ public class GameView extends StackPane implements Observer{
 		});
 		
 		this.setOnMouseClicked(e->{
-			Tower t = selectTower((int)e.getX(), (int)e.getY());
-			if(t != null) {
-				//add upgrade / sell obj
-			}
+			selectEntity((int)e.getX(), (int)e.getY());
 		});
 	}
 	
@@ -385,8 +389,9 @@ public class GameView extends StackPane implements Observer{
 	 * @param y
 	 * @return
 	 */
-	public Tower selectTower(int x, int y) {
+	public boolean selectEntity(int x, int y) {
 		unselectTowers();
+		unselectEnemies();
 		for(Tower t : player.getTowers()) {
 			if(x < t.getLocation().getX()-25 || x > t.getLocation().getX()+25
 					|| y < t.getLocation().getY()-25 || y > t.getLocation().getY()+25) {
@@ -401,10 +406,60 @@ public class GameView extends StackPane implements Observer{
 		}
 		if(this.ctow != null) {
 			createUpgradePanel();
+			return true;
 		} else {
 			destroyUpgradePanel();
 		}
-		return this.ctow;
+
+		for(Enemy e : this.map.getEnemyList()) {
+			if(x < e.getLoc().getX()-25 || x > e.getLoc().getX()+25 || y < e.getLoc().getY()-25 || y > e.getLoc().getY()+25) {
+				//not in bounds.
+				this.cen = null;
+				e.setSelected(false);
+			}
+			else {
+				this.cen = e;
+				e.setSelected(true);
+				break;
+			}
+		}
+		if(this.cen != null) {
+			createEnemyPanel();
+			return true;
+		} else {
+			destroyEnemyPanel();
+		}
+		return false;
+	}
+	public void destroyEnemyPanel() {
+		this.getChildren().remove(6, this.getChildren().size());
+		System.out.println(this.getChildren().size());
+	}
+	public void createEnemyPanel() {
+		destroyUpgradePanel();
+		if(this.cen != null) {
+			Label upgradebt = new Label();
+			upgradebt.setText("HOVER\nFOR\nSTATS!");
+			upgradebt.setTextFill(Color.GHOSTWHITE);
+			upgradebt.setFont(Font.font("Verdana", 20));
+			upgradebt.setTextAlignment(TextAlignment.CENTER);
+			upgradebt.setTranslateX(250);
+			upgradebt.setTranslateY(120);
+			this.getChildren().add(upgradebt);
+			Tooltip tooltip = new Tooltip();
+			tooltip.setAutoHide(false);
+			tooltip.setText(
+				
+				this.cen.getName() + "\n" + 
+				"SPEED: " + this.cen.getSpeed() + "\n" +
+				"HEALTH: " + this.cen.getHel() + "\n" + 
+				"DAMAGE: " + this.cen.getDamage() + "\n" + 
+				"REWARD: " + this.cen.getReward() + "\n\n"				
+			);
+			tooltip.setTextAlignment(TextAlignment.CENTER);
+			tooltip.setFont(new Font(20));
+			upgradebt.setTooltip(tooltip);
+		}
 	}
 	
 	public void createUpgradePanel() {
@@ -501,6 +556,18 @@ public class GameView extends StackPane implements Observer{
 	    } catch (Exception e) {/*do me*/}
 	}
 	
+	 
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+	
+	public void setMap(Map m) {
+		this.map = m;
+	}
+	
+	public GraphicsContext getgc() {
+		return this.gc; 
+	}
 	/**
 	 * unselects all towers on the map.
 	 */
@@ -510,6 +577,13 @@ public class GameView extends StackPane implements Observer{
 		}
 		this.ctow = null;
 	}
+	
+	public void unselectEnemies() {
+		for(Enemy e : this.map.getEnemyList()) {
+			e.setSelected(false);
+		}
+		this.cen = null;
+	}
 	public void show() {
 		map.show();
 	}
@@ -518,5 +592,23 @@ public class GameView extends StackPane implements Observer{
 		
 	}
 
+	public void playSong() {
+		System.out.println("play song");
+		File dir = new File("sounds/L_.mp3");
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
 
+				@Override
+				public void run() {
+					
+					System.out.println("L_ stoped playing");
+					player.stop();
+					player.play();
+				}
+				  
+			  });
+	}
 }

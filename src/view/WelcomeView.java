@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Map;
 import model.Player;
+import model.tower.Tower;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -114,12 +115,33 @@ public class WelcomeView extends StackPane implements Observer{
         Map map = (Map) mapin.readObject(); 
 //        ArrayList<Tower> towers = (ArrayList<Tower>) towerin.readObject();
 
-//        towerin.close(); 
+//        towerin.close();
         mapin.close();
         playerin.close();
         gameView = new GameView();
         GameView gv = (GameView) gameView;
-        //gv
+        if(map.getWaveCount() != 0 && !map.getRoundMode()) {
+        	map.decrementWave();
+            map.setRoundMode(true);
+        }
+        map.getEnemyList().clear();
+        gv.setMap(map);
+        gv.setPlayer(player);
+		setViewTo(gameView);
+		System.out.println("Game View"); 
+		players.get(0).stop();
+		map.resetBackground();
+		map.resetMenu();
+		map.resetTimeline();
+		map.setGC(gv.getgc());
+		for(Tower t : player.getTowers()) {
+			t.setGC(gv.getgc());
+			t.reset();
+		}
+		player.reset();
+		player.setGC(gv.getgc());
+		map.setPlayer(player);
+		((GameView) gameView).show();
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	

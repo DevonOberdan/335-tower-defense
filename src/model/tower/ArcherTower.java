@@ -26,9 +26,32 @@ public class ArcherTower extends Tower implements Serializable{
 	//private long start;
 	private long previous;
 	private long FIRERATE;
-	AnimationTimer timer;
 	private String proj = "file:images/laser.png";
+	private transient AnimationTimer timer;
 	
+	@Override
+	public void reset() {
+		super.setTowerType(ETower.archer);
+		super.setImage(new Image("file:images/archer1.png"));
+		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
+		timer = new AnimationTimer(){
+			
+			@Override
+			public void handle (long now) {
+				if(first) {
+					previous = now;
+					first = false;
+					//attackEnemy();
+					//return;
+				}
+				if((now - previous >= FIRERATE) && canAttack()) {
+					previous = now;
+					attack();
+				}
+			}
+		};
+		timer.start();
+	}
 	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
@@ -168,7 +191,16 @@ public class ArcherTower extends Tower implements Serializable{
 			}			 
 		}
 	}
-	
 	@Override
-	public void endTimers() { timer.stop(); }
+	public void startTimers() { if(timer != null) timer.start(); animating = true;}
+	@Override
+	public void endTimers() { if(timer != null) timer.stop(); animating = false;}
+	@Override
+	public boolean isAnimating() {
+		return animating;
+	}
+	@Override
+	public AnimationTimer getTimer() {
+		return this.timer;
+	}
 }

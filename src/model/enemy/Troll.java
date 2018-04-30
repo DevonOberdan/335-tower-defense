@@ -29,6 +29,13 @@ public class Troll extends Enemy{
 	
 	private static String[] dead_troll = new String[] {"file:images/enemies/troll/dead_troll_right.png", 
 											   		   "file:images/enemies/troll/dead_troll_left.png"};
+	private boolean selected;
+	private String name;
+	@Override
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
 	 * @param path
@@ -37,7 +44,10 @@ public class Troll extends Enemy{
 	public Troll(Path path, Point start) {
 		//speed, health, walkImageDimensions, deathImageDimensions, walkFrames, deathFrames, walkFiles, deathFiles, path, startPoint
 		super(speed, health, damage, reward, walkDims, deathDims, 7, 6, troll, dead_troll, path, start);
+		this.selected = false;
+		this.name = "Troll";
 	}	
+	
 	
 	/**
 	 * Method to draw health bar right above the Enemy.
@@ -57,5 +67,16 @@ public class Troll extends Enemy{
 		// draw border to show the full health amount
 		gc.setStroke(Color.BLACK);		
 		gc.strokeRect(loc.getX()-(imgWidth/2)+xShift, loc.getY()-(imgHeight/2), imgWidth*0.6, 4);
+		if(this.selected) {
+			gc.setGlobalAlpha(0.15);
+			gc.setFill(Color.GHOSTWHITE);
+			gc.fillOval(this.getLoc().getX()-imgHeight, this.getLoc().getY()-imgHeight, imgHeight*2, imgHeight*2);
+			gc.setGlobalAlpha(1.0);
+		}
+	}
+	
+	@Override
+	public void setSelected(boolean bool) {
+		this.selected = bool;
 	}
 }
