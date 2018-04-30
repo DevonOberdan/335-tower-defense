@@ -124,6 +124,7 @@ public class CannonTower extends Tower implements Serializable{
 					shootTimer.start();
 					shoot();
 					drawBall();
+					playEffect();
 				}
 				if(shotIter == 20) {
 					attack();
@@ -182,12 +183,10 @@ public class CannonTower extends Tower implements Serializable{
 	    List<Enemy> ens = this.getEnemyList();
 	    if(ens == null || ens.isEmpty())
 	      return false;
-	    
 	    for (Enemy en : ens) {
 	    		if(en.canBeHit()) {
 	    			en.setAttacked(true);
 	    			en.setHel(en.getHel()-this.getDamage());
-	    			this.playEffect();
 	    		}
 	    }
 	    return true;
