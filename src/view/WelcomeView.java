@@ -117,7 +117,9 @@ public class WelcomeView extends StackPane implements Observer{
 //        towerin.close(); 
         mapin.close();
         playerin.close();
-//        gameView = new GameView(0, )
+        gameView = new GameView();
+        GameView gv = (GameView) gameView;
+        gv
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	

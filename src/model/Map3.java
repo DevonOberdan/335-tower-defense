@@ -205,8 +205,8 @@ public class Map3 extends Map {
 	 */
 	public void addTower(Tower t) {
 		System.out.println("Tower added @"+t.getLocation().toString());
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
+		if (t.getBaseCost()<=player.getGold()) {
+			player.withdraw(t.getBaseCost());
 			player.addTower(t);
 			t.setGC(gc);
 		}
@@ -396,6 +396,10 @@ public class Map3 extends Map {
 		this.timeline = null;
 		this.towerList.clear();
 		this.towerList = null;
+	}
+	
+	public void setRoundMode(boolean bool) {
+		this.roundMode = bool;
 	}
 	
 	@Override

@@ -67,9 +67,14 @@ public class GameView extends StackPane implements Observer{
 	 * 
 	 * @author Taite Nazifi
 	 */
-	public GameView(int ptr, Player player, Map map) {
-		
+
+	public void setPlayer(Player p) {
+		this.player = p;
 	}
+	public void setMap(Map m) {
+		this.map = m;
+	}
+	
 	
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
@@ -142,7 +147,6 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			
-			
 			Tower t = new MultiTower(new Point((int)e.getSceneX(), (int)e.getSceneY()));
 			
 			if(selectTower((int)e.getSceneX(), (int)e.getSceneY()) == null)
@@ -159,7 +163,7 @@ public class GameView extends StackPane implements Observer{
 				this.map.setDragged(multiimg, true, (int)e.getSceneX(), (int)e.getSceneY());
 		});
 		Tooltip mtt = new Tooltip("Multi\nDamage: 5\nRange:100\n\nPRICE: $75");
-		mtt.setFont(new Font(20));
+		mtt.setFont(new Font(20)); 
 		Tooltip.install(multiTower, mtt);
 		
 		
@@ -242,6 +246,10 @@ public class GameView extends StackPane implements Observer{
 				        	towers.add(t);
 				        }
 				        towerout.writeObject(towers);
+				        if(this.map.getEnemyCount() > 0) {
+				        	//List<Enemy>
+				        	this.map.getEnemyList().clear();
+				        }
 				        mapout.writeObject(this.map);
 				        playerout.writeObject(this.player);
 				        
@@ -258,7 +266,6 @@ public class GameView extends StackPane implements Observer{
 				playpause.setText("Pause");
 			}
 		});
-		
 		
 		this.getChildren().addAll(canvas,nextRound,archerTower, multiTower, cannonTower, playpause);
 		//this.setCenter(pane);
@@ -408,8 +415,6 @@ public class GameView extends StackPane implements Observer{
 			upgradebt.setTextFill(Color.GHOSTWHITE);
 			upgradebt.setFont(Font.font("Verdana", 20));
 			upgradebt.setTextAlignment(TextAlignment.CENTER);
-			upgradebt.setMinHeight(20);
-			upgradebt.setMinWidth(35);
 			upgradebt.setTranslateX(250);
 			upgradebt.setTranslateY(120);
 			this.getChildren().add(upgradebt);
@@ -446,6 +451,33 @@ public class GameView extends StackPane implements Observer{
 			);
 			tooltip.setFont(new Font(20));
 			upgradebt.setTooltip(tooltip);
+			
+			
+			/*
+			 * create sell label
+			 */
+			
+			Label sellbt = new Label();
+			sellbt.setText("Sell");
+			sellbt.setTextFill(Color.GHOSTWHITE);
+			sellbt.setFont(Font.font("Verdana", 20));
+			sellbt.setTextAlignment(TextAlignment.CENTER);
+			sellbt.setTranslateX(250);
+			sellbt.setTranslateY(200);
+			this.getChildren().add(sellbt);
+			sellbt.setOnMouseClicked(e -> {
+				this.player.deposit((int)(this.ctow.getCost()*0.5), null);
+				this.player.getTowers().remove(ctow);
+				this.map.getTowerList().remove(ctow);
+			});
+			Tooltip selltt = new Tooltip();
+			selltt.setAutoHide(false);
+			selltt.setText(
+				"Sell for: " + (int)(this.ctow.getCost()*0.5)
+			);
+			selltt.setFont(new Font(20));
+			sellbt.setTooltip(selltt);
+			
 		}
 	}
 	

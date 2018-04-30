@@ -57,9 +57,17 @@ public class Player extends BorderPane implements Serializable{
 	 * @param amt
 	 */
 	public boolean deposit(int amt, Enemy e) {
-		if (!e.getAttackedPlayer())
+		if(e == null)
+		{
 			this.gold += amt;
-		return true;
+			return true;
+		}
+		if (!e.getAttackedPlayer())
+		{
+			this.gold += amt;
+			return true;
+		}
+		return false;
 	}
 	
 	/**

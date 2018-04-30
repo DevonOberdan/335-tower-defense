@@ -97,7 +97,7 @@ public class ArcherTower extends Tower implements Serializable{
 		this.playEffect();
 		this.getCurrentEnemy().setAttacked(true);
 		shoot();
-		System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
+		//System.out.println("Tower: " + getLocation() + getCurrentEnemy().getLoc());
 		this.getCurrentEnemy().setHel(this.getCurrentEnemy().getHel()-this.getDamage());
 		this.setEnemy(null);
 		return true;

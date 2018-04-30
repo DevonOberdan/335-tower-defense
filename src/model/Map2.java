@@ -63,7 +63,7 @@ public class Map2 extends Map {
 	 * @param gc the graphics context in which we draw upon. THE EISEL FOR 
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
-	public Map2(Player p) {
+	public Map2(Player p) { 
  		player = p;
  		roundMode = true;
 		enemyList = new ArrayList<>();
@@ -205,8 +205,8 @@ public class Map2 extends Map {
 	 */
 	public void addTower(Tower t) {
 		System.out.println("Tower added @"+t.getLocation().toString());
-		if (t.getCost()<=player.getGold()) {
-			player.withdraw(t.getCost());
+		if (t.getBaseCost()<=player.getGold()) {
+			player.withdraw(t.getBaseCost());
 			player.addTower(t);
 			t.setGC(gc);
 		}
@@ -398,6 +398,9 @@ public class Map2 extends Map {
 		this.towerList = null;
 	}
 	
+	public void setRoundMode(boolean bool) {
+		this.roundMode = bool;
+	}
 	
 	@Override
 	public void setDragged(Image img, boolean bool, int x, int y) {
