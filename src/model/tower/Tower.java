@@ -30,20 +30,21 @@ public abstract class Tower extends StackPane implements Serializable{
 	private int      xp;
 	private int      currentLevel;
 	private int 	 cost;
-	private ETower   towerType;
-	private Image  	 image;
-	private Image    projectile;
-	private Media    soundEffect;
+	private transient ETower   towerType;
+	private transient Image  	 image;
+	private transient Image    projectile;
+	private transient Media    soundEffect;
 	private Point 	 TowerLocation;
 	private boolean isSelected;
-	private List<Enemy> ens;
+	private transient List<Enemy> ens;
 	private Enemy enemy;
 	private boolean sold;
 	
 	protected boolean betweenRounds;
 	
-	private GraphicsContext gc;
+	private transient GraphicsContext gc;
 	private String songName;
+
 	
 	//protected final Image testing = new Image("file:images/testing.png") ;
 	
@@ -97,6 +98,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	public int    getDamage()				{ return damage;       } //damage of tower
 	public int    getXP()              		{ return xp;           } //current tower xp ?
 	public int    getLevel()             	{ return currentLevel; } //current tower level
+	public int 	  getBaseCost()				{ return cost; } //returns cost
 	public int    getCost()              	{ return (int) (cost * (currentLevel * 1.5)); } //current cost of tower
 	public ETower getTowerType()				{ return this.towerType; } //type of tower
 	public int getX()						{ return (int)this.TowerLocation.getX(); } //location of x on board

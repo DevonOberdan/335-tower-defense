@@ -2,6 +2,7 @@ package model.tower;
 
 import java.awt.Point;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -16,9 +17,13 @@ import model.enemy.Enemy;
  * ArcherTower is another Tower type. 
  *
  */
-public class CannonTower extends Tower {
+public class CannonTower extends Tower implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1514342878127607169L;
 	private static boolean first = true;
 	//private long start;
 	private long previous;

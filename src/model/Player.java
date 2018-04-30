@@ -21,10 +21,10 @@ public class Player extends BorderPane implements Serializable{
 	private int health;
 	private int gold;
 	private List <Tower> towerList;
-	private GraphicsContext gc;
-	private final Image goldImg = new Image("file:images/menu/coin_sprite.png");
-	private final Image healthImg = new Image("file:images/menu/heart_sprite.png");
+	private transient GraphicsContext gc;
 	private int healthC = 0, goldC = 0;
+	private final transient Image heart = new Image("file:images/menu/heart_sprite.png");
+	private final transient Image coin = new Image("file:images/menu/coin_sprite.png");
 	
 	public Player(GraphicsContext gc,int health, int gold)
 	{
@@ -34,7 +34,7 @@ public class Player extends BorderPane implements Serializable{
 		towerList = new ArrayList<>();
 	}
 	
-	public void addTower(Tower t)	{ towerList.add(t); }
+	public void addTower(Tower t)	{ towerList.add(t); } 
 	
 	public int getHealth()			{ return health;		}
 	public int getGold()				{ return gold;		}
@@ -57,9 +57,17 @@ public class Player extends BorderPane implements Serializable{
 	 * @param amt
 	 */
 	public boolean deposit(int amt, Enemy e) {
-		if (!e.getAttackedPlayer())
+		if(e == null)
+		{
 			this.gold += amt;
-		return true;
+			return true;
+		}
+		if (!e.getAttackedPlayer())
+		{
+			this.gold += amt;
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -83,9 +91,9 @@ public class Player extends BorderPane implements Serializable{
 			goldC = 0;
 		}
 		gc.setFill(Color.GHOSTWHITE);
-		gc.drawImage(goldImg, 60*goldC, 0, 60, 60, 510, 0.1, 20, 20);
+		gc.drawImage(coin, 60*goldC, 0, 60, 60, 510, 0.1, 20, 20);
 		gc.fillText(""+gold, 535, 12.5);
-		gc.drawImage(healthImg, 60*healthC, 0, 60, 60, 510, 17.5, 20, 20);
+		gc.drawImage(heart, 60*healthC, 0, 60, 60, 510, 17.5, 20, 20);
 		gc.fillText(""+health, 535, 33);
 		
 		goldC++;

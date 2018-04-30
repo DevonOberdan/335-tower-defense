@@ -55,7 +55,7 @@ public class SelectorView extends StackPane implements Observer{
 	private ImageView multiTower, archerTower, cannonTower;
 	private Tower ctow;
 	
-	public SelectorView() {
+	public SelectorView( WelcomeView welcomeView) {
 		
 		canvas = new Canvas (580,500);
 		gc = canvas.getGraphicsContext2D();
@@ -240,6 +240,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		easy.setOnAction(e -> {
+			welcomeView.players.get(0).stop();
 			this.map = new Map1(player);
 			this.map.setGC(gc);
 			this.getChildren().clear();
@@ -249,6 +250,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		medium.setOnAction(e -> {
+			welcomeView.players.get(0).stop();
 			this.map = new Map2(player);
 			this.map.setGC(gc);
 			this.getChildren().clear();
@@ -258,6 +260,7 @@ public class SelectorView extends StackPane implements Observer{
 		});
 		
 		hard.setOnAction(e -> {
+			welcomeView.players.get(0).stop();
 			this.map = new Map3(player);
 			this.map.setGC(gc);
 			this.getChildren().clear();
@@ -392,7 +395,7 @@ public class SelectorView extends StackPane implements Observer{
 	
 	public void destroyUpgradePanel() {
 		if(this.map != null) {
-			this.getChildren().remove(6, this.getChildren().size());
+			this.getChildren().remove(5, this.getChildren().size());
 			System.out.println(this.getChildren().size());
 		}
 	}

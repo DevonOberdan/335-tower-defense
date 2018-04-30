@@ -46,8 +46,8 @@ public abstract class Enemy implements Serializable{
 	protected boolean dead;
 	protected boolean attackedPlayer;
 	
-	protected Image[] walkImgs  = new Image[2];
-	protected Image[] deathImgs = new Image[2];
+	protected transient Image[] walkImgs  = new Image[2];
+	protected transient Image[] deathImgs = new Image[2];
 	
 	private Image img;
 	

@@ -44,14 +44,11 @@ public abstract class Map extends StackPane implements Serializable{
 	 */
 	private static final long serialVersionUID = -1737204017909926601L;
 
-	// the background image
-	protected final Image gameOver = new Image("file:images/game_over.png");
-	
+	// the background image	
 	protected ArrayList<Enemy> enemyList; //List of enemies
 	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
-	private final static String persistedFileName = "listOfTowers";
 	/**
 	 * @return Gets the number of enemies left in the game
 	 */
@@ -85,11 +82,6 @@ public abstract class Map extends StackPane implements Serializable{
 	 * @param count How many enemies to spawn onto the map.
 	 */
 	public abstract void spawnEnemies(int count);
-	
-	/**
-	 * @return canvas object
-	 */
-	public abstract Canvas getCanvas();
 	
 	/**
 	 * 
