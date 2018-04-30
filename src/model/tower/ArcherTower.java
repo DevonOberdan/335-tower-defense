@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import model.enemy.Enemy;
 
 /**
@@ -26,6 +27,7 @@ public class ArcherTower extends Tower implements Serializable{
 	private long previous;
 	private long FIRERATE;
 	AnimationTimer timer;
+	private String proj = "file:images/laser.png";
 	
 	
 	/**
@@ -106,6 +108,15 @@ public class ArcherTower extends Tower implements Serializable{
 		this.getGC().setStroke(Color.RED);
 		this.getGC().strokeLine(getCurrentEnemy().getLoc().getX(), getCurrentEnemy().getLoc().getY(), 
 				getLocation().getX(), getLocation().getY()-20);
+		
+//		Image projectile = new Image(proj);
+//		
+//        double xDiff = getCurrentEnemy().getLoc().getX() - getLocation().getX();
+//        double yDiff = getCurrentEnemy().getLoc().getY() - getLocation().getY()-20;
+//        this.getGC().save();
+//        this.getGC().rotate(Math.toDegrees(Math.atan2(yDiff, xDiff)));
+//        this.getGC().drawImage(projectile, getLocation().getX(),getLocation().getY()-20);
+//        this.getGC().restore();
 	}
 
 	@Override
@@ -144,16 +155,16 @@ public class ArcherTower extends Tower implements Serializable{
 		//actual tower image
 		{
 			//actual tower image
-			gc.drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+			this.getGC().drawImage(this.getCurrentImage(), this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
 			if(this.getSelected()) {
 				
 				/*
 				 * Drawing the radius of the tower's abilities on the map.
 				 */
-				gc.setGlobalAlpha(0.15);
-				gc.setFill(Color.GHOSTWHITE);
-				gc.fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
-				gc.setGlobalAlpha(1.0);
+				this.getGC().setGlobalAlpha(0.15);
+				this.getGC().setFill(Color.GHOSTWHITE);
+				this.getGC().fillOval(this.getLocation().getX()-this.getRange(), this.getLocation().getY()-this.getRange(), this.getRange()*2, this.getRange()*2);
+				this.getGC().setGlobalAlpha(1.0);
 			}			 
 		}
 	}
