@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.function.BiFunction;
+
+import com.sun.javafx.tk.Toolkit.Task;
+import com.sun.media.jfxmedia.AudioClip;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,6 +30,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -586,5 +592,23 @@ public class GameView extends StackPane implements Observer{
 		
 	}
 
+	public void playSong() {
+		System.out.println("play song");
+		File dir = new File("sounds/L_.mp3");
+		Media media = new Media(dir.toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.play();
+		 
+		 player.setOnEndOfMedia(new Runnable () {
 
+				@Override
+				public void run() {
+					
+					System.out.println("L_ stoped playing");
+					player.stop();
+					player.play();
+				}
+				  
+			  });
+	}
 }

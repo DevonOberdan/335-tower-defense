@@ -356,6 +356,7 @@ public boolean selectEntity(int x, int y) {
 }
 public void destroyEnemyPanel() {
 	this.getChildren().remove(5, this.getChildren().size());
+
 	System.out.println(this.getChildren().size());
 }
 public void createEnemyPanel() {

@@ -98,7 +98,7 @@ public class CannonTower extends Tower implements Serializable{
 	
 	public CannonTower(Point location) {
 		//Type, damage, radius, image, cost, sound, location
-		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
+		super("Catapult", 100, 80, new Image("file:images/cannon1.png"), 125, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "explosion_1.mp3");
 		super.setTowerType(ETower.catapult);
 		findSpot();
 		shootTimer = new AnimationTimer(){
@@ -167,7 +167,6 @@ public class CannonTower extends Tower implements Serializable{
 		
 		int x = this.getRange()+r.nextInt(500 - this.getRange());
 		int y = this.getRange()+r.nextInt(500 - this.getRange());
-		
 		fireLoc = new Point(x,y);
 	}
 	
@@ -178,16 +177,17 @@ public class CannonTower extends Tower implements Serializable{
 	   */
 	  @Override
 	  public boolean attack() {
+		  
 		this.explosionIter=0;
 	    List<Enemy> ens = this.getEnemyList();
 	    if(ens == null || ens.isEmpty())
 	      return false;
-	    this.playEffect();
 	    
 	    for (Enemy en : ens) {
 	    		if(en.canBeHit()) {
 	    			en.setAttacked(true);
 	    			en.setHel(en.getHel()-this.getDamage());
+	    			this.playEffect();
 	    		}
 	    }
 	    return true;
@@ -228,7 +228,6 @@ public class CannonTower extends Tower implements Serializable{
 	  public void shoot() {
 	    
 	    findSpot();
-	    
 	    xDist = (int)(fireLoc.getX() - this.getLocation().getX());
 	    yDist = (int)(fireLoc.getY() - this.getLocation().getY());
 	  }

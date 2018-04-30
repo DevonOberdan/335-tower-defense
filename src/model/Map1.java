@@ -56,7 +56,6 @@ public class Map1 extends Map {
 	private int dragx, dragy;
 	private transient Image menu = new Image("file:images/menu.jpg");
 	private transient Image background = new Image("file:images/maps/map1.png");
-
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -79,6 +78,7 @@ public class Map1 extends Map {
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
 		 this.dragging = false;
+		 playSong();
 	} 
 	
 	/**
@@ -94,6 +94,7 @@ public class Map1 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
+		players.get(0).play();
 		//int type1=(int) (Math.random()*enemyCount), type2=0, type3;
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
@@ -101,7 +102,7 @@ public class Map1 extends Map {
 			if (enemyCount == 0 || enemyCount == 1)
 				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (enemyCount == 2 || enemyCount == 3)
-				enemy = new ElfWizard(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Troll(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
 				enemy = new Wolf(new Map1_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			enemyList.add(enemy);
@@ -157,6 +158,7 @@ public class Map1 extends Map {
 					e = enemyList.get(0);
 				}
 				if(e != null) {
+					
 					e.show(gc);
 					e.setAttacked(false);
 					if (!e.getDead() && e.attackPlayer(player, endZone)) {
@@ -175,6 +177,7 @@ public class Map1 extends Map {
 	 * Ends the round.
 	 */
 	public void endMap() { 
+		players.get(0).stop();
 		timeline.stop();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");
@@ -203,6 +206,7 @@ public class Map1 extends Map {
 		alert.setHeaderText(null);
 		alert.setContentText("Round " + waveCount + " complete!");
 		alert.show();
+		//this.playVectorySong("L.mp3");
 	}
 	
 	

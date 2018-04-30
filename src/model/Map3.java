@@ -76,6 +76,7 @@ public class Map3 extends Map {
 		 this.waveCount = 0;
 		 endZone = new Point (46, 30);
 		 this.dragging = false;
+		 playSong();
 	}
 	
 	/**
@@ -91,6 +92,7 @@ public class Map3 extends Map {
 	 * @param enemyCount
 	 */
 	public void spawnEnemies(int enemyCount) {
+		players.get(0).play();
 		for (int i=0; i<enemyCount+1; i++) {
 			Enemy enemy = null; 
 			Point offset = new Point(0, (i*75));
@@ -161,6 +163,7 @@ public class Map3 extends Map {
 	 * Ends the round.
 	 */
 	public void endMap() {
+		players.get(0).stop();
 		timeline.stop();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");
