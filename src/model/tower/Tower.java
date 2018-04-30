@@ -118,7 +118,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	public void setProjectile(Image p)				{ this.projectile = p; }
 	
 	public abstract void endTimers();
-	
+	public abstract void startTimers();
 	
 	/**
 	 * Sets this tower's image to image.

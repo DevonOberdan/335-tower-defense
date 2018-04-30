@@ -129,7 +129,7 @@ public class Map2 extends Map {
 			updateAndReassignTowers();
 			
 			if(dragging) {
-				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+				gc.drawImage(dragimg, dragx-30, dragy-70, 60, 80);
 			}
 			
 			if(roundMode) {

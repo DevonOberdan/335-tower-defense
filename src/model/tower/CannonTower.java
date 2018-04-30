@@ -265,7 +265,7 @@ public class CannonTower extends Tower implements Serializable{
 		if(this.explosionIter > 14) this.explosionIter = -1;
 		
 		//actual tower image
-		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-40, 60, 80);
+		gc.drawImage(this.getCurrentImage(), 0, 0, 150, 170, this.getLocation().getX()-30, this.getLocation().getY()-70, 60, 80);
 		if(this.getSelected()) {
 			gc.setGlobalAlpha(0.15);
 			gc.setFill(Color.GHOSTWHITE);
@@ -276,10 +276,9 @@ public class CannonTower extends Tower implements Serializable{
 	}
 
 	@Override
-	public void endTimers() { 
-		timer.stop();
-		shootTimer.stop();
-	}
+	public void startTimers() { if(timer != null) timer.start(); shootTimer.start(); }
+	@Override
+	public void endTimers() { if(timer != null) timer.stop(); shootTimer.stop(); }
 
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {

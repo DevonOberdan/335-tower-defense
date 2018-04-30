@@ -69,13 +69,6 @@ public class GameView extends StackPane implements Observer{
 	 * 
 	 * @author Taite Nazifi
 	 */
-
-	public void setPlayer(Player p) {
-		this.player = p;
-	}
-	public void setMap(Map m) {
-		this.map = m;
-	}
 	
 	
 	/**
@@ -506,6 +499,15 @@ public class GameView extends StackPane implements Observer{
 	        objTimer.getKeyFrames().clear();
 	        objTimer.getKeyFrames().add(new KeyFrame(new Duration(1)));
 	    } catch (Exception e) {/*do me*/}
+	}
+	
+	 
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+	
+	public void setMap(Map m) {
+		this.map = m;
 	}
 	
 	public GraphicsContext getgc() {

@@ -124,7 +124,7 @@ public class Map1 extends Map {
 			gc.clearRect(0, 0, 580, 500);
 			gc.drawImage(menu, 0, 0);
 			gc.drawImage(background, 0, 0);
-			player.draw();
+			player.draw(); 
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
 				toggleRound();
 				endRound();
@@ -135,12 +135,19 @@ public class Map1 extends Map {
 			updateAndReassignTowers();
 			
 			if(dragging) {
-				gc.drawImage(dragimg, dragx-30, dragy-40, 60, 80);
+				gc.drawImage(dragimg, dragx-30, dragy-70, 60, 80);
 			}
 			
 			if(roundMode) {
+				for(Tower t : player.getTowers()) {
+					t.endTimers();
+				}
 				return;
-			}			
+			} else {
+				for(Tower t : player.getTowers()) {
+					t.startTimers();
+				}
+			}
 			
 			for (Enemy e : enemyList) {
 				e.setEnList((ArrayList<Enemy>) enemyList);
@@ -165,7 +172,7 @@ public class Map1 extends Map {
 	/**
 	 * Ends the round.
 	 */
-	public void endMap() {
+	public void endMap() { 
 		timeline.stop();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");

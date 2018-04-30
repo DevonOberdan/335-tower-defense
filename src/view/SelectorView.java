@@ -45,7 +45,7 @@ import model.tower.Tower;
  *
  */
 public class SelectorView extends StackPane implements Observer{
-	
+	 
 	private Map map;
 	private Canvas canvas;
 	private GraphicsContext gc;
@@ -237,6 +237,7 @@ public class SelectorView extends StackPane implements Observer{
 		this.setOnMouseClicked(e->{
 			if(this.getStylesheets().isEmpty())
 				selectTower((int)e.getX(), (int)e.getY());
+			System.out.println(e.getX() + " " + e.getY());
 		});
 		
 		easy.setOnAction(e -> {
@@ -339,8 +340,6 @@ public class SelectorView extends StackPane implements Observer{
 			upgradebt.setTextFill(Color.GHOSTWHITE);
 			upgradebt.setFont(Font.font("Verdana", 20));
 			upgradebt.setTextAlignment(TextAlignment.CENTER);
-			upgradebt.setMinHeight(20);
-			upgradebt.setMinWidth(35);
 			upgradebt.setTranslateX(250);
 			upgradebt.setTranslateY(120);
 			this.getChildren().add(upgradebt);
@@ -353,43 +352,57 @@ public class SelectorView extends StackPane implements Observer{
 					}	
 				}
 			});
-			
 			Tooltip tooltip = new Tooltip();
 			tooltip.setAutoHide(false);
 			tooltip.setOnShown(e -> {
-				if(map.getPlayer().getGold() >= ctow.getUpgradeCost() && this.ctow.getLevel() < 3)
+				if(map.getPlayer().getGold() >= ctow.getUpgradeCost())
 					upgradebt.setText("CLICK\nFOR\nLEVEL\nUP");
-				else if(this.ctow.getLevel() < 3)
-					upgradebt.setText("NEED\nFUNDS");
 				else
-					upgradebt.setText("MAX\nLEVEL");
+					upgradebt.setText("NEED\nFUNDS");
+					
 				});
 			tooltip.setOnHidden(e -> {
 				upgradebt.setText("HOVER\nFOR\nSTATS!");
 			});
-			
-			if(this.ctow.getLevel() < 3) {
-				tooltip.setText(
-					
-					"\tLEVEL " + this.ctow.getLevel() + "\n" + 
-					"Current range: " + this.ctow.getRange() + "\n" +
-					"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
-					"Current damage: " + this.ctow.getDamage() + "\n" + 
-					"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
-					"PRICE: " + this.ctow.getUpgradeCost()
-				);
-			} else
-			{
-				tooltip.setText(
+			tooltip.setText(
+				
 				"\tLEVEL " + this.ctow.getLevel() + "\n" + 
 				"Current range: " + this.ctow.getRange() + "\n" +
 				"Next range: " + this.ctow.getRange()*1.5 + "\n" + 
 				"Current damage: " + this.ctow.getDamage() + "\n" + 
 				"Next damage: " + this.ctow.getDamage()*1.5 + "\n\n" + 
-				"MAX LEVEL");
-			}
+				"PRICE: " + this.ctow.getUpgradeCost()
+				
+			);
 			tooltip.setFont(new Font(20));
 			upgradebt.setTooltip(tooltip);
+			
+			
+			/*
+			 * create sell label
+			 */
+			
+			Label sellbt = new Label();
+			sellbt.setText("Sell");
+			sellbt.setTextFill(Color.GHOSTWHITE);
+			sellbt.setFont(Font.font("Verdana", 20));
+			sellbt.setTextAlignment(TextAlignment.CENTER);
+			sellbt.setTranslateX(250);
+			sellbt.setTranslateY(200);
+			this.getChildren().add(sellbt);
+			sellbt.setOnMouseClicked(e -> {
+				this.player.deposit((int)(this.ctow.getCost()*0.5), null);
+				this.player.getTowers().remove(ctow);
+				this.map.getTowerList().remove(ctow);
+			});
+			Tooltip selltt = new Tooltip();
+			selltt.setAutoHide(false);
+			selltt.setText(
+				"Sell for: " + (int)(this.ctow.getCost()*0.5)
+			);
+			selltt.setFont(new Font(20));
+			sellbt.setTooltip(selltt);
+			
 		}
 	}
 	
@@ -432,6 +445,17 @@ public class SelectorView extends StackPane implements Observer{
 		
 	}
 
+	public GraphicsContext getgc() {
+		return this.gc; 
+	}
 	 
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+	
+	public void setMap(Map m) {
+		this.map = m;
+	}
+	
 	
 }
