@@ -98,13 +98,6 @@ public abstract class Map extends StackPane implements Serializable{
 	public abstract List<Tower> getTowerList();
 	
 	/**
-	 * REturns the path of this map that the enemies have to travel in order
-	 * to reach the goal.
-	 * @return
-	 */
-	public abstract Path getPath();
-	
-	/**
 	 * increments the wave count
 	 */
 	public abstract void incrementWave();
@@ -194,7 +187,6 @@ public abstract class Map extends StackPane implements Serializable{
 	 */
 	public abstract void setRoundMode(boolean bool);
 	public void playVectorySong(String songName) {
-		System.out.println("play song");
 		File dir = new File("sounds/"+songName);
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
@@ -204,8 +196,6 @@ public abstract class Map extends StackPane implements Serializable{
 
 				@Override
 				public void run() {
-					
-					System.out.println(songName+"stoped playing");
 					player.stop();
 				}
 				  

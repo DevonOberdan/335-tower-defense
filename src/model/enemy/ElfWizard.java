@@ -2,9 +2,9 @@ package model.enemy;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import model.Path;
 
@@ -24,6 +24,8 @@ public class ElfWizard extends Enemy{
 	private final static int damage = 15;
 	private final static int reward = 25;
 	
+	private int spellIter=0;
+	
 	private final static int range = 100;
 	
 	private ArrayList<Enemy> neighborList;
@@ -36,6 +38,10 @@ public class ElfWizard extends Enemy{
 	
 	private static String[] deadElfWizard = new String[] {"file:images/enemies/elfWizard/dead_elf_wizard_right.png", 
 											   		   "file:images/enemies/elfWizard/dead_elf_wizard_left.png"};
+	
+	
+	private Image[] spell = new Image[] {new Image("file:images/spell/spellhealth-spell.png"),new Image("file:images/spell/health-spell1.png"),
+										new Image("file:images/spell/health-spell2.png"),new Image("file:images/spell/health-spell3.png")};
 	
 	/**
 	 * Enemy constructor called by program, which then sends specific info to the super Enemy class.
@@ -50,13 +56,11 @@ public class ElfWizard extends Enemy{
 	
 	public void getPrioEnemies() {
 		neighborList.clear();
-		
 		for (Enemy en : enList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLoc().getX(), 2) + Math.pow((enLoc.getY() - this.getLoc().getY()), 2));
-			if (dist < range && en.canBeHit() && !en.equals(this)) {
-				neighborList.add(en);
-			}
+			System.out.println(dist+" die");
+			if (dist < range && en.canBeHit() && !en.equals(this)) neighborList.add(en);
 		}
 	}
 	
@@ -65,19 +69,23 @@ public class ElfWizard extends Enemy{
 		getPrioEnemies();
 		healNeighbors();
 		System.out.println(neighborList.size());
+
 		if(neighborList.size() != 0) {
 			//actual tower image
-				gc.setGlobalAlpha(0.15);
-				gc.setFill(Color.LIMEGREEN);
-				gc.fillOval(this.getLoc().getX()-range, this.getLoc().getY()-range, range*2, range*2);
-				gc.setGlobalAlpha(1.0);
+//				gc.setGlobalAlpha(0.15);
+//				gc.setFill(Color.LIMEGREEN);
+//				gc.fillOval(this.getLoc().getX()-range, this.getLoc().getY()-range, range*2, range*2);
+//				gc.setGlobalAlpha(1.0);
+			gc.drawImage(spell[spellIter], this.getLoc().getX()-range, this.getLoc().getY()-range, range*2,range*2);
 		}
+		spellIter++;
+		if(spellIter==3) spellIter=0;
 		super.show(gc);
 	}
 	
 	public void healNeighbors() {		
 		for(Enemy en: neighborList) {
-			if(en.getHel() < en.maxHealth-1)
+			if(en.getHel() < en.maxHealth)
 				en.setHel(en.getHel() + 1);
 		}
 	}

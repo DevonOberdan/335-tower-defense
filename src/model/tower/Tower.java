@@ -116,6 +116,10 @@ public abstract class Tower extends StackPane implements Serializable{
 	public void setSoundEffect(Media sound) 	{ this.soundEffect = sound; } //set sound effect.
 	public boolean setTowerType(ETower type) { this.towerType = type; return true;} //set tower type.
 	public void setProjectile(Image p)				{ this.projectile = p; }
+	
+	public abstract void endTimers();
+	
+	
 	/**
 	 * Sets this tower's image to image.
 	 * @param image
@@ -146,6 +150,8 @@ public abstract class Tower extends StackPane implements Serializable{
 	 * Sets this tower's enemy target to e.
 	 * @param e
 	 */
+	public abstract void reset();
+
 	public void setEnemy (Enemy e) {
 		enemy = e;
 	}
@@ -159,7 +165,6 @@ public abstract class Tower extends StackPane implements Serializable{
 		betweenRounds = mode;
 	}
 	public void playEffect() {
-		//System.out.println("sound effect");
 		File dir = new File("sounds/"+songName);
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
@@ -169,8 +174,6 @@ public abstract class Tower extends StackPane implements Serializable{
 
 				@Override
 				public void run() {
-					
-					//System.out.println(songName+"stoped playing");
 					player.stop();
 				}
 				  

@@ -96,28 +96,27 @@ public class Ghost extends Enemy{
 		int dir = 0;
 		
 		// if statements to determine which direction enemy should face
-		if((path.getD() || path.getU()) && !path.getL() && !path.getR()) {
-			dir = previousDir;
+		if(this.getPath().getR()) {
+			dir = 0;
 		}
-		if(path.getR()) {
-			dir = 0; previousDir = 0;
+		else if(this.getPath().getL()) {
+			dir = 1;
 		}
-		if(path.getL()) {
-			dir = 1; previousDir = 1;
-		}
+		else dir= this.previousDir;
+		
 		
 		if(!dead){ // draw the walking frame
-			img = walkImgs[dir];
-			gc.drawImage(img, walkTick*(sourceWalkSizes.getX()), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
+			this.setImage(walkImgs[dir]);
+			gc.drawImage(this.getImage(), walkTick*(sourceWalkSizes.getX()), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else{ // draw the death frame
-			img = deathImgs[dir];
+			this.setImage(deathImgs[dir]);
 			
 			gc.setGlobalAlpha(1-lagTick*0.1);
 
-			gc.drawImage(img, deathTick*(sourceDeathSizes.getX()), 0, sourceDeathSizes.getX(), sourceDeathSizes.getY(),
+			gc.drawImage(this.getImage(), deathTick*(sourceDeathSizes.getX()), 0, sourceDeathSizes.getX(), sourceDeathSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			gc.setGlobalAlpha(1);
 			advanceDeath();
@@ -126,10 +125,11 @@ public class Ghost extends Enemy{
 		
 		// determine if alive/how enemy should look
 		checkStatus();
-		
+		this.previousDir = dir;
+
 		gc.setGlobalAlpha(1.0);
 		drawHealthBar(gc);
-		this.turns = this.path.checkTurns(this.loc,this);
+		this.setTurns(this.getPath().checkTurns(this.loc,this));
 		move();
 	}
 		

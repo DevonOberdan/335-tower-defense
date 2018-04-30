@@ -73,36 +73,34 @@ public class Wolf extends Enemy {
 		int dir = 0;
 		
 		// if statements to determine which direction enemy should face
-		if((path.getD() || path.getU()) && !path.getL() && !path.getR()) {
-			dir = previousDir;
+		if(this.getPath().getR()) {
+			dir = 0;
 		}
-		if(path.getR()) {
-			dir = 0; previousDir = 0;
+		else if(this.getPath().getL()) {
+			dir = 1;
 		}
-		if(path.getL()) {
-			dir = 1; previousDir = 1;
-		}
+		else dir= this.previousDir;
 		
 		if (enraged && !dead) {      // draws Rage wolf
-			img = angry_wolf[dir];
-			gc.drawImage(img, walkTick*sourceWalkSizes.getX(), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
+			this.setImage(angry_wolf[dir]);
+			gc.drawImage(this.getImage(), walkTick*sourceWalkSizes.getX(), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if (stalled && !dead) { // draws the crazy stalled wolf
-			img = crazy_wolf[dir];
-			gc.drawImage(img, loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
+			this.setImage(crazy_wolf[dir]);
+			gc.drawImage(this.getImage(), loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 		}
 		else if(!dead){    // if code hits this, then normal wolf is drawn
-			img = walkImgs[dir];
-			gc.drawImage(img, walkTick*sourceWalkSizes.getX(), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
+			this.setImage(walkImgs[dir]);
+			gc.drawImage(this.getImage(), walkTick*sourceWalkSizes.getX(), 0, sourceWalkSizes.getX(), sourceWalkSizes.getY(),
 					     loc.getX()-(imgWidth/2), loc.getY()-(imgHeight/2), imgWidth, imgHeight);
 			advanceWalk();
 		}
 		else if(dead || this.getAttackedPlayer()) {   // draw death frames
-			img = deathImgs[dir];
+			this.setImage(deathImgs[dir]);
 
-			gc.drawImage(img, deathTick*sourceDeathSizes.getX(), 0, sourceDeathSizes.getX(),
+			gc.drawImage(this.getImage(), deathTick*sourceDeathSizes.getX(), 0, sourceDeathSizes.getX(),
 						 sourceDeathSizes.getY(), loc.getX()-30, loc.getY()-30, imgWidth, imgHeight);
 			
 			advanceDeath();
@@ -110,9 +108,10 @@ public class Wolf extends Enemy {
 		}
 		
 		checkStatus();
-		
+		this.previousDir = dir;
+
 		drawHealthBar(gc);
-		this.turns = this.path.checkTurns(this.loc,this);
+		this.setTurns(this.getPath().checkTurns(this.loc,this));
 		move();
 	}
 	

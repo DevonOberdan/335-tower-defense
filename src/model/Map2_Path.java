@@ -87,7 +87,7 @@ public class Map2_Path extends Path{
 				e.updateNumTurns();
 			break;
 		case 10:
-			setL(true); setR(true);
+			setL(true); setR(false);
 			setU(false); setD(false);
 			if (p.x<362)
 				e.updateNumTurns();

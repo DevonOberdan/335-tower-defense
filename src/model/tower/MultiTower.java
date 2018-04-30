@@ -26,6 +26,7 @@ public class MultiTower extends Tower implements Serializable{
 	private static boolean first = true;
 	private long previous;
 	private long FIRERATE;
+	private AnimationTimer timer;
 	/**
 	 * Creates a new multi-area tower that will become 
 	 * 
@@ -34,12 +35,18 @@ public class MultiTower extends Tower implements Serializable{
 	 * Range: 200
 	 * CurrentLevel: The level that this tower has been upgraded to.
 	 */
+	@Override
+	public void reset() {
+		super.setImage(new Image("file:images/multi1.png"));
+		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
+	}
+	
 	public MultiTower(Point location) {
-		super("Multi", 5, 100, new Image("file:images/MultiTower1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
+		super("Multi", 5, 100, new Image("file:images/multi1.png"), 75, new Media(new File("sounds/Capture.mp3").toURI().toString()), location, "inferno.mp3");
 		super.setTowerType(ETower.area);
 		this.FIRERATE = (long) 0.5e9;
 		
-		AnimationTimer timer = new AnimationTimer(){
+		timer = new AnimationTimer(){
 			
 			@Override
 			public void handle (long now) {
@@ -124,12 +131,12 @@ public class MultiTower extends Tower implements Serializable{
 		this.increaseLevel();
 		switch(this.getLevel()) {
 		case 2:
-			this.FIRERATE = (long) 0.65e9;
-			this.setImage(new Image("file:images/MultiTower2.png"));
+			this.FIRERATE = (long) 0.4e9;
+			this.setImage(new Image("file:images/multi2.png"));
 			break;
 		case 3:
-			this.FIRERATE = (long) 0.1e9;
-			this.setImage(new Image("file:images/MultiTower3.png"));
+			this.FIRERATE = (long) 0.25e9;
+			this.setImage(new Image("file:images/multi3.png"));
 			break;
 		default:
 			//NO LEVEL FOR U
@@ -155,6 +162,9 @@ public class MultiTower extends Tower implements Serializable{
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {
 		return null;
 	}
+	
+	@Override
+	public void endTimers() { timer.stop(); }
 }
 
 
