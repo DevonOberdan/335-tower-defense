@@ -41,6 +41,8 @@ public class CannonTower extends Tower implements Serializable{
 	private transient Image explosion = new Image("file:images/explosions/cannon-explosion.png");
 	private final int explSrcSize = 250;
 	private int xDist;
+	private boolean animating;
+
 	
 	private transient AnimationTimer shootTimer;
 	private transient AnimationTimer timer;
@@ -276,10 +278,18 @@ public class CannonTower extends Tower implements Serializable{
 	}
 
 	@Override
-	public void startTimers() { if(timer != null) timer.start(); shootTimer.start(); }
+	public void startTimers() { if(timer != null) timer.start(); shootTimer.start(); animating = true;}
 	@Override
-	public void endTimers() { if(timer != null) timer.stop(); shootTimer.stop(); }
-
+	public void endTimers() { if(timer != null) timer.stop(); shootTimer.stop(); animating = false; }
+	@Override
+	public boolean isAnimating() {
+		return animating;
+	}
+	@Override
+	public AnimationTimer getTimer() {
+		return this.timer;
+	}
+	
 	@Override
 	public Enemy getPrioEnemy(List<Enemy> enemyList) {
 		// TODO Auto-generated method stub

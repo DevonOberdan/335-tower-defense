@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -116,10 +117,10 @@ public abstract class Tower extends StackPane implements Serializable{
 	public void setSoundEffect(Media sound) 	{ this.soundEffect = sound; } //set sound effect.
 	public boolean setTowerType(ETower type) { this.towerType = type; return true;} //set tower type.
 	public void setProjectile(Image p)				{ this.projectile = p; }
-	
+	public abstract boolean isAnimating();
 	public abstract void endTimers();
 	public abstract void startTimers();
-	
+	public abstract AnimationTimer getTimer();
 	/**
 	 * Sets this tower's image to image.
 	 * @param image

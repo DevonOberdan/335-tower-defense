@@ -26,6 +26,7 @@ public class ArcherTower extends Tower implements Serializable{
 	private long previous;
 	private long FIRERATE;
 	private transient AnimationTimer timer;
+	private boolean animating;
 	
 	@Override
 	public void reset() {
@@ -180,7 +181,15 @@ public class ArcherTower extends Tower implements Serializable{
 		}
 	}
 	@Override
-	public void startTimers() { if(timer != null) timer.start(); }
+	public void startTimers() { if(timer != null) timer.start(); animating = true;}
 	@Override
-	public void endTimers() { if(timer != null) timer.stop(); }
+	public void endTimers() { if(timer != null) timer.stop(); animating = false;}
+	@Override
+	public boolean isAnimating() {
+		return animating;
+	}
+	@Override
+	public AnimationTimer getTimer() {
+		return this.timer;
+	}
 }

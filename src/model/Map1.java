@@ -145,7 +145,8 @@ public class Map1 extends Map {
 				return;
 			} else {
 				for(Tower t : player.getTowers()) {
-					t.startTimers();
+					if(!t.isAnimating())
+						t.startTimers();
 				}
 			}
 			
