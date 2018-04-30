@@ -9,7 +9,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -36,25 +35,28 @@ public class Map1 extends Map {
 //	private List <Tower> availableTowers; //Available towers that we can select from the menu on the right.
 	// ^^^^^^^ Needs to be implemented somehow. 
 	
-	private Timeline timeline; //The animator-2000.
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1301924038502607873L;
+	private transient Timeline timeline; //The animator-2000.
 	private Point start;
-	private Alert alert;
 	private Player player;
-	private Image background; //background of the map
-	private Image menuBar; //Menu bar; where we select different enemies.
-	
-	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
-	private GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
+//	private Canvas canvas; //The canvas upon which I lay all of my brilliant ideas upon
+	private transient GraphicsContext gc; //graphics context in which the canvas actually gets drawn.
 //	private List<Enemy> enemyList; //List of enemies
 //	private List<Tower> towerList; //List of towers
 	private Path path; //Path that the enemies must travel in.
 	private int maxWaveCount, waveCount;
 	//private Point endZone;
 	private boolean roundMode;
-	private Image dragimg;
+	private transient Image dragimg;
 	private boolean dragging;
 	private int dragx, dragy;
-	
+	private transient Image menu = new Image("file:images/menu.jpg");
+	private transient Image background = new Image("file:images/maps/map1.png");
+	private transient Image gameOver = new Image("file:images/game_over.png");
+
 	/**
 	 * Creates a testmap. This constructor will initialize each of our
 	 * lists; enemies, towers, and creates the timeline for animating the
@@ -64,8 +66,6 @@ public class Map1 extends Map {
 	 * ALL OF MY CREATIVITY AND FRUITINESS
 	 */
 	public Map1(Player p) {
-		background = new Image("file:images/maps/map1.png");
-		menuBar = new Image("file:images/menu.jpg");
  		player = p;
  		//roundMode == true means between waves
  		roundMode = true;
@@ -76,7 +76,6 @@ public class Map1 extends Map {
 		 timeline.setCycleCount(Animation.INDEFINITE);
 		 start = new Point(-30, 40);
 		 this.path = new Map1_Path();
-		 alert = new Alert(AlertType.INFORMATION);
 		 this.maxWaveCount = 6;
 		 this.waveCount = 0;
 		 this.endZone = new Point (490, 418);
@@ -120,10 +119,11 @@ public class Map1 extends Map {
 	 *
 	 */
 	private class AnimateStarter1 implements EventHandler<ActionEvent> {
+
 		@Override
 		public void handle(ActionEvent event) {
 			gc.clearRect(0, 0, 580, 500);
-			gc.drawImage(menuBar, 0, 0);
+			gc.drawImage(menu, 0, 0);
 			gc.drawImage(background, 0, 0);
 			player.draw();
 			if(enemyList.isEmpty() && waveCount < maxWaveCount && player.getHealth() >= 0 && !roundMode) {
@@ -166,6 +166,7 @@ public class Map1 extends Map {
 	 */
 	public void endMap() {
 		timeline.stop();
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Map Over");
 		alert.setHeaderText(null);
 		alert.setContentText("You've defeated the Legion! :-)\nClick OK, then click the screen to advance to the\nnext stage of the game.");
@@ -187,6 +188,7 @@ public class Map1 extends Map {
 	 * Ends the round.
 	 */
 	public void endRound() {
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Round Over");
 		alert.setHeaderText(null);
 		alert.setContentText("Round " + waveCount + " complete!");
@@ -315,11 +317,6 @@ public class Map1 extends Map {
 	}
 
 	@Override
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
-	@Override
 	public GraphicsContext getGC() {
 		return gc;
 	}
@@ -375,14 +372,10 @@ public class Map1 extends Map {
 	
 	@Override
 	public void destroyitall() {
-		this.alert = null;
-		this.background = null;
-		this.canvas = null;
 		this.endZone = null;
 		this.enemyList.clear();
 		this.enemyList = null;
 		this.gc = null;
-		this.menuBar = null;
 		this.path = null;
 		this.player = null;
 		this.start = null;

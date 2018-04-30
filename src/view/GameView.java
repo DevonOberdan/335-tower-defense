@@ -11,8 +11,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
-import com.sun.corba.se.impl.ior.GenericTaggedProfile;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -60,10 +58,8 @@ public class GameView extends StackPane implements Observer{
 	private Player player;
 	private int x, y;
 	private Button nextRound;
-	private ImageView archerTower, multiTower, randomTower;
+	private ImageView archerTower, multiTower, cannonTower;
 	private Tower ctow;
-	private Image archerimg, multiimg, cannonImg,
-				  archerGray, multiGray, cannonGray;
 	/**
 	 * Creates a new gameView. This is the entirety of our towerdefense. 
 	 * The idea behind this class is to create a dynamic view that updates the
@@ -170,7 +166,7 @@ public class GameView extends StackPane implements Observer{
 		/*
 		 * CANNON TOWER IMAGE VIEW
 		 */
-		ImageView cannonTower = new ImageView("file:images/cannon1.png");
+		cannonTower = new ImageView("file:images/cannon1.png");
 		Image cannonImg = new Image("file:images/cannon1.png");
 		cannonTower.setOnMouseReleased(e -> {
 			

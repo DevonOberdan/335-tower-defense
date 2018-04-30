@@ -1,5 +1,9 @@
 package view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import model.Map;
+import model.Player;
+import model.tower.Tower;
 /**
  * Main menu! This view is for welcoming our players to a bunch of options
  * that they can choose to get the game going. Casual is where you can pick from the three maps, easy medium and hard.
@@ -70,16 +77,39 @@ public class WelcomeView extends StackPane implements Observer{
 		    campaign.setOnAction(null);
 		    instructions.setOnAction(null);
 		    newGame.setOnAction(null);
-			gameView = new GameView(); 
-			setViewTo(gameView); 
-			((GameView) gameView).show();
-			System.out.println("Game View"); 
+		    loadGame(); 
 		});
 		this.getChildren().add(grid);
 		//this.setCenter(grid);
 		this.setId("pane");
 		this.getStylesheets().addAll(this.getClass().getResource("welcomView_style.css").toExternalForm());
 		this.setVisible(true);
+	}
+	
+	/**
+	 * Reads in the files from the saved states and loads
+	 * the game according to match what was saved in the state.
+	 */
+	public void loadGame() {
+		try {
+//    	File towerfile = new File("state/towers");
+    	File mapfile = new File("state/map");
+    	File playerfile = new File("state/player");
+//        FileInputStream towerstream = new FileInputStream(towerfile);
+        FileInputStream mapstream = new FileInputStream(mapfile);        
+        FileInputStream playerstream = new FileInputStream(playerfile);
+//       ObjectInputStream towerin = new ObjectInputStream(towerstream);
+        ObjectInputStream mapin = new ObjectInputStream(mapstream);
+        ObjectInputStream playerin = new ObjectInputStream(playerstream);
+        Player player = (Player) playerin.readObject();
+        Map map = (Map) mapin.readObject(); 
+//        ArrayList<Tower> towers = (ArrayList<Tower>) towerin.readObject();
+
+//        towerin.close(); 
+        mapin.close();
+        playerin.close();
+//        gameView = new GameView(0, )
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	/**

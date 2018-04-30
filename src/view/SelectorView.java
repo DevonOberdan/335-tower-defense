@@ -392,7 +392,7 @@ public class SelectorView extends StackPane implements Observer{
 	
 	public void destroyUpgradePanel() {
 		if(this.map != null) {
-			this.getChildren().remove(6, this.getChildren().size());
+			this.getChildren().remove(5, this.getChildren().size());
 			System.out.println(this.getChildren().size());
 		}
 	}

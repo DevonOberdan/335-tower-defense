@@ -1,10 +1,15 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import model.enemy.Enemy;
 
-public abstract class Path {
+public abstract class Path implements Serializable {
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1127733677422173458L;
 		private boolean L, R, U, D;
 		
 		public Path() {

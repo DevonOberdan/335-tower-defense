@@ -28,19 +28,19 @@ public abstract class Tower extends StackPane implements Serializable{
 	private int      xp;
 	private int      currentLevel;
 	private int 	 cost;
-	private ETower   towerType;
-	private Image  	 image;
-	private Image    projectile;
-	private Media    soundEffect;
+	private transient ETower   towerType;
+	private transient Image  	 image;
+	private transient Image    projectile;
+	private transient Media    soundEffect;
 	private Point 	 TowerLocation;
 	private boolean isSelected;
-	private List<Enemy> ens;
+	private transient List<Enemy> ens;
 	private Enemy enemy;
 	private boolean sold;
 	
 	protected boolean betweenRounds;
 	
-	private GraphicsContext gc;
+	private transient GraphicsContext gc;
 	
 	//protected final Image testing = new Image("file:images/testing.png") ;
 	

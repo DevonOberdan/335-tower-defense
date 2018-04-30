@@ -2,6 +2,7 @@ package model.tower;
 
 import java.awt.Point;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
@@ -16,9 +17,10 @@ import model.enemy.Enemy;
  * ArcherTower is another Tower type. 
  *
  */
-public class ArcherTower extends Tower {
+public class ArcherTower extends Tower implements Serializable{
 
 	
+	private static final long serialVersionUID = -8864445600794993658L;
 	private static boolean first = true;
 	//private long start;
 	private long previous;

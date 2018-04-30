@@ -1,6 +1,7 @@
 package model.tower;
 import java.awt.Point;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
@@ -15,9 +16,13 @@ import model.enemy.Enemy;
  * Don't really have much else to say. Read the code. Comments
  * are useless.
  */
-public class MultiTower extends Tower{
+public class MultiTower extends Tower implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5199044902617464469L;
 	private static boolean first = true;
 	private long previous;
 	private long FIRERATE;
