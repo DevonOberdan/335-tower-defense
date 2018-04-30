@@ -30,6 +30,8 @@ public class ArcherTower extends Tower implements Serializable{
 	private transient AnimationTimer timer;
 	private boolean animating;
 	
+	
+	
 	@Override
 	public void reset() {
 		super.setTowerType(ETower.archer);

@@ -256,6 +256,7 @@ public class Map1 extends Map {
 							}
 							else if(mapFinished()) {
 								endMap();
+								System.out.println("die");
 								destroyitall();
 								return;
 							}
@@ -274,6 +275,8 @@ public class Map1 extends Map {
 							e = t.getPrioEnemy(enemyList);
 						}
 						else if(player.getHealth() >= 0 && enemyList.isEmpty()) {
+							System.out.println("gayy");
+							destroyitall();
 							endMap();
 							return;
 						}

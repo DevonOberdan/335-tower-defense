@@ -66,23 +66,20 @@ public class ElfWizard extends Enemy{
 		for (Enemy en : enList) {
 			Point enLoc = en.getLoc();
 			int dist = (int) Math.sqrt(Math.pow(enLoc.getX() - this.getLoc().getX(), 2) + Math.pow((enLoc.getY() - this.getLoc().getY()), 2));
-			//System.out.println(dist+" die");
 			if (dist < range && en.canBeHit() && !en.equals(this)) neighborList.add(en);
 		}
 	}
 	
+	/*
+	 * Draws spell image if it exists
+	 */
 	@Override
 	public void show(GraphicsContext gc) {
 		getPrioEnemies();
 		healNeighbors();
-		System.out.println(neighborList.size());
 
 		if(neighborList.size() != 0) {
-			//actual tower image
-//				gc.setGlobalAlpha(0.15);
-//				gc.setFill(Color.LIMEGREEN);
-//				gc.fillOval(this.getLoc().getX()-range, this.getLoc().getY()-range, range*2, range*2);
-//				gc.setGlobalAlpha(1.0);
+			//spell image
 			gc.drawImage(spell[spellIter], this.getLoc().getX()-range, this.getLoc().getY()-range, range*2,range*2);
 		}
 		spellIter++;

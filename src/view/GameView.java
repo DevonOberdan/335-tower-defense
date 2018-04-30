@@ -294,7 +294,6 @@ public class GameView extends StackPane implements Observer{
 				return;
 			}
 			if(this.map.getRoundMode()) {
-				System.out.println("Spawning enemies");
 				this.map.spawnEnemies(this.map.getWaveCount());
 				this.map.incrementWave();
 				this.map.toggleRound();
@@ -347,7 +346,6 @@ public class GameView extends StackPane implements Observer{
 							player.getTowers().clear();
 							this.map.getTimeline().stop();
 							//showOutroCutscene();
-							System.out.println("Entered outro-- click again to get back to main menu");
 							ptr++;
 							this.getChildren().clear();
 							this.getStylesheets().clear();
@@ -433,7 +431,6 @@ public class GameView extends StackPane implements Observer{
 	}
 	public void destroyEnemyPanel() {
 		this.getChildren().remove(6, this.getChildren().size());
-		System.out.println(this.getChildren().size());
 	}
 	public void createEnemyPanel() {
 		destroyUpgradePanel();
@@ -538,7 +535,6 @@ public class GameView extends StackPane implements Observer{
 	
 	public void destroyUpgradePanel() {
 			this.getChildren().remove(6, this.getChildren().size());
-			System.out.println(this.getChildren().size());
 	}
 	
 	public static void hackyMcGee(Tooltip tooltip) {
@@ -593,7 +589,6 @@ public class GameView extends StackPane implements Observer{
 	}
 
 	public void playSong() {
-		System.out.println("play song");
 		File dir = new File("sounds/L_.mp3");
 		Media media = new Media(dir.toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
@@ -604,7 +599,6 @@ public class GameView extends StackPane implements Observer{
 				@Override
 				public void run() {
 					
-					System.out.println("L_ stoped playing");
 					player.stop();
 					player.play();
 				}
