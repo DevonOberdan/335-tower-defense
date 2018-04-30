@@ -99,6 +99,10 @@ public class Player extends BorderPane implements Serializable{
 		goldC++;
 		healthC++;
 	}
+	
+	public void setGC(GraphicsContext gc) {
+		this.gc = gc;
+	}
 
 	public boolean isDead() {
 		if(getHealth() <= 0) {

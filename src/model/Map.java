@@ -44,9 +44,6 @@ public abstract class Map extends StackPane implements Serializable{
 	 */
 	private static final long serialVersionUID = -1737204017909926601L;
 
-	// the background image	
-	protected ArrayList<Enemy> enemyList; //List of enemies
-	protected List<Tower> towerList; //List of towers
 	// the end-zone where the enemies are headed
 	protected Point endZone;
 	/**
@@ -111,7 +108,10 @@ public abstract class Map extends StackPane implements Serializable{
 	 * increments the wave count
 	 */
 	public abstract void incrementWave();
-	
+	/**
+	 * decrements wave count
+	 */
+	public abstract void decrementWave();
 	/**
 	 * Sets map to round mode
 	 */
@@ -168,6 +168,31 @@ public abstract class Map extends StackPane implements Serializable{
 	 */
 	public abstract void setDragged(Image img, boolean boo, int x, int y);
 	
+	public abstract int getMapID();
+	
+	public abstract void resetTimeline();
+	
+	/**
+	 * sets menu img
+	 * @param i
+	 */
+	public abstract void resetMenu();
+	
+	/**
+	 * sets background img
+	 */
+	public abstract void resetBackground();
+	
+	/**
+	 * resets the gc
+	 */
+
+	public abstract void setPlayer(Player p);
+	/**
+	 * set round mode
+	 * @param songName
+	 */
+	public abstract void setRoundMode(boolean bool);
 	public void playVectorySong(String songName) {
 		System.out.println("play song");
 		File dir = new File("sounds/"+songName);

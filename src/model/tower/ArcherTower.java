@@ -26,6 +26,10 @@ public class ArcherTower extends Tower implements Serializable{
 	private long previous;
 	private long FIRERATE;
 	
+	public void reset() {
+		super.setImage(new Image("file:images/archer1.png"));
+		super.setSoundEffect(new Media(new File("sounds/Capture.mp3").toURI().toString()));
+	}
 	
 	/**
 	 * Creates a new ArcherTower, using sound effects and 

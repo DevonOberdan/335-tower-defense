@@ -115,7 +115,7 @@ public abstract class Tower extends StackPane implements Serializable{
 	public void setRange(int num)			{ this.radius = num;	} //set range
 	public void setSoundEffect(Media sound) 	{ this.soundEffect = sound; } //set sound effect.
 	public boolean setTowerType(ETower type) { this.towerType = type; return true;} //set tower type.
-	
+	public void setProjectile(Image p)				{ this.projectile = p; }
 	/**
 	 * Sets this tower's image to image.
 	 * @param image

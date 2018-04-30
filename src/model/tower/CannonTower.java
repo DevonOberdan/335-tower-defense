@@ -34,9 +34,12 @@ public class CannonTower extends Tower implements Serializable{
 	private double prevBallY;
 	private int yDist;
 	private Point fireLoc;
-	private Image ball = new Image("file:images/cannon_ball.png");
+	private transient Image ball = new Image("file:images/cannon_ball.png");
 	private int xDist;
 	
+	public void reset() {
+		ball = new Image("file:images/cannon_ball.png");
+	}
 	/**
 	 * Creates a new ArcherTower, using sound effects and 
 	 * giving this tower a projectile.

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -34,6 +35,7 @@ import model.Map1;
 import model.Map2;
 import model.Map3;
 import model.Player;
+import model.enemy.Enemy;
 import model.tower.ArcherTower;
 import model.tower.CannonTower;
 import model.tower.MultiTower;
@@ -246,8 +248,11 @@ public class GameView extends StackPane implements Observer{
 				        	towers.add(t);
 				        }
 				        towerout.writeObject(towers);
+			        	List<Enemy> enlis = new ArrayList<>();
 				        if(this.map.getEnemyCount() > 0) {
-				        	//List<Enemy>
+				        	for(Enemy en : this.map.getEnemyList()) {
+				        		enlis.add(en);
+				        	}
 				        	this.map.getEnemyList().clear();
 				        }
 				        mapout.writeObject(this.map);
@@ -256,6 +261,8 @@ public class GameView extends StackPane implements Observer{
 				        towerout.close();
 				        mapout.close();
 				        playerout.close();
+				        
+				        this.map.getEnemyList().addAll(enlis);
 				        
 					 } catch (IOException e1) {
 					      e1.printStackTrace();
@@ -501,6 +508,9 @@ public class GameView extends StackPane implements Observer{
 	    } catch (Exception e) {/*do me*/}
 	}
 	
+	public GraphicsContext getgc() {
+		return this.gc; 
+	}
 	/**
 	 * unselects all towers on the map.
 	 */
