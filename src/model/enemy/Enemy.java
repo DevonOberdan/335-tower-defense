@@ -158,7 +158,7 @@ public abstract class Enemy implements Serializable{
 	}
 	
 	/* getters */
-	public int getDamage()				{return damage;				}
+	public int getDamage()				{ return damage;					}
 	public Image getImage()				{ return this.img;				}
 	public int getReward()				{ return this.reward;			}
 	public boolean getDead()	    			{ return this.dead; 				}
@@ -187,7 +187,7 @@ public abstract class Enemy implements Serializable{
 		else lagTick++;
 	}
 	
-	public boolean doWeRemove() { return getHel() <= 0 || lagTick >= lagFrames; } 
+	public boolean doWeRemove() { return lagTick >= lagFrames; } 
 	
 	/**
 	 *  Checks if this Enemy is contained within the range of the

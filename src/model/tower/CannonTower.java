@@ -273,7 +273,6 @@ public class CannonTower extends Tower implements Serializable{
 			gc.setGlobalAlpha(0.15);
 			gc.setFill(Color.GHOSTWHITE);
 			gc.fillRect(0, 0, 500, 500);
-			//gc.fillOval(0,0, 540, 540);
 			gc.setGlobalAlpha(1.0);
 		}
 	}

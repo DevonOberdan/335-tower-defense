@@ -100,7 +100,7 @@ public class Map2 extends Map {
 			int rand = r.nextInt(3);
 			
 			if (rand == 0 )
-				enemy = new Skeleton(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
+				enemy = new Ghost(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else if (rand == 1)
 				enemy = new Rider(new Map2_Path(), new Point((int) (start.getX() - offset.getX()), (int ) (start.getY() - offset.getY())));
 			else
